@@ -10,6 +10,9 @@ class UserResponse {
 
   @ApiProperty({ example: 'John Doe' })
   fullName: string;
+
+  @ApiProperty({ example: 'admin', enum: ['admin', 'trainer', 'tutor'] })
+  role: string;
 }
 
 export class AuthResponseDto {
@@ -30,6 +33,7 @@ export class AuthResponseDto {
     id: string;
     email: string;
     fullName: string;
+    role: string;
   };
 
   constructor(access_token: string, refresh_token: string, user: User) {
@@ -39,6 +43,7 @@ export class AuthResponseDto {
       id: user.id,
       email: user.email,
       fullName: user.fullName,
+      role: user.role,
     };
   }
 }

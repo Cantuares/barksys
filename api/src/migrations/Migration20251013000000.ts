@@ -3,12 +3,16 @@ import { Migration } from '@mikro-orm/migrations';
 export class Migration20251013000000 extends Migration {
 
   override async up(): Promise<void> {
+    // Create user role enum type
+    this.addSql(`CREATE TYPE "user_role" AS ENUM ('admin', 'trainer', 'tutor');`);
+
     // Create users table
     this.addSql(`
       CREATE TABLE "users" (
         "id" uuid PRIMARY KEY,
         "email" varchar(255) UNIQUE NOT NULL,
         "full_name" varchar(255) NOT NULL,
+        "role" user_role NOT NULL DEFAULT 'admin',
         "is_active" boolean NOT NULL DEFAULT false,
         "is_email_verified" boolean NOT NULL DEFAULT false,
         "email_verification_token" varchar(255),
@@ -123,6 +127,9 @@ export class Migration20251013000000 extends Migration {
     this.addSql(`DROP TABLE IF EXISTS "notifications";`);
     this.addSql(`DROP TABLE IF EXISTS "sessions";`);
     this.addSql(`DROP TABLE IF EXISTS "users";`);
+
+    // Drop enum type
+    this.addSql(`DROP TYPE IF EXISTS "user_role";`);
   }
 
 }

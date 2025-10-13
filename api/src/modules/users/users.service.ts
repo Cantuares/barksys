@@ -2,7 +2,7 @@ import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/co
 import { EntityManager } from '@mikro-orm/postgresql';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { I18nContext, I18nService } from 'nestjs-i18n';
-import { User } from './entities/user.entity';
+import { User, UserRole } from './entities/user.entity';
 import { Session } from '../sessions/entities/session.entity';
 import { SessionsService } from '../sessions/sessions.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,6 +31,7 @@ export class UsersService {
       email: createUserDto.email,
       passwordHash: createUserDto.password,
       fullName: createUserDto.fullName,
+      role: UserRole.ADMIN,
       isActive: false,
       isEmailVerified: false,
       emailVerificationToken: uuidv4(),
