@@ -83,8 +83,8 @@ export class NotificationsService {
 
     // Render base template with content
     const subject = context.subject || '';
-    const title = templateName === 'user-activation'
-      ? translations.activation.title
+    const title = templateName === 'user-onboarding'
+      ? translations.onboarding.title
       : translations.passwordReset.title;
     const subtitle = '';
 
@@ -104,15 +104,15 @@ export class NotificationsService {
   @OnEvent('user.registered')
   async handleUserRegistered(event: UserRegisteredEvent): Promise<void> {
     const appUrl = this.configService.get<string>('APP_URL') || 'http://localhost:4200';
-    const activationUrl = `${appUrl}/auth/activate/${event.verificationToken}`;
+    const activationUrl = `${appUrl}/auth/onboarding/${event.verificationToken}`;
 
     const lang = event.lang || 'en';
-    const subject = this.i18n.translate('notifications.subjects.userActivation', { lang });
+    const subject = this.i18n.translate('notifications.subjects.userOnboarding', { lang });
 
     await this.sendEmail({
       to: event.email,
       subject,
-      template: 'user-activation',
+      template: 'user-onboarding',
       context: {
         fullName: event.fullName,
         activationUrl,
