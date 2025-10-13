@@ -1,5 +1,5 @@
-# Base stage - common dependencies
-FROM node:22-alpine AS base
+# Stage 1: Migrations - Run migrations with ts-node (development mode)
+FROM node:22-alpine AS migrations
 
 # Install pnpm globally
 RUN npm install -g pnpm
@@ -9,23 +9,25 @@ WORKDIR /app
 # Copy package files
 COPY package.json pnpm-lock.yaml ./
 
-# Development stage
-FROM base AS development
-
-# Install all dependencies (including devDependencies)
+# Install all dependencies (including devDependencies for ts-node)
 RUN pnpm install --frozen-lockfile
 
-# Copy source code
+# Copy source code and configuration
 COPY . .
 
-# Expose application port
-EXPOSE 3000
+# Run migrations with ts-node (same as development)
+CMD ["pnpm", "run", "migration:up"]
 
-# Default command (can be overridden in docker-compose)
-CMD ["pnpm", "run", "start:dev"]
+# Stage 2: Builder - Compile TypeScript to JavaScript
+FROM node:22-alpine AS builder
 
-# Builder stage for production
-FROM base AS builder
+# Install pnpm globally
+RUN npm install -g pnpm
+
+WORKDIR /app
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
 
 # Install all dependencies
 RUN pnpm install --frozen-lockfile
@@ -36,11 +38,11 @@ COPY . .
 # Build the application
 RUN pnpm run build
 
-# Production stage
+# Stage 3: Production - Lightweight Alpine image with compiled code
 FROM node:22-alpine AS production
 
-# Install pnpm and curl for health checks
-RUN apk add --no-cache curl && npm install -g pnpm
+# Install curl for health checks
+RUN apk add --no-cache curl
 
 WORKDIR /app
 
@@ -48,7 +50,7 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
+RUN npm install -g pnpm && pnpm install --prod --frozen-lockfile
 
 # Copy built application from builder
 COPY --from=builder /app/dist ./dist
@@ -58,25 +60,3 @@ EXPOSE 3000
 
 # Run the application
 CMD ["node", "dist/src/main.js"]
-
-# Migrations stage
-FROM node:22-alpine AS migrations
-
-# Install pnpm
-RUN npm install -g pnpm
-
-WORKDIR /app
-
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
-
-# Copy built application and node_modules from builder
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-
-# Copy TypeScript configuration and mikro-orm configuration
-COPY --from=builder /app/tsconfig.json ./
-COPY --from=builder /app/mikro-orm.config.ts ./
-
-# Default command for migrations
-CMD ["pnpm", "run", "migration:up"]
