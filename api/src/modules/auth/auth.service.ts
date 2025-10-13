@@ -1,17 +1,20 @@
 import { Injectable, UnauthorizedException, BadRequestException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { EntityManager } from '@mikro-orm/postgresql';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { UsersService } from '../users/users.service';
 import { SessionsService } from '../sessions/sessions.service';
+import { CompaniesService } from '../companies/companies.service';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
-import { ActivateResponseDto } from './dto/activate-response.dto';
+import { OnboardingDto } from './dto/onboarding.dto';
+import { OnboardingResponseDto } from './dto/onboarding-response.dto';
 import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
 import { ActivationResendResponseDto } from './dto/activation-resend-response.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
-import { User } from '../users/entities/user.entity';
+import { User, UserRole } from '../users/entities/user.entity';
 import { JwtPayload } from '../../common/interfaces/jwt-payload.interface';
 
 @Injectable()
@@ -19,8 +22,10 @@ export class AuthService {
   constructor(
     private usersService: UsersService,
     private sessionsService: SessionsService,
+    private companiesService: CompaniesService,
     private jwtService: JwtService,
     private i18n: I18nService,
+    private em: EntityManager,
   ) {}
 
   async register(registerDto: RegisterDto): Promise<RegisterResponseDto> {
@@ -40,26 +45,51 @@ export class AuthService {
     return new AuthResponseDto(access_token, session.refreshToken, user);
   }
 
-  async activateAccount(token: string): Promise<ActivateResponseDto> {
-    const user = await this.usersService.findByVerificationToken(token);
+  async onboarding(token: string, onboardingDto: OnboardingDto): Promise<OnboardingResponseDto> {
     const lang = I18nContext.current()?.lang || 'en';
 
-    if (!user) {
-      throw new NotFoundException(this.i18n.translate('auth.activate.invalidToken', { lang }));
-    }
+    // Use transaction to ensure atomicity - all or nothing
+    return await this.em.transactional(async (em) => {
+      // Find user by verification token
+      const user = await this.usersService.findByVerificationToken(token);
 
-    if (user.isActive && user.isEmailVerified) {
-      throw new BadRequestException(this.i18n.translate('auth.activate.alreadyActivated', { lang }));
-    }
+      if (!user) {
+        throw new NotFoundException(this.i18n.translate('auth.activate.invalidToken', { lang }));
+      }
 
-    if (user.emailVerificationTokenExpiresAt && user.emailVerificationTokenExpiresAt < new Date()) {
-      throw new BadRequestException(this.i18n.translate('auth.activate.tokenExpired', { lang }));
-    }
+      // Validate user role is admin
+      if (user.role !== UserRole.ADMIN) {
+        throw new BadRequestException(this.i18n.translate('auth.onboarding.notAdmin', { lang }));
+      }
 
-    await this.usersService.activateUser(user);
+      // Validate account status
+      if (user.isActive && user.isEmailVerified) {
+        throw new BadRequestException(this.i18n.translate('auth.activate.alreadyActivated', { lang }));
+      }
 
-    const message = this.i18n.translate('auth.activate.success', { lang });
-    return new ActivateResponseDto(message);
+      // Validate token expiration
+      if (user.emailVerificationTokenExpiresAt && user.emailVerificationTokenExpiresAt < new Date()) {
+        throw new BadRequestException(this.i18n.translate('auth.activate.tokenExpired', { lang }));
+      }
+
+      // Activate user account
+      await this.usersService.activateUser(user);
+
+      // Register company
+      await this.companiesService.create(user, {
+        name: onboardingDto.name,
+        email: onboardingDto.email,
+        taxId: onboardingDto.taxId,
+        taxType: onboardingDto.taxType,
+        billingAddress: onboardingDto.billingAddress,
+        city: onboardingDto.city,
+        country: onboardingDto.country,
+        postalCode: onboardingDto.postalCode,
+      });
+
+      const message = this.i18n.translate('auth.onboarding.success', { lang });
+      return new OnboardingResponseDto(message);
+    });
   }
 
   async validateUser(email: string, password: string): Promise<User | null> {

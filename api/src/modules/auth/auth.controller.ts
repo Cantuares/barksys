@@ -3,7 +3,8 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } 
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
-import { ActivateResponseDto } from './dto/activate-response.dto';
+import { OnboardingDto } from './dto/onboarding.dto';
+import { OnboardingResponseDto } from './dto/onboarding-response.dto';
 import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
 import { ActivationResendDto } from './dto/activation-resend.dto';
 import { ActivationResendResponseDto } from './dto/activation-resend-response.dto';
@@ -61,8 +62,9 @@ export class AuthController {
   }
 
   @Public()
-  @Get('activate/:token')
-  @ApiOperation({ summary: 'Activate user account with verification token' })
+  @HttpCode(HttpStatus.OK)
+  @Post('onboarding/:token')
+  @ApiOperation({ summary: 'Complete user onboarding: activate account and register company (admin only)' })
   @ApiParam({
     name: 'token',
     description: 'Email verification token (UUID v4)',
@@ -70,13 +72,17 @@ export class AuthController {
   })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Account activated successfully',
-    type: ActivateResponseDto,
+    description: 'Account activated and company registered successfully',
+    type: OnboardingResponseDto,
   })
-  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Token expired or account already activated' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Token expired, account already activated, or user not admin' })
   @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Invalid verification token' })
-  async activateAccount(@Param('token') token: string): Promise<ActivateResponseDto> {
-    return this.authService.activateAccount(token);
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Company email or tax ID already exists' })
+  async onboarding(
+    @Param('token') token: string,
+    @Body() onboardingDto: OnboardingDto,
+  ): Promise<OnboardingResponseDto> {
+    return this.authService.onboarding(token, onboardingDto);
   }
 
   @Public()
