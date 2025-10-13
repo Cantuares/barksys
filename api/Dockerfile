@@ -74,7 +74,8 @@ COPY package.json pnpm-lock.yaml ./
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 
-# Copy mikro-orm configuration
+# Copy TypeScript configuration and mikro-orm configuration
+COPY --from=builder /app/tsconfig.json ./
 COPY --from=builder /app/mikro-orm.config.ts ./
 
 # Default command for migrations
