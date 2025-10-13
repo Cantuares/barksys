@@ -34,8 +34,8 @@ export class UsersService {
       role: UserRole.ADMIN,
       isActive: false,
       isEmailVerified: false,
-      emailVerificationToken: uuidv4(),
-      emailVerificationTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+      onboardingToken: uuidv4(),
+      onboardingTokenExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
       passwordChangedAt: new Date('0001-01-01 00:00:00Z'),
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -49,7 +49,7 @@ export class UsersService {
       new UserRegisteredEvent(
         user.email,
         user.fullName,
-        user.emailVerificationToken!,
+        user.onboardingToken!,
         lang,
       ),
     );
@@ -66,14 +66,14 @@ export class UsersService {
   }
 
   async findByVerificationToken(token: string): Promise<User | null> {
-    return this.em.findOne(User, { emailVerificationToken: token });
+    return this.em.findOne(User, { onboardingToken: token });
   }
 
   async activateUser(user: User): Promise<void> {
     user.isActive = true;
     user.isEmailVerified = true;
-    user.emailVerificationToken = undefined;
-    user.emailVerificationTokenExpiresAt = undefined;
+    user.onboardingToken = undefined;
+    user.onboardingTokenExpiresAt = undefined;
     user.updatedAt = new Date();
 
     await this.em.persistAndFlush(user);
@@ -104,8 +104,8 @@ export class UsersService {
   }
 
   async resendOnboardingToken(user: User): Promise<void> {
-    user.emailVerificationToken = uuidv4();
-    user.emailVerificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+    user.onboardingToken = uuidv4();
+    user.onboardingTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     user.updatedAt = new Date();
 
     await this.em.persistAndFlush(user);
@@ -117,7 +117,7 @@ export class UsersService {
       new UserRegisteredEvent(
         user.email,
         user.fullName,
-        user.emailVerificationToken!,
+        user.onboardingToken!,
         lang,
       ),
     );

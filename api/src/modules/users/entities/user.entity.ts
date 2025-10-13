@@ -33,11 +33,11 @@ export class User {
   @Property({ fieldName: 'is_email_verified', default: false })
   isEmailVerified: boolean = false;
 
-  @Property({ fieldName: 'email_verification_token', nullable: true })
-  emailVerificationToken?: string;
+  @Property({ fieldName: 'onboarding_token', nullable: true })
+  onboardingToken?: string;
 
-  @Property({ fieldName: 'email_verification_token_expires_at', nullable: true })
-  emailVerificationTokenExpiresAt?: Date;
+  @Property({ fieldName: 'onboarding_token_expires_at', nullable: true })
+  onboardingTokenExpiresAt?: Date;
 
   @Property({ fieldName: 'password_reset_token', nullable: true })
   passwordResetToken?: string;

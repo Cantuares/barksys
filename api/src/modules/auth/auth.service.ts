@@ -68,7 +68,7 @@ export class AuthService {
       }
 
       // Validate token expiration
-      if (user.emailVerificationTokenExpiresAt && user.emailVerificationTokenExpiresAt < new Date()) {
+      if (user.onboardingTokenExpiresAt && user.onboardingTokenExpiresAt < new Date()) {
         throw new BadRequestException(this.i18n.translate('auth.activate.tokenExpired', { lang }));
       }
 
