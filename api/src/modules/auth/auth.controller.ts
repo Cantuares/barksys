@@ -6,8 +6,8 @@ import { RegisterResponseDto } from './dto/register-response.dto';
 import { OnboardingDto } from './dto/onboarding.dto';
 import { OnboardingResponseDto } from './dto/onboarding-response.dto';
 import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
-import { ActivationResendDto } from './dto/activation-resend.dto';
-import { ActivationResendResponseDto } from './dto/activation-resend-response.dto';
+import { OnboardingResendDto } from './dto/onboarding-resend.dto';
+import { OnboardingResendResponseDto } from './dto/onboarding-resend-response.dto';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
 import { LoginDto } from './dto/login.dto';
@@ -101,15 +101,15 @@ export class AuthController {
 
   @Public()
   @HttpCode(HttpStatus.OK)
-  @Post('activation/resend')
-  @ApiOperation({ summary: 'Resend account activation email' })
+  @Post('onboarding/resend')
+  @ApiOperation({ summary: 'Resend onboarding email' })
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'Activation email resend request processed',
-    type: ActivationResendResponseDto,
+    description: 'Onboarding email resend request processed',
+    type: OnboardingResendResponseDto,
   })
-  async resendActivation(@Body() activationResendDto: ActivationResendDto): Promise<ActivationResendResponseDto> {
-    return this.authService.resendActivationToken(activationResendDto.email);
+  async resendOnboarding(@Body() onboardingResendDto: OnboardingResendDto): Promise<OnboardingResendResponseDto> {
+    return this.authService.resendOnboardingToken(onboardingResendDto.email);
   }
 
   @Public()

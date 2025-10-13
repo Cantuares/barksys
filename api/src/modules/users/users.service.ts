@@ -103,7 +103,7 @@ export class UsersService {
     );
   }
 
-  async resendActivationToken(user: User): Promise<void> {
+  async resendOnboardingToken(user: User): Promise<void> {
     user.emailVerificationToken = uuidv4();
     user.emailVerificationTokenExpiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
     user.updatedAt = new Date();

@@ -10,7 +10,7 @@ import { RegisterResponseDto } from './dto/register-response.dto';
 import { OnboardingDto } from './dto/onboarding.dto';
 import { OnboardingResponseDto } from './dto/onboarding-response.dto';
 import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
-import { ActivationResendResponseDto } from './dto/activation-resend-response.dto';
+import { OnboardingResendResponseDto } from './dto/onboarding-resend-response.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
@@ -133,26 +133,26 @@ export class AuthService {
     return new PasswordForgotResponseDto(message);
   }
 
-  async resendActivationToken(email: string): Promise<ActivationResendResponseDto> {
+  async resendOnboardingToken(email: string): Promise<OnboardingResendResponseDto> {
     const user = await this.usersService.findByEmail(email);
     const lang = I18nContext.current()?.lang || 'en';
 
     if (!user) {
       // Return success message even if user not found (security best practice)
-      const message = this.i18n.translate('auth.resendActivation.success', { lang });
-      return new ActivationResendResponseDto(message);
+      const message = this.i18n.translate('auth.resendOnboarding.success', { lang });
+      return new OnboardingResendResponseDto(message);
     }
 
     if (user.isActive && user.isEmailVerified) {
       // Return success message if already activated (security best practice)
-      const message = this.i18n.translate('auth.resendActivation.success', { lang });
-      return new ActivationResendResponseDto(message);
+      const message = this.i18n.translate('auth.resendOnboarding.success', { lang });
+      return new OnboardingResendResponseDto(message);
     }
 
-    await this.usersService.resendActivationToken(user);
+    await this.usersService.resendOnboardingToken(user);
 
-    const message = this.i18n.translate('auth.resendActivation.success', { lang });
-    return new ActivationResendResponseDto(message);
+    const message = this.i18n.translate('auth.resendOnboarding.success', { lang });
+    return new OnboardingResendResponseDto(message);
   }
 
   async resetPassword(token: string, newPassword: string): Promise<{ message: string }> {

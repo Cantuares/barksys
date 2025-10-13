@@ -2,7 +2,7 @@
   "subjects": {
     "userOnboarding": "Complete o Seu Registo no Barksys",
     "passwordReset": "Redefinir Palavra-passe - Barksys",
-    "activationResend": "Ative a Sua Conta - Barksys"
+    "onboardingResend": "Complete o Seu Registo no Barksys"
   },
   "base": {
     "footer": "Esta é uma mensagem automática do Barksys. Por favor, não responda a este email.",

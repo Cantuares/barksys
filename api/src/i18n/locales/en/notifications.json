@@ -2,7 +2,7 @@
   "subjects": {
     "userOnboarding": "Complete Your Barksys Onboarding",
     "passwordReset": "Reset Password - Barksys",
-    "activationResend": "Activate Your Account - Barksys"
+    "onboardingResend": "Complete Your Barksys Onboarding"
   },
   "base": {
     "footer": "This is an automated message from Barksys. Please do not reply to this email.",

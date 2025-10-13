@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ActivationResendResponseDto {
+export class OnboardingResendResponseDto {
   @ApiProperty({
-    example: 'If the email exists and is not activated, a new verification email has been sent',
+    example: 'If the email exists and is not activated, a new onboarding email has been sent',
     description: 'Success message',
   })
   message: string;
