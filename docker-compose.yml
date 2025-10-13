@@ -1,0 +1,81 @@
+services:
+  postgres:
+    image: postgres:17.4-alpine
+    container_name: barksys-postgres
+    restart: unless-stopped
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-root}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-secret}
+      POSTGRES_DB: ${DATABASE_NAME:-barksys}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${DATABASE_USER:-root} -d ${DATABASE_NAME:-barksys}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - barksys-network
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: barksys-mailhog
+    restart: unless-stopped
+    ports:
+      - '1025:1025' # SMTP
+      - '8025:8025' # Web UI
+    networks:
+      - barksys-network
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: production
+    container_name: barksys-api
+    restart: unless-stopped
+    ports:
+      - '${PORT:-3000}:3000'
+    env_file:
+      - ./api/.env.docker
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailhog:
+        condition: service_started
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000/api/health']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - barksys-network
+
+  migrations:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+      target: migrations
+    container_name: barksys-migrations
+    restart: 'no'
+    env_file:
+      - ./api/.env.docker
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - barksys-network
+
+volumes:
+  postgres_data:
+    driver: local
+    name: barksys-postgres-data
+
+networks:
+  barksys-network:
+    driver: bridge
+    name: barksys-network
