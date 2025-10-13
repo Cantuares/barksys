@@ -1,44 +1,44 @@
 {
   "subjects": {
-    "userActivation": "Bem-vindo ao Barksys",
-    "passwordReset": "Redefinir Senha - Barksys",
-    "activationResend": "Ative sua Conta - Barksys"
+    "userOnboarding": "Complete o Seu Registo no Barksys",
+    "passwordReset": "Redefinir Palavra-passe - Barksys",
+    "activationResend": "Ative a Sua Conta - Barksys"
   },
   "base": {
     "footer": "Esta é uma mensagem automática do Barksys. Por favor, não responda a este email.",
     "companyName": "Barksys",
-    "companyDescription": "Sua plataforma de comparação de preços de confiança",
-    "supportMessage": "Precisa de ajuda? Entre em contato com nossa equipe de suporte"
+    "companyDescription": "A sua plataforma de comparação de preços de confiança",
+    "supportMessage": "Precisa de ajuda? Entre em contacto com a nossa equipa de suporte"
   },
-  "activation": {
+  "onboarding": {
     "title": "Bem-vindo ao Barksys!",
     "greeting": "Olá,",
-    "thankYou": "Obrigado por se registrar no",
+    "thankYou": "Obrigado por se registar no",
     "companyName": "Barksys",
-    "instructions": "Para começar a usar todos os nossos recursos, você precisa ativar sua conta.",
-    "confirmationTitle": "Ative sua Conta",
+    "instructions": "Para completar o seu registo, precisa de ativar a sua conta e registar as informações da sua empresa.",
+    "confirmationTitle": "Complete o Seu Registo",
     "validityNotice": "Este link é válido por 24 horas",
-    "buttonText": "Ativar Conta",
+    "buttonText": "Completar Registo",
     "alternativeTitle": "Problemas com o botão?",
     "alternativeInstructions": "Copie e cole este link no seu navegador:",
     "timeLimitTitle": "⏰ Importante - Limite de Tempo",
     "timeLimitList": [
       "Este link expirará em 24 horas",
-      "Após a expiração, você pode solicitar um novo link de ativação",
-      "Se você não recebeu este email, verifique sua pasta de spam"
+      "Após a expiração, pode solicitar um novo link de registo",
+      "Se não recebeu este email, verifique a sua pasta de spam"
     ],
-    "notYouTitle": "Não se registrou?",
-    "notYouInstructions": "Se você não criou esta conta, pode ignorar este email com segurança. No entanto, recomendamos:",
+    "notYouTitle": "Não se registou?",
+    "notYouInstructions": "Se não criou esta conta, pode ignorar este email com segurança. No entanto, recomendamos:",
     "notYouList": [
-      "Não clique no link de ativação",
-      "Delete este email",
-      "Se continuar recebendo estes emails, entre em contato com nossa equipe de suporte"
+      "Não clique no link de registo",
+      "Elimine este email",
+      "Se continuar a receber estes emails, entre em contacto com a nossa equipa de suporte"
     ],
     "helpTitle": "💡 Precisa de Ajuda?",
-    "helpMessage": "Se você tiver alguma dúvida ou precisar de assistência, nossa equipe de suporte está pronta para ajudar!",
-    "closingMessage": "Estamos animados em tê-lo em nossa plataforma!",
+    "helpMessage": "Se tiver alguma dúvida ou precisar de assistência durante o processo de registo, a nossa equipa de suporte está pronta para ajudar!",
+    "closingMessage": "Estamos entusiasmados por tê-lo na nossa plataforma!",
     "welcome": "Seja bem-vindo! 🚀",
-    "team": "Equipe Barksys"
+    "team": "Equipa Barksys"
   },
   "passwordReset": {
     "title": "Solicitação de Redefinição de Senha",

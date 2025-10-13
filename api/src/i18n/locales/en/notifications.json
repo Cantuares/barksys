@@ -1,6 +1,6 @@
 {
   "subjects": {
-    "userActivation": "Welcome to Barksys",
+    "userOnboarding": "Complete Your Barksys Onboarding",
     "passwordReset": "Reset Password - Barksys",
     "activationResend": "Activate Your Account - Barksys"
   },
@@ -10,32 +10,32 @@
     "companyDescription": "Your trusted price comparison platform",
     "supportMessage": "Need help? Contact our support team"
   },
-  "activation": {
+  "onboarding": {
     "title": "Welcome to Barksys!",
     "greeting": "Hello,",
     "thankYou": "Thank you for registering at",
     "companyName": "Barksys",
-    "instructions": "To start using all our features, you need to activate your account.",
-    "confirmationTitle": "Activate Your Account",
+    "instructions": "To complete your onboarding, you need to activate your account and register your company information.",
+    "confirmationTitle": "Complete Your Onboarding",
     "validityNotice": "This link is valid for 24 hours",
-    "buttonText": "Activate Account",
+    "buttonText": "Complete Onboarding",
     "alternativeTitle": "Having trouble with the button?",
     "alternativeInstructions": "Copy and paste this link into your browser:",
     "timeLimitTitle": "⏰ Important - Time Limit",
     "timeLimitList": [
       "This link will expire in 24 hours",
-      "After expiration, you can request a new activation link",
+      "After expiration, you can request a new onboarding link",
       "If you didn't receive this email, check your spam folder"
     ],
     "notYouTitle": "Didn't register?",
     "notYouInstructions": "If you didn't create this account, you can safely ignore this email. However, we recommend:",
     "notYouList": [
-      "Do not click the activation link",
+      "Do not click the onboarding link",
       "Delete this email",
       "If you continue receiving these emails, contact our support team"
     ],
     "helpTitle": "💡 Need Help?",
-    "helpMessage": "If you have any questions or need assistance, our support team is ready to help!",
+    "helpMessage": "If you have any questions or need assistance during the onboarding process, our support team is ready to help!",
     "closingMessage": "We're excited to have you on our platform!",
     "welcome": "Welcome aboard! 🚀",
     "team": "The Barksys Team"
