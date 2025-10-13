@@ -1,0 +1,156 @@
+import { Controller, Post, Body, UseGuards, Get, HttpCode, HttpStatus, Param, Req } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
+import { AuthService } from './auth.service';
+import { RegisterDto } from './dto/register.dto';
+import { RegisterResponseDto } from './dto/register-response.dto';
+import { ActivateResponseDto } from './dto/activate-response.dto';
+import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
+import { ActivationResendDto } from './dto/activation-resend.dto';
+import { ActivationResendResponseDto } from './dto/activation-resend-response.dto';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
+import { LoginDto } from './dto/login.dto';
+import { AuthResponseDto } from './dto/auth-response.dto';
+import { LogoutDto } from './dto/logout.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
+import { PasswordForgotDto } from './dto/password-forgot.dto';
+import { PasswordResetDto } from './dto/password-reset.dto';
+import { LocalAuthGuard } from './guards/local-auth.guard';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { Public } from './decorators/public.decorator';
+import { User } from '../users/entities/user.entity';
+
+@ApiTags('Authentication')
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Public()
+  @Post('register')
+  @ApiOperation({ summary: 'Register a new user' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'User successfully registered',
+    type: RegisterResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request - Validation failed' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Conflict - Email already exists' })
+  async register(@Body() registerDto: RegisterDto): Promise<RegisterResponseDto> {
+    return this.authService.register(registerDto);
+  }
+
+  @Public()
+  @UseGuards(LocalAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  @ApiOperation({ summary: 'Login with email and password' })
+  @ApiBody({ type: LoginDto })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'User successfully logged in',
+    type: AuthResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request - Validation failed' })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized - Invalid credentials' })
+  async login(@CurrentUser() user: User, @Body() loginDto: LoginDto, @Req() request: any): Promise<AuthResponseDto> {
+    const userAgent = request.headers['user-agent'] || 'Unknown';
+    const clientIp = request.ip || request.headers['x-forwarded-for'] || 'Unknown';
+
+    return this.authService.login(user, userAgent, clientIp);
+  }
+
+  @Public()
+  @Get('activate/:token')
+  @ApiOperation({ summary: 'Activate user account with verification token' })
+  @ApiParam({
+    name: 'token',
+    description: 'Email verification token (UUID v4)',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Account activated successfully',
+    type: ActivateResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Token expired or account already activated' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Invalid verification token' })
+  async activateAccount(@Param('token') token: string): Promise<ActivateResponseDto> {
+    return this.authService.activateAccount(token);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('password/forgot')
+  @ApiOperation({ summary: 'Request password reset' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password reset request processed',
+    type: PasswordForgotResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'User account is inactive' })
+  async forgotPassword(@Body() passwordForgotDto: PasswordForgotDto): Promise<PasswordForgotResponseDto> {
+    return this.authService.requestPasswordReset(passwordForgotDto.email);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('activation/resend')
+  @ApiOperation({ summary: 'Resend account activation email' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Activation email resend request processed',
+    type: ActivationResendResponseDto,
+  })
+  async resendActivation(@Body() activationResendDto: ActivationResendDto): Promise<ActivationResendResponseDto> {
+    return this.authService.resendActivationToken(activationResendDto.email);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('password/reset')
+  @ApiOperation({ summary: 'Reset password with token' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Password successfully reset',
+    schema: {
+      type: 'object',
+      properties: {
+        message: { type: 'string', example: 'Password has been reset successfully' },
+      },
+    },
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Reset token has expired or validation failed' })
+  @ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'Invalid reset token' })
+  async resetPassword(@Body() passwordResetDto: PasswordResetDto) {
+    return this.authService.resetPassword(passwordResetDto.token, passwordResetDto.newPassword);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('refresh')
+  @ApiOperation({ summary: 'Refresh access token using refresh token' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'New access token generated successfully',
+    type: RefreshTokenResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid, expired or revoked refresh token' })
+  async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<RefreshTokenResponseDto> {
+    return this.authService.refreshAccessToken(refreshTokenDto.refreshToken);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  @ApiBearerAuth('JWT-auth')
+  @ApiOperation({ summary: 'Logout and revoke refresh token' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully logged out and session revoked',
+    type: LogoutResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid or expired refresh token' })
+  async logout(@Body() logoutDto: LogoutDto): Promise<LogoutResponseDto> {
+    return this.authService.logout(logoutDto.refreshToken);
+  }
+}
