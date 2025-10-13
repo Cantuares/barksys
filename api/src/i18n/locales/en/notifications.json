@@ -1,0 +1,77 @@
+{
+  "subjects": {
+    "userActivation": "Welcome to Barksys",
+    "passwordReset": "Reset Password - Barksys",
+    "activationResend": "Activate Your Account - Barksys"
+  },
+  "base": {
+    "footer": "This is an automated message from Barksys. Please do not reply to this email.",
+    "companyName": "Barksys",
+    "companyDescription": "Your trusted price comparison platform",
+    "supportMessage": "Need help? Contact our support team"
+  },
+  "activation": {
+    "title": "Welcome to Barksys!",
+    "greeting": "Hello,",
+    "thankYou": "Thank you for registering at",
+    "companyName": "Barksys",
+    "instructions": "To start using all our features, you need to activate your account.",
+    "confirmationTitle": "Activate Your Account",
+    "validityNotice": "This link is valid for 24 hours",
+    "buttonText": "Activate Account",
+    "alternativeTitle": "Having trouble with the button?",
+    "alternativeInstructions": "Copy and paste this link into your browser:",
+    "timeLimitTitle": "⏰ Important - Time Limit",
+    "timeLimitList": [
+      "This link will expire in 24 hours",
+      "After expiration, you can request a new activation link",
+      "If you didn't receive this email, check your spam folder"
+    ],
+    "notYouTitle": "Didn't register?",
+    "notYouInstructions": "If you didn't create this account, you can safely ignore this email. However, we recommend:",
+    "notYouList": [
+      "Do not click the activation link",
+      "Delete this email",
+      "If you continue receiving these emails, contact our support team"
+    ],
+    "helpTitle": "💡 Need Help?",
+    "helpMessage": "If you have any questions or need assistance, our support team is ready to help!",
+    "closingMessage": "We're excited to have you on our platform!",
+    "welcome": "Welcome aboard! 🚀",
+    "team": "The Barksys Team"
+  },
+  "passwordReset": {
+    "title": "Password Reset Request",
+    "greeting": "Hello,",
+    "instructions": "We received a request to reset your password. Click the button below to create a new password.",
+    "resetTitle": "Reset Your Password",
+    "validityNotice": "This link is valid for 1 hour",
+    "buttonText": "Reset Password",
+    "alternativeTitle": "Having trouble with the button?",
+    "alternativeInstructions": "Copy and paste this link into your browser:",
+    "timeLimitTitle": "⏰ Important - Time Limit",
+    "timeLimitList": [
+      "This link will expire in 1 hour",
+      "After expiration, you'll need to request a new password reset",
+      "For security, all existing sessions will be terminated after password change"
+    ],
+    "notYouTitle": "Didn't request this?",
+    "notYouInstructions": "If you didn't request a password reset, your account may be at risk. We recommend:",
+    "notYouList": [
+      "Do not click the reset link",
+      "Change your password immediately through the login page",
+      "Enable two-factor authentication if available",
+      "Contact our support team immediately"
+    ],
+    "securityTitle": "🔒 Security Notice",
+    "securityMessage": "Never share your password or reset links with anyone. Barksys will never ask for your password via email.",
+    "securityList": [
+      "This link will expire in 1 hour",
+      "Use a secure browser",
+      "Do not share this link with anyone"
+    ],
+    "closingMessage": "If you have any concerns about your account security, please contact us immediately.",
+    "regards": "Best regards,",
+    "team": "The Barksys Security Team"
+  }
+}

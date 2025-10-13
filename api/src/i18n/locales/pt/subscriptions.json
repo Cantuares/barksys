@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "notFound": "Assinatura não encontrada",
+    "alreadyActive": "Você já possui uma assinatura ativa",
+    "notActive": "Assinatura não está ativa",
+    "limitExceeded": "Limite de uso excedido para este período",
+    "alreadyCancelled": "Assinatura já está cancelada",
+    "notCancelled": "Assinatura não está cancelada"
+  }
+}

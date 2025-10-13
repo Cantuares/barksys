@@ -1,0 +1,23 @@
+{
+  "errors": {
+    "badRequest": "Requisição inválida - Falha na validação",
+    "unauthorized": "Não autorizado",
+    "forbidden": "Proibido",
+    "notFound": "Recurso não encontrado",
+    "conflict": "Conflito",
+    "internalError": "Erro interno do servidor"
+  },
+  "validation": {
+    "required": "Este campo é obrigatório",
+    "invalidEmail": "Formato de e-mail inválido",
+    "invalidFormat": "Formato inválido",
+    "minLength": "Comprimento mínimo é {{min}} caracteres",
+    "maxLength": "Comprimento máximo é {{max}} caracteres"
+  },
+  "auth": {
+    "invalidCredentials": "Credenciais inválidas"
+  },
+  "loading": "A carregar...",
+  "showPassword": "Mostrar senha",
+  "hidePassword": "Ocultar senha"
+}

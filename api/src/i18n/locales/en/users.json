@@ -1,0 +1,18 @@
+{
+  "errors": {
+    "emailExists": "Email already exists",
+    "userNotFound": "User not found",
+    "currentPasswordIncorrect": "Current password is incorrect",
+    "cannotAccessOtherSessions": "You can only access your own sessions",
+    "cannotChangeOtherPassword": "You can only change your own password",
+    "userNotFoundOrInactive": "User not found or inactive"
+  },
+  "success": {
+    "passwordChanged": "Password changed successfully"
+  },
+  "validation": {
+    "passwordRequirements": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+    "passwordMinLength": "Password must be at least 8 characters long",
+    "passwordRegisterRequirements": "Password must contain at least one uppercase letter, one lowercase letter, and one number"
+  }
+}

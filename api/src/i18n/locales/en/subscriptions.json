@@ -1,0 +1,10 @@
+{
+  "errors": {
+    "notFound": "Subscription not found",
+    "alreadyActive": "You already have an active subscription",
+    "notActive": "Subscription is not active",
+    "limitExceeded": "Usage limit exceeded for this period",
+    "alreadyCancelled": "Subscription is already cancelled",
+    "notCancelled": "Subscription is not cancelled"
+  }
+}

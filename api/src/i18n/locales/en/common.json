@@ -1,0 +1,23 @@
+{
+  "errors": {
+    "badRequest": "Bad request - Validation failed",
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "notFound": "Resource not found",
+    "conflict": "Conflict",
+    "internalError": "Internal server error"
+  },
+  "validation": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email format",
+    "invalidFormat": "Invalid format",
+    "minLength": "Minimum length is {{min}} characters",
+    "maxLength": "Maximum length is {{max}} characters"
+  },
+  "auth": {
+    "invalidCredentials": "Invalid credentials"
+  },
+  "loading": "Loading...",
+  "showPassword": "Show password",
+  "hidePassword": "Hide password"
+}

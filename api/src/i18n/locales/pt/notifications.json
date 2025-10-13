@@ -1,0 +1,77 @@
+{
+  "subjects": {
+    "userActivation": "Bem-vindo ao Barksys",
+    "passwordReset": "Redefinir Senha - Barksys",
+    "activationResend": "Ative sua Conta - Barksys"
+  },
+  "base": {
+    "footer": "Esta é uma mensagem automática do Barksys. Por favor, não responda a este email.",
+    "companyName": "Barksys",
+    "companyDescription": "Sua plataforma de comparação de preços de confiança",
+    "supportMessage": "Precisa de ajuda? Entre em contato com nossa equipe de suporte"
+  },
+  "activation": {
+    "title": "Bem-vindo ao Barksys!",
+    "greeting": "Olá,",
+    "thankYou": "Obrigado por se registrar no",
+    "companyName": "Barksys",
+    "instructions": "Para começar a usar todos os nossos recursos, você precisa ativar sua conta.",
+    "confirmationTitle": "Ative sua Conta",
+    "validityNotice": "Este link é válido por 24 horas",
+    "buttonText": "Ativar Conta",
+    "alternativeTitle": "Problemas com o botão?",
+    "alternativeInstructions": "Copie e cole este link no seu navegador:",
+    "timeLimitTitle": "⏰ Importante - Limite de Tempo",
+    "timeLimitList": [
+      "Este link expirará em 24 horas",
+      "Após a expiração, você pode solicitar um novo link de ativação",
+      "Se você não recebeu este email, verifique sua pasta de spam"
+    ],
+    "notYouTitle": "Não se registrou?",
+    "notYouInstructions": "Se você não criou esta conta, pode ignorar este email com segurança. No entanto, recomendamos:",
+    "notYouList": [
+      "Não clique no link de ativação",
+      "Delete este email",
+      "Se continuar recebendo estes emails, entre em contato com nossa equipe de suporte"
+    ],
+    "helpTitle": "💡 Precisa de Ajuda?",
+    "helpMessage": "Se você tiver alguma dúvida ou precisar de assistência, nossa equipe de suporte está pronta para ajudar!",
+    "closingMessage": "Estamos animados em tê-lo em nossa plataforma!",
+    "welcome": "Seja bem-vindo! 🚀",
+    "team": "Equipe Barksys"
+  },
+  "passwordReset": {
+    "title": "Solicitação de Redefinição de Senha",
+    "greeting": "Olá,",
+    "instructions": "Recebemos uma solicitação para redefinir sua senha. Clique no botão abaixo para criar uma nova senha.",
+    "resetTitle": "Redefina sua Senha",
+    "validityNotice": "Este link é válido por 1 hora",
+    "buttonText": "Redefinir Senha",
+    "alternativeTitle": "Problemas com o botão?",
+    "alternativeInstructions": "Copie e cole este link no seu navegador:",
+    "timeLimitTitle": "⏰ Importante - Limite de Tempo",
+    "timeLimitList": [
+      "Este link expirará em 1 hora",
+      "Após a expiração, você precisará solicitar uma nova redefinição de senha",
+      "Por segurança, todas as sessões existentes serão encerradas após a alteração da senha"
+    ],
+    "notYouTitle": "Não solicitou isso?",
+    "notYouInstructions": "Se você não solicitou uma redefinição de senha, sua conta pode estar em risco. Recomendamos:",
+    "notYouList": [
+      "Não clique no link de redefinição",
+      "Altere sua senha imediatamente através da página de login",
+      "Ative a autenticação de dois fatores, se disponível",
+      "Entre em contato com nossa equipe de suporte imediatamente"
+    ],
+    "securityTitle": "🔒 Aviso de Segurança",
+    "securityMessage": "Nunca compartilhe sua senha ou links de redefinição com ninguém. O Barksys nunca pedirá sua senha por email.",
+    "securityList": [
+      "Este link expirará em 1 hora",
+      "Use um navegador seguro",
+      "Não compartilhe este link com ninguém"
+    ],
+    "closingMessage": "Se você tiver alguma preocupação sobre a segurança da sua conta, entre em contato conosco imediatamente.",
+    "regards": "Atenciosamente,",
+    "team": "Equipe de Segurança Barksys"
+  }
+}
