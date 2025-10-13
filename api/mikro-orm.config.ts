@@ -7,10 +7,10 @@ export default defineConfig({
   user: process.env.DATABASE_USER || 'root',
   password: process.env.DATABASE_PASSWORD || 'secret',
   dbName: process.env.DATABASE_NAME || 'barksys',
-  entities: ['dist/**/*.entity.js'],
+  entities: ['dist/src/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
   migrations: {
-    path: 'dist/migrations',
+    path: 'dist/src/migrations',
     pathTs: 'src/migrations',
     tableName: 'mikro_orm_migrations',
     transactional: true,
