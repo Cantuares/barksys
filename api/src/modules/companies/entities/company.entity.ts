@@ -1,4 +1,4 @@
-import { Entity, PrimaryKey, Property, Unique, Index, ManyToOne, Enum } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, Unique, Index, ManyToOne, OneToMany, Collection, Enum } from '@mikro-orm/core';
 import { v7 as uuidv7 } from 'uuid';
 import { User } from '../../users/entities/user.entity';
 
@@ -15,6 +15,9 @@ export class Company {
 
   @ManyToOne(() => User, { fieldName: 'user_id' })
   user: User;
+
+  @OneToMany(() => User, user => user.company)
+  users = new Collection<User>(this);
 
   @Property()
   name: string;

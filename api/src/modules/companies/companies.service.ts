@@ -53,6 +53,11 @@ export class CompaniesService {
 
     await this.em.persistAndFlush(company);
 
+    // Set bidirectional relationship: user.company_id = company.id
+    user.company = company;
+    user.updatedAt = new Date();
+    await this.em.persistAndFlush(user);
+
     return company;
   }
 }
