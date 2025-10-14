@@ -5,10 +5,12 @@
     "currentPasswordIncorrect": "Current password is incorrect",
     "cannotAccessOtherSessions": "You can only access your own sessions",
     "cannotChangeOtherPassword": "You can only change your own password",
-    "userNotFoundOrInactive": "User not found or inactive"
+    "userNotFoundOrInactive": "User not found or inactive",
+    "adminHasNoCompany": "Admin user must have a company to create tutors"
   },
   "success": {
-    "passwordChanged": "Password changed successfully"
+    "passwordChanged": "Password changed successfully",
+    "tutorCreated": "Tutor created successfully. Password reset email has been sent"
   },
   "validation": {
     "passwordRequirements": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",

@@ -1,14 +1,17 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, ConflictException, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { User, UserRole } from './entities/user.entity';
 import { Session } from '../sessions/entities/session.entity';
+import { Company } from '../companies/entities/company.entity';
 import { SessionsService } from '../sessions/sessions.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { CreateTutorDto } from './dto/create-tutor.dto';
 import { UserRegisteredEvent } from '../notifications/events/user-registered.event';
 import { PasswordResetEvent } from '../notifications/events/password-reset.event';
 import { v4 as uuidv4 } from 'uuid';
+import * as crypto from 'crypto';
 
 @Injectable()
 export class UsersService {
@@ -62,7 +65,7 @@ export class UsersService {
   }
 
   async findById(id: string): Promise<User | null> {
-    return this.em.findOne(User, { id });
+    return this.em.findOne(User, { id }, { populate: ['company'] });
   }
 
   async findByVerificationToken(token: string): Promise<User | null> {
@@ -157,5 +160,44 @@ export class UsersService {
 
   async getUserSessions(email: string): Promise<Session[]> {
     return this.em.find(Session, { email, isBlocked: false }, { orderBy: { createdAt: 'DESC' } });
+  }
+
+  async createTutor(createTutorDto: CreateTutorDto, adminUser: User): Promise<User> {
+    const lang = I18nContext.current()?.lang || 'en';
+
+    // Check if admin has a company
+    if (!adminUser.company) {
+      throw new BadRequestException(this.i18n.translate('users.errors.adminHasNoCompany', { lang }));
+    }
+
+    // Check if email already exists
+    const existingUser = await this.findByEmail(createTutorDto.email);
+    if (existingUser) {
+      throw new ConflictException(this.i18n.translate('users.errors.emailExists', { lang }));
+    }
+
+    // Generate temporary random password
+    const temporaryPassword = crypto.randomBytes(16).toString('hex');
+
+    // Create tutor user
+    const tutor = this.em.create(User, {
+      email: createTutorDto.email,
+      passwordHash: temporaryPassword,
+      fullName: createTutorDto.fullName,
+      role: UserRole.TUTOR,
+      company: adminUser.company,
+      isActive: true,
+      isEmailVerified: true,
+      passwordChangedAt: new Date('0001-01-01 00:00:00Z'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await this.em.persistAndFlush(tutor);
+
+    // Set password reset token and send email
+    await this.setPasswordResetToken(tutor);
+
+    return tutor;
   }
 }
