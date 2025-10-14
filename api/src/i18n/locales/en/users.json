@@ -6,11 +6,13 @@
     "cannotAccessOtherSessions": "You can only access your own sessions",
     "cannotChangeOtherPassword": "You can only change your own password",
     "userNotFoundOrInactive": "User not found or inactive",
-    "adminHasNoCompany": "Admin user must have a company to create tutors"
+    "adminHasNoCompany": "Admin user must have a company to create tutors",
+    "userHasNoCompany": "User must have a company to create trainers"
   },
   "success": {
     "passwordChanged": "Password changed successfully",
-    "tutorCreated": "Tutor created successfully. Password reset email has been sent"
+    "tutorCreated": "Tutor created successfully. Password reset email has been sent",
+    "trainerCreated": "Trainer created successfully. Password reset email has been sent"
   },
   "validation": {
     "passwordRequirements": "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",

@@ -8,6 +8,7 @@ import { Company } from '../companies/entities/company.entity';
 import { SessionsService } from '../sessions/sessions.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTutorDto } from './dto/create-tutor.dto';
+import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UserRegisteredEvent } from '../notifications/events/user-registered.event';
 import { PasswordResetEvent } from '../notifications/events/password-reset.event';
 import { v4 as uuidv4 } from 'uuid';
@@ -162,12 +163,12 @@ export class UsersService {
     return this.em.find(Session, { email, isBlocked: false }, { orderBy: { createdAt: 'DESC' } });
   }
 
-  async createTutor(createTutorDto: CreateTutorDto, adminUser: User): Promise<User> {
+  async createTutor(createTutorDto: CreateTutorDto, creatorUser: User): Promise<User> {
     const lang = I18nContext.current()?.lang || 'en';
 
-    // Check if admin has a company
-    if (!adminUser.company) {
-      throw new BadRequestException(this.i18n.translate('users.errors.adminHasNoCompany', { lang }));
+    // Check if creator has a company
+    if (!creatorUser.company) {
+      throw new BadRequestException(this.i18n.translate('users.errors.userHasNoCompany', { lang }));
     }
 
     // Check if email already exists
@@ -185,7 +186,7 @@ export class UsersService {
       passwordHash: temporaryPassword,
       fullName: createTutorDto.fullName,
       role: UserRole.TUTOR,
-      company: adminUser.company,
+      company: creatorUser.company,
       isActive: true,
       isEmailVerified: true,
       passwordChangedAt: new Date('0001-01-01 00:00:00Z'),
@@ -199,5 +200,44 @@ export class UsersService {
     await this.setPasswordResetToken(tutor);
 
     return tutor;
+  }
+
+  async createTrainer(createTrainerDto: CreateTrainerDto, creatorUser: User): Promise<User> {
+    const lang = I18nContext.current()?.lang || 'en';
+
+    // Check if admin has a company
+    if (!creatorUser.company) {
+      throw new BadRequestException(this.i18n.translate('users.errors.adminHasNoCompany', { lang }));
+    }
+
+    // Check if email already exists
+    const existingUser = await this.findByEmail(createTrainerDto.email);
+    if (existingUser) {
+      throw new ConflictException(this.i18n.translate('users.errors.emailExists', { lang }));
+    }
+
+    // Generate temporary random password
+    const temporaryPassword = crypto.randomBytes(16).toString('hex');
+
+    // Create trainer user
+    const trainer = this.em.create(User, {
+      email: createTrainerDto.email,
+      passwordHash: temporaryPassword,
+      fullName: createTrainerDto.fullName,
+      role: UserRole.TRAINER,
+      company: creatorUser.company,
+      isActive: true,
+      isEmailVerified: true,
+      passwordChangedAt: new Date('0001-01-01 00:00:00Z'),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    await this.em.persistAndFlush(trainer);
+
+    // Set password reset token and send email
+    await this.setPasswordResetToken(trainer);
+
+    return trainer;
   }
 }
