@@ -1,6 +1,7 @@
-import { Entity, PrimaryKey, Property, Unique, Index, BeforeCreate, BeforeUpdate, Enum } from '@mikro-orm/core';
+import { Entity, PrimaryKey, Property, Unique, Index, BeforeCreate, BeforeUpdate, Enum, ManyToOne } from '@mikro-orm/core';
 import * as bcrypt from 'bcrypt';
 import { v7 as uuidv7 } from 'uuid';
+import { Company } from '../../companies/entities/company.entity';
 
 export enum UserRole {
   ADMIN = 'admin',
@@ -26,6 +27,10 @@ export class User {
 
   @Enum({ items: () => UserRole, default: UserRole.ADMIN })
   role: UserRole = UserRole.ADMIN;
+
+  @ManyToOne(() => Company, { fieldName: 'company_id', nullable: true })
+  @Index()
+  company?: Company;
 
   @Property({ fieldName: 'is_active', default: false })
   isActive: boolean = false;

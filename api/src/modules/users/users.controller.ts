@@ -1,13 +1,19 @@
-import { Controller, Post, Get, Body, Param, HttpStatus, ForbiddenException } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, HttpStatus, ForbiddenException, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { UsersService } from './users.service';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ChangePasswordResponseDto } from './dto/change-password-response.dto';
+import { CreateTutorDto } from './dto/create-tutor.dto';
+import { CreateTutorResponseDto } from './dto/create-tutor-response.dto';
+import { CreateTrainerDto } from './dto/create-trainer.dto';
+import { CreateTrainerResponseDto } from './dto/create-trainer-response.dto';
 import { SessionResponseDto } from './dto/session-response.dto';
 import { UserProfileResponseDto } from './dto/user-profile-response.dto';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { User } from './entities/user.entity';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { User, UserRole } from './entities/user.entity';
 
 @ApiTags('Users')
 @ApiBearerAuth('JWT-auth')
@@ -89,5 +95,55 @@ export class UsersController {
 
     const message = this.i18n.translate('users.success.passwordChanged', { lang });
     return new ChangePasswordResponseDto(message);
+  }
+
+  @Post('tutors')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN, UserRole.TRAINER)
+  @ApiOperation({ summary: 'Create a new tutor (admin and trainer)' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Tutor created successfully',
+    type: CreateTutorResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized - Invalid or missing JWT token' })
+  @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden - Only admins and trainers can create tutors' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'User has no company associated' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email already exists' })
+  async createTutor(
+    @Body() createTutorDto: CreateTutorDto,
+    @CurrentUser() user: User,
+  ): Promise<CreateTutorResponseDto> {
+    const lang = I18nContext.current()?.lang || 'en';
+
+    await this.usersService.createTutor(createTutorDto, user);
+
+    const message = this.i18n.translate('users.success.tutorCreated', { lang });
+    return new CreateTutorResponseDto(message);
+  }
+
+  @Post('trainers')
+  @UseGuards(RolesGuard)
+  @Roles(UserRole.ADMIN)
+  @ApiOperation({ summary: 'Create a new trainer (admin only)' })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Trainer created successfully',
+    type: CreateTrainerResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized - Invalid or missing JWT token' })
+  @ApiResponse({ status: HttpStatus.FORBIDDEN, description: 'Forbidden - Only admins can create trainers' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Admin has no company associated' })
+  @ApiResponse({ status: HttpStatus.CONFLICT, description: 'Email already exists' })
+  async createTrainer(
+    @Body() createTrainerDto: CreateTrainerDto,
+    @CurrentUser() user: User,
+  ): Promise<CreateTrainerResponseDto> {
+    const lang = I18nContext.current()?.lang || 'en';
+
+    await this.usersService.createTrainer(createTrainerDto, user);
+
+    const message = this.i18n.translate('users.success.trainerCreated', { lang });
+    return new CreateTrainerResponseDto(message);
   }
 }

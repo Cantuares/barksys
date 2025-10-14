@@ -5,10 +5,14 @@
     "currentPasswordIncorrect": "Senha atual está incorreta",
     "cannotAccessOtherSessions": "Você só pode acessar suas próprias sessões",
     "cannotChangeOtherPassword": "Você só pode alterar sua própria senha",
-    "userNotFoundOrInactive": "Usuário não encontrado ou inativo"
+    "userNotFoundOrInactive": "Usuário não encontrado ou inativo",
+    "adminHasNoCompany": "Usuário admin deve ter uma empresa para criar tutores",
+    "userHasNoCompany": "Usuário deve ter uma empresa para criar treinadores"
   },
   "success": {
-    "passwordChanged": "Senha alterada com sucesso"
+    "passwordChanged": "Senha alterada com sucesso",
+    "tutorCreated": "Tutor criado com sucesso. E-mail de redefinição de senha foi enviado",
+    "trainerCreated": "Treinador criado com sucesso. E-mail de redefinição de senha foi enviado"
   },
   "validation": {
     "passwordRequirements": "A senha deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um caractere especial",
