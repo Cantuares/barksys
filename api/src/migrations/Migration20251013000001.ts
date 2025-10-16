@@ -95,7 +95,7 @@ export class Migration20251013000001 extends Migration {
       CREATE TABLE "notifications" (
         "id" uuid PRIMARY KEY,
         "user_id" uuid,
-        "channel" text CHECK ("channel" IN ('email', 'sms', 'push')) NOT NULL DEFAULT 'email',
+        "channel" text CHECK ("channel" IN ('email', 'sms', 'push', 'in_app')) NOT NULL DEFAULT 'email',
         "recipient" varchar(255) NOT NULL,
         "subject" varchar(500),
         "template_name" varchar(100) NOT NULL,

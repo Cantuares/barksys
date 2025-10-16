@@ -10,6 +10,17 @@ import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { SessionsModule } from './modules/auth/sessions/sessions.module';
+import { CompaniesModule } from './modules/companies/companies.module';
+import { MediaModule } from './modules/media/media.module';
+import { TrainersModule } from './modules/trainers/trainers.module';
+import { TutorsModule } from './modules/tutors/tutors.module';
+import { PetsModule } from './modules/pets/pets.module';
+import { PackagesModule } from './modules/packages/packages.module';
+import { TrainingSessionTemplatesModule } from './modules/training-session-templates/training-session-templates.module';
+import { TrainingSessionsModule } from './modules/training-sessions/training-sessions.module';
+import { TrainingSessionEnrollmentsModule } from './modules/training-session-enrollments/training-session-enrollments.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { I18nHttpModule } from './i18n/i18n.module';
 import { JwtAuthGuard } from './modules/auth/guards/jwt-auth.guard';
 import databaseConfig from './config/database.config';
@@ -36,6 +47,17 @@ import databaseConfig from './config/database.config';
     MikroOrmModule.forRoot(databaseConfig()),
     AuthModule,
     UsersModule,
+    SessionsModule,
+    CompaniesModule,
+    TrainersModule,
+    TutorsModule,
+    PetsModule,
+    PackagesModule,
+    TrainingSessionTemplatesModule,
+    TrainingSessionsModule,
+    TrainingSessionEnrollmentsModule,
+    DashboardModule,
+    MediaModule,
     NotificationsModule,
     I18nHttpModule,
   ],
