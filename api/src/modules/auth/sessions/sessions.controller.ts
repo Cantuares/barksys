@@ -2,8 +2,8 @@ import { Controller, Post, Param, HttpStatus, ForbiddenException, NotFoundExcept
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { SessionsService } from './sessions.service';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
-import { User } from '../users/entities/user.entity';
+import { CurrentUser } from '../decorators/current-user.decorator';
+import { User } from '../../users/entities/user.entity';
 
 @ApiTags('Sessions')
 @ApiBearerAuth('JWT-auth')
