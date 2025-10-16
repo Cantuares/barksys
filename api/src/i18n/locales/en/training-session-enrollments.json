@@ -1,0 +1,15 @@
+{
+  "notFound": "Training session enrollment not found",
+  "sessionNotFound": "Training session not found",
+  "tutorNotFound": "Tutor not found",
+  "petNotFound": "Pet not found",
+  "petNotOwnedByTutor": "Pet does not belong to this tutor",
+  "noAvailableSlots": "No available slots for this training session",
+  "noActivePurchase": "No active package purchase found for this tutor",
+  "noRemainingSessions": "No remaining sessions in package purchase",
+  "alreadyEnrolled": "Pet is already enrolled in this training session",
+  "created": "Enrollment created successfully",
+  "cancelled": "Enrollment cancelled successfully",
+  "confirmed": "Enrollment confirmed successfully",
+  "cannotCancelConfirmed": "Cannot cancel a confirmed enrollment"
+}

@@ -1,0 +1,12 @@
+{
+  "config": {
+    "notFound": "Availability configuration not found",
+    "created": "Availability configuration created successfully",
+    "updated": "Availability configuration updated successfully"
+  },
+  "exception": {
+    "notFound": "Availability exception not found",
+    "created": "Availability exception created successfully",
+    "deleted": "Availability exception deleted successfully"
+  }
+}

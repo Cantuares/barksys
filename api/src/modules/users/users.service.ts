@@ -3,14 +3,17 @@ import { EntityManager } from '@mikro-orm/postgresql';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { User, UserRole } from './entities/user.entity';
-import { Session } from '../sessions/entities/session.entity';
+import { Session } from '../auth/sessions/entities/session.entity';
 import { Company } from '../companies/entities/company.entity';
-import { SessionsService } from '../sessions/sessions.service';
+import { SessionsService } from '../auth/sessions/sessions.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { CreateTutorDto } from './dto/create-tutor.dto';
 import { CreateTrainerDto } from './dto/create-trainer.dto';
 import { UserRegisteredEvent } from '../notifications/events/user-registered.event';
 import { PasswordResetEvent } from '../notifications/events/password-reset.event';
+import { PasswordChangedEvent } from '../notifications/events/password-changed.event';
+import { TrainerCreatedEvent } from './events/trainer-created.event';
+import { TutorCreatedEvent } from './events/tutor-created.event';
 import { v4 as uuidv4 } from 'uuid';
 import * as crypto from 'crypto';
 
@@ -136,9 +139,14 @@ export class UsersService {
     await this.em.persistAndFlush(user);
   }
 
-  async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
-    const user = await this.findById(userId);
+  async changePassword(userId: string, requestingUserId: string, currentPassword: string, newPassword: string): Promise<void> {
     const lang = I18nContext.current()?.lang || 'en';
+
+    if (userId !== requestingUserId) {
+      throw new UnauthorizedException(this.i18n.translate('users.errors.cannotChangeOtherPassword', { lang }));
+    }
+
+    const user = await this.findById(userId);
 
     if (!user) {
       throw new UnauthorizedException(this.i18n.translate('users.errors.userNotFound', { lang }));
@@ -157,10 +165,32 @@ export class UsersService {
 
     // Revoke all user sessions after password change
     await this.sessionsService.revokeAllUserSessions(user.email);
+
+    // Emit password.changed event
+    this.eventEmitter.emit(
+      'password.changed',
+      new PasswordChangedEvent(
+        user.id,
+        user.email,
+        user.fullName,
+        lang,
+      ),
+    );
   }
 
-  async getUserSessions(email: string): Promise<Session[]> {
-    return this.em.find(Session, { email, isBlocked: false }, { orderBy: { createdAt: 'DESC' } });
+  async getUserSessions(userId: string, requestingUserId: string): Promise<Session[]> {
+    const lang = I18nContext.current()?.lang || 'en';
+
+    if (userId !== requestingUserId) {
+      throw new UnauthorizedException(this.i18n.translate('users.errors.cannotAccessOtherSessions', { lang }));
+    }
+
+    const user = await this.findById(userId);
+    if (!user) {
+      throw new UnauthorizedException(this.i18n.translate('users.errors.userNotFound', { lang }));
+    }
+
+    return this.em.find(Session, { email: user.email, isBlocked: false }, { orderBy: { createdAt: 'DESC' } });
   }
 
   async createTutor(createTutorDto: CreateTutorDto, creatorUser: User): Promise<User> {
@@ -198,6 +228,20 @@ export class UsersService {
 
     // Set password reset token and send email
     await this.setPasswordResetToken(tutor);
+
+    // Emit tutor.created event
+    const companyId = typeof creatorUser.company === 'object' ? creatorUser.company.id : creatorUser.company;
+    this.eventEmitter.emit(
+      'tutor.created',
+      new TutorCreatedEvent(
+        tutor.id,
+        tutor.fullName,
+        tutor.email,
+        companyId,
+        creatorUser.id,
+        creatorUser.fullName,
+      ),
+    );
 
     return tutor;
   }
@@ -237,6 +281,20 @@ export class UsersService {
 
     // Set password reset token and send email
     await this.setPasswordResetToken(trainer);
+
+    // Emit trainer.created event
+    const companyId = typeof creatorUser.company === 'object' ? creatorUser.company.id : creatorUser.company;
+    this.eventEmitter.emit(
+      'trainer.created',
+      new TrainerCreatedEvent(
+        trainer.id,
+        trainer.fullName,
+        trainer.email,
+        companyId,
+        creatorUser.id,
+        creatorUser.fullName,
+      ),
+    );
 
     return trainer;
   }

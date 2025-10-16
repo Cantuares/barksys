@@ -14,15 +14,15 @@ export class User {
   @PrimaryKey({ type: 'uuid' })
   id: string = uuidv7();
 
-  @Property()
+  @Property({ type: 'varchar', length: 255 })
   @Unique()
   @Index()
   email: string;
 
-  @Property({ fieldName: 'password_hash', hidden: true })
+  @Property({ fieldName: 'password_hash', type: 'varchar', length: 255, hidden: true })
   passwordHash: string;
 
-  @Property({ fieldName: 'full_name' })
+  @Property({ fieldName: 'full_name', type: 'varchar', length: 255 })
   fullName: string;
 
   @Enum({ items: () => UserRole, default: UserRole.ADMIN })
@@ -32,31 +32,31 @@ export class User {
   @Index()
   company?: Company;
 
-  @Property({ fieldName: 'is_active', default: false })
+  @Property({ fieldName: 'is_active', type: 'boolean', default: false })
   isActive: boolean = false;
 
-  @Property({ fieldName: 'is_email_verified', default: false })
+  @Property({ fieldName: 'is_email_verified', type: 'boolean', default: false })
   isEmailVerified: boolean = false;
 
-  @Property({ fieldName: 'onboarding_token', nullable: true })
+  @Property({ fieldName: 'onboarding_token', type: 'varchar', length: 255, nullable: true })
   onboardingToken?: string;
 
-  @Property({ fieldName: 'onboarding_token_expires_at', nullable: true })
+  @Property({ fieldName: 'onboarding_token_expires_at', type: 'timestamp', nullable: true })
   onboardingTokenExpiresAt?: Date;
 
-  @Property({ fieldName: 'password_reset_token', nullable: true })
+  @Property({ fieldName: 'password_reset_token', type: 'varchar', length: 255, nullable: true })
   passwordResetToken?: string;
 
-  @Property({ fieldName: 'password_reset_token_expires_at', nullable: true })
+  @Property({ fieldName: 'password_reset_token_expires_at', type: 'timestamp', nullable: true })
   passwordResetTokenExpiresAt?: Date;
 
-  @Property({ fieldName: 'password_changed_at' })
+  @Property({ fieldName: 'password_changed_at', type: 'timestamp' })
   passwordChangedAt: Date = new Date('0001-01-01 00:00:00Z');
 
-  @Property({ fieldName: 'created_at' })
+  @Property({ fieldName: 'created_at', type: 'timestamp' })
   createdAt: Date = new Date();
 
-  @Property({ fieldName: 'updated_at' })
+  @Property({ fieldName: 'updated_at', type: 'timestamp', onUpdate: () => new Date() })
   updatedAt: Date = new Date();
 
   @BeforeCreate()

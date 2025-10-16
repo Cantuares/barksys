@@ -1,4 +1,4 @@
-import { Controller, Post, Body, UseGuards, Get, HttpCode, HttpStatus, Param, Req } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, HttpCode, HttpStatus, Param } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -21,6 +21,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { Public } from './decorators/public.decorator';
 import { User } from '../users/entities/user.entity';
+import { RequestMetadata as RequestMetadataDecorator, RequestMetadata as RequestMetadataType } from '../../common/decorators';
 
 @ApiTags('Authentication')
 @Controller('auth')
@@ -54,11 +55,12 @@ export class AuthController {
   })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request - Validation failed' })
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Unauthorized - Invalid credentials' })
-  async login(@CurrentUser() user: User, @Body() loginDto: LoginDto, @Req() request: any): Promise<AuthResponseDto> {
-    const userAgent = request.headers['user-agent'] || 'Unknown';
-    const clientIp = request.ip || request.headers['x-forwarded-for'] || 'Unknown';
-
-    return this.authService.login(user, userAgent, clientIp);
+  async login(
+    @CurrentUser() user: User,
+    @Body() loginDto: LoginDto,
+    @RequestMetadataDecorator() metadata: RequestMetadataType,
+  ): Promise<AuthResponseDto> {
+    return this.authService.login(user, metadata.userAgent, metadata.clientIp);
   }
 
   @Public()

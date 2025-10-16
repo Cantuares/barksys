@@ -1,0 +1,6 @@
+{
+  "notFound": "Trainer not found",
+  "created": "Trainer created successfully",
+  "updated": "Trainer updated successfully",
+  "alreadyTrainer": "User is already a trainer"
+}

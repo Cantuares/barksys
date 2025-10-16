@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { EntityManager } from '@mikro-orm/postgresql';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { UsersService } from '../users/users.service';
-import { SessionsService } from '../sessions/sessions.service';
+import { SessionsService } from './sessions/sessions.service';
 import { CompaniesService } from '../companies/companies.service';
 import { RegisterDto } from './dto/register.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';

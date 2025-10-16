@@ -1,0 +1,6 @@
+{
+  "notFound": "Treinador não encontrado",
+  "created": "Treinador criado com sucesso",
+  "updated": "Treinador atualizado com sucesso",
+  "alreadyTrainer": "Usuário já é um treinador"
+}

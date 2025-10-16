@@ -1,0 +1,78 @@
+<!-- Training Session Enrollment Cancelled Email Template -->
+<div style="padding: 20px 0;">
+  <h2 style="color: #2d3748; margin-bottom: 20px;"><%= translations.trainingSessionCancelled.title %></h2>
+
+  <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">
+    <%= translations.trainingSessionCancelled.greeting %> <strong><%= recipientName %></strong>,
+  </p>
+
+  <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">
+    <%= translations.trainingSessionCancelled.message %>
+  </p>
+
+  <!-- Session Details -->
+  <div style="background-color: #fff5f5; border-left: 4px solid #f56565; padding: 20px; margin: 20px 0; border-radius: 4px;">
+    <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">
+      <%= translations.trainingSessionCancelled.detailsTitle %>
+    </h3>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionCancelled.tutorLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= tutorName %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionCancelled.petLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= petName %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionCancelled.dateLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= sessionDate %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionCancelled.timeLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= sessionStartTime %> - <%= sessionEndTime %>
+        </td>
+      </tr>
+      <% if (reason) { %>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionCancelled.reasonLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= reason %>
+        </td>
+      </tr>
+      <% } %>
+    </table>
+  </div>
+
+  <!-- Info Box -->
+  <div style="background-color: #edf2f7; border-radius: 8px; padding: 16px; margin: 20px 0;">
+    <p style="color: #2d3748; margin: 0; line-height: 1.6;">
+      <strong><%= translations.trainingSessionCancelled.infoTitle %></strong><br>
+      <%= translations.trainingSessionCancelled.infoMessage %>
+    </p>
+  </div>
+
+  <!-- Closing -->
+  <p style="color: #4a5568; line-height: 1.6; margin-top: 30px;">
+    <%= translations.trainingSessionCancelled.regards %><br>
+    <strong><%= translations.trainingSessionCancelled.team %></strong>
+  </p>
+</div>

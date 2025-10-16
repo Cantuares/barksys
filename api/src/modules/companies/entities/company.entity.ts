@@ -19,15 +19,15 @@ export class Company {
   @OneToMany(() => User, user => user.company)
   users = new Collection<User>(this);
 
-  @Property()
+  @Property({ type: 'varchar', length: 255 })
   name: string;
 
-  @Property()
+  @Property({ type: 'varchar', length: 255 })
   @Unique()
   @Index()
   email: string;
 
-  @Property({ fieldName: 'tax_id' })
+  @Property({ fieldName: 'tax_id', type: 'varchar', length: 255 })
   @Unique()
   @Index()
   taxId: string;
@@ -35,21 +35,21 @@ export class Company {
   @Enum({ items: () => TaxType, fieldName: 'tax_type' })
   taxType: TaxType;
 
-  @Property({ fieldName: 'billing_address' })
+  @Property({ fieldName: 'billing_address', type: 'varchar', length: 255 })
   billingAddress: string;
 
-  @Property()
+  @Property({ type: 'varchar', length: 255 })
   city: string;
 
-  @Property({ default: 'PT' })
+  @Property({ type: 'varchar', length: 2, default: 'PT' })
   country: string = 'PT';
 
-  @Property({ fieldName: 'postal_code', nullable: true })
+  @Property({ fieldName: 'postal_code', type: 'varchar', length: 20, nullable: true })
   postalCode?: string;
 
-  @Property({ fieldName: 'created_at' })
+  @Property({ fieldName: 'created_at', type: 'timestamp' })
   createdAt: Date = new Date();
 
-  @Property({ fieldName: 'updated_at' })
+  @Property({ fieldName: 'updated_at', type: 'timestamp', onUpdate: () => new Date() })
   updatedAt: Date = new Date();
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { User } from './entities/user.entity';
-import { Session } from '../sessions/entities/session.entity';
-import { SessionsModule } from '../sessions/sessions.module';
+import { Session } from '../auth/sessions/entities/session.entity';
+import { SessionsModule } from '../auth/sessions/sessions.module';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 
