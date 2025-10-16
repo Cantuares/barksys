@@ -1,0 +1,12 @@
+{
+  "config": {
+    "notFound": "Configuração de disponibilidade não encontrada",
+    "created": "Configuração de disponibilidade criada com sucesso",
+    "updated": "Configuração de disponibilidade atualizada com sucesso"
+  },
+  "exception": {
+    "notFound": "Exceção de disponibilidade não encontrada",
+    "created": "Exceção de disponibilidade criada com sucesso",
+    "deleted": "Exceção de disponibilidade deletada com sucesso"
+  }
+}

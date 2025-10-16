@@ -1,0 +1,6 @@
+{
+  "notFound": "Package not found",
+  "created": "Package created successfully",
+  "updated": "Package updated successfully",
+  "deleted": "Package deleted successfully"
+}

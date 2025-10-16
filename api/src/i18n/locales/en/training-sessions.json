@@ -1,0 +1,9 @@
+{
+  "notFound": "Training session not found",
+  "templateNotFound": "Training session template not found",
+  "created": "Training session created successfully",
+  "updated": "Training session updated successfully",
+  "deleted": "Training session deleted successfully",
+  "generated": "Training sessions generated successfully",
+  "noSessionsGenerated": "No training sessions were generated for the specified period"
+}

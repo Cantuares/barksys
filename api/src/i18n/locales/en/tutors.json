@@ -1,0 +1,6 @@
+{
+  "notFound": "Tutor not found",
+  "created": "Tutor created successfully",
+  "updated": "Tutor updated successfully",
+  "alreadyTutor": "User is already a tutor"
+}

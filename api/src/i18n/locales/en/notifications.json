@@ -2,7 +2,13 @@
   "subjects": {
     "userOnboarding": "Complete Your Barksys Onboarding",
     "passwordReset": "Reset Password - Barksys",
-    "onboardingResend": "Complete Your Barksys Onboarding"
+    "onboardingResend": "Complete Your Barksys Onboarding",
+    "packagePurchased": "New Package Purchase - {{tutorName}}",
+    "trainingSessionEnrolled": "Training Session Scheduled for {{petName}}",
+    "trainingSessionConfirmed": "Training Session Confirmed - {{petName}}",
+    "trainingSessionCancelled": "Training Session Cancelled - {{petName}}",
+    "trainingSessionUpdated": "Training Session Updated - {{packageName}}",
+    "passwordChanged": "Password Changed Successfully - Barksys"
   },
   "base": {
     "footer": "This is an automated message from Barksys. Please do not reply to this email.",
@@ -73,5 +79,109 @@
     "closingMessage": "If you have any concerns about your account security, please contact us immediately.",
     "regards": "Best regards,",
     "team": "The Barksys Security Team"
+  },
+  "packagePurchased": {
+    "title": "New Package Purchase",
+    "greeting": "Hello",
+    "message": "A tutor from your company has just purchased a training package.",
+    "detailsTitle": "Purchase Details",
+    "tutorLabel": "Tutor",
+    "emailLabel": "Email",
+    "packageLabel": "Package",
+    "sessionsLabel": "Total Sessions",
+    "sessions": "sessions",
+    "dateLabel": "Purchase Date",
+    "infoTitle": "ℹ️ Information",
+    "infoMessage": "You can view and manage this purchase in your admin dashboard.",
+    "regards": "Best regards,",
+    "team": "The Barksys Team"
+  },
+  "trainingSessionEnrolled": {
+    "title": "Training Session Scheduled",
+    "greeting": "Hello",
+    "message": "Your training session has been successfully scheduled!",
+    "detailsTitle": "Session Details",
+    "petLabel": "Pet",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "cancelButton": "Cancel Enrollment",
+    "cancelTitle": "Need to Cancel?",
+    "cancelMessage": "If you need to cancel this session, click the button below:",
+    "cancelNotice": "Cancelling will free up the slot and credit the session back to your package.",
+    "alternativeTitle": "Having trouble with the button?",
+    "alternativeInstructions": "Copy and paste this link into your browser:",
+    "importantTitle": "⚠️ Important",
+    "importantMessage": "Please cancel at least 24 hours in advance to avoid penalties.",
+    "regards": "Best regards,",
+    "team": "The Barksys Team"
+  },
+  "trainingSessionConfirmed": {
+    "title": "Training Session Confirmed",
+    "greeting": "Hello",
+    "message": "A training session enrollment has been confirmed!",
+    "detailsTitle": "Session Details",
+    "tutorLabel": "Tutor",
+    "petLabel": "Pet",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "infoTitle": "ℹ️ Information",
+    "infoMessage": "The tutor has confirmed their attendance. The session is now confirmed in your schedule.",
+    "regards": "Best regards,",
+    "team": "The Barksys Team"
+  },
+  "trainingSessionCancelled": {
+    "title": "Training Session Cancelled",
+    "greeting": "Hello",
+    "message": "A training session enrollment has been cancelled.",
+    "detailsTitle": "Cancelled Session Details",
+    "tutorLabel": "Tutor",
+    "petLabel": "Pet",
+    "dateLabel": "Date",
+    "timeLabel": "Time",
+    "reasonLabel": "Cancellation Reason",
+    "infoTitle": "ℹ️ Information",
+    "infoMessage": "The slot has been freed and the session credit has been returned to the tutor's package.",
+    "regards": "Best regards,",
+    "team": "The Barksys Team"
+  },
+  "passwordChanged": {
+    "title": "Password Changed Successfully",
+    "greeting": "Hello",
+    "message": "Your password has been successfully changed. All your active sessions have been terminated for security.",
+    "successTitle": "✓ Password Updated",
+    "successMessage": "Your password has been changed successfully. You can now use your new password to log in.",
+    "notYouTitle": "⚠️ Didn't Change Your Password?",
+    "notYouMessage": "If you did not authorize this password change, your account may be compromised. Take immediate action:",
+    "notYouList": [
+      "Reset your password immediately",
+      "Review recent account activity",
+      "Contact our support team immediately",
+      "Enable two-factor authentication if available"
+    ],
+    "tipsTitle": "🔒 Security Tips",
+    "tipsList": [
+      "Never share your password with anyone",
+      "Use a unique password for each service",
+      "Enable two-factor authentication when available",
+      "Regularly update your password"
+    ],
+    "regards": "Best regards,",
+    "team": "The Barksys Security Team"
+  },
+  "trainingSessionUpdated": {
+    "title": "Training Session Updated",
+    "greeting": "Hello",
+    "message": "A training session schedule has been updated.",
+    "sessionDetails": "Session Information",
+    "packageLabel": "Package",
+    "trainerLabel": "Trainer",
+    "changesLabel": "Schedule Changes",
+    "dateLabel": "Date",
+    "startTimeLabel": "Start Time",
+    "endTimeLabel": "End Time",
+    "closingMessage": "If you have any questions about these changes, please contact the trainer or our support team.",
+    "footerText": "This is an automated message from Barksys.",
+    "regards": "Best regards,",
+    "team": "The Barksys Team"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "notFound": "Inscrição na sessão de treinamento não encontrada",
+  "sessionNotFound": "Sessão de treinamento não encontrada",
+  "tutorNotFound": "Tutor não encontrado",
+  "petNotFound": "Pet não encontrado",
+  "petNotOwnedByTutor": "Pet não pertence a este tutor",
+  "noAvailableSlots": "Não há vagas disponíveis para esta sessão de treinamento",
+  "noActivePurchase": "Nenhuma compra de pacote ativa encontrada para este tutor",
+  "noRemainingSessions": "Não há sessões restantes na compra do pacote",
+  "alreadyEnrolled": "Pet já está inscrito nesta sessão de treinamento",
+  "created": "Inscrição criada com sucesso",
+  "cancelled": "Inscrição cancelada com sucesso",
+  "confirmed": "Inscrição confirmada com sucesso",
+  "cannotCancelConfirmed": "Não é possível cancelar uma inscrição confirmada"
+}

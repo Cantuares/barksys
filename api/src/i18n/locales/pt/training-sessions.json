@@ -1,0 +1,9 @@
+{
+  "notFound": "Sessão de treinamento não encontrada",
+  "templateNotFound": "Template de sessão de treinamento não encontrado",
+  "created": "Sessão de treinamento criada com sucesso",
+  "updated": "Sessão de treinamento atualizada com sucesso",
+  "deleted": "Sessão de treinamento deletada com sucesso",
+  "generated": "Sessões de treinamento geradas com sucesso",
+  "noSessionsGenerated": "Nenhuma sessão de treinamento foi gerada para o período especificado"
+}

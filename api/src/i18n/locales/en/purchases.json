@@ -1,0 +1,7 @@
+{
+  "notFound": "Package purchase not found",
+  "tutorNotFound": "Tutor not found",
+  "packageNotFound": "Package not found",
+  "created": "Package purchase created successfully",
+  "updated": "Package purchase updated successfully"
+}

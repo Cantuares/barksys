@@ -1,0 +1,12 @@
+{
+  "errors": {
+    "tutorNotFound": "Tutor não encontrado ou não pertence à sua empresa",
+    "tutorIdRequired": "tutorId é obrigatório para administradores e treinadores",
+    "tutorCanOnlyCreateForSelf": "Tutores só podem criar pets para si mesmos"
+  },
+  "success": {
+    "petCreated": "Pet criado com sucesso",
+    "petUpdated": "Pet atualizado com sucesso",
+    "petDeleted": "Pet excluído com sucesso"
+  }
+}

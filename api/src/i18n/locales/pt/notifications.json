@@ -2,7 +2,13 @@
   "subjects": {
     "userOnboarding": "Complete o Seu Registo no Barksys",
     "passwordReset": "Redefinir Palavra-passe - Barksys",
-    "onboardingResend": "Complete o Seu Registo no Barksys"
+    "onboardingResend": "Complete o Seu Registo no Barksys",
+    "packagePurchased": "Nova Compra de Pacote - {{tutorName}}",
+    "trainingSessionEnrolled": "Aula Agendada para {{petName}}",
+    "trainingSessionConfirmed": "Aula Confirmada - {{petName}}",
+    "trainingSessionCancelled": "Aula Cancelada - {{petName}}",
+    "trainingSessionUpdated": "Aula Atualizada - {{packageName}}",
+    "passwordChanged": "Senha Alterada com Sucesso - Barksys"
   },
   "base": {
     "footer": "Esta é uma mensagem automática do Barksys. Por favor, não responda a este email.",
@@ -73,5 +79,109 @@
     "closingMessage": "Se você tiver alguma preocupação sobre a segurança da sua conta, entre em contato conosco imediatamente.",
     "regards": "Atenciosamente,",
     "team": "Equipe de Segurança Barksys"
+  },
+  "packagePurchased": {
+    "title": "Nova Compra de Pacote",
+    "greeting": "Olá",
+    "message": "Um tutor da sua empresa acabou de comprar um pacote de treinamento.",
+    "detailsTitle": "Detalhes da Compra",
+    "tutorLabel": "Tutor",
+    "emailLabel": "Email",
+    "packageLabel": "Pacote",
+    "sessionsLabel": "Total de Sessões",
+    "sessions": "sessões",
+    "dateLabel": "Data da Compra",
+    "infoTitle": "ℹ️ Informação",
+    "infoMessage": "Pode visualizar e gerir esta compra no painel de administração.",
+    "regards": "Cumprimentos,",
+    "team": "Equipa Barksys"
+  },
+  "trainingSessionEnrolled": {
+    "title": "Aula Agendada",
+    "greeting": "Olá",
+    "message": "A sua aula de treinamento foi agendada com sucesso!",
+    "detailsTitle": "Detalhes da Sessão",
+    "petLabel": "Pet",
+    "dateLabel": "Data",
+    "timeLabel": "Horário",
+    "cancelButton": "Cancelar Inscrição",
+    "cancelTitle": "Precisa Cancelar?",
+    "cancelMessage": "Se precisar cancelar esta sessão, clique no botão abaixo:",
+    "cancelNotice": "Cancelar irá liberar a vaga e devolver a sessão ao seu pacote.",
+    "alternativeTitle": "Problemas com o botão?",
+    "alternativeInstructions": "Copie e cole este link no seu navegador:",
+    "importantTitle": "⚠️ Importante",
+    "importantMessage": "Por favor cancele com pelo menos 24 horas de antecedência para evitar penalidades.",
+    "regards": "Atenciosamente,",
+    "team": "Equipa Barksys"
+  },
+  "trainingSessionConfirmed": {
+    "title": "Aula Confirmada",
+    "greeting": "Olá",
+    "message": "Uma inscrição em aula de treinamento foi confirmada!",
+    "detailsTitle": "Detalhes da Sessão",
+    "tutorLabel": "Tutor",
+    "petLabel": "Pet",
+    "dateLabel": "Data",
+    "timeLabel": "Horário",
+    "infoTitle": "ℹ️ Informação",
+    "infoMessage": "O tutor confirmou a presença. A sessão está agora confirmada no seu horário.",
+    "regards": "Cumprimentos,",
+    "team": "Equipa Barksys"
+  },
+  "trainingSessionCancelled": {
+    "title": "Aula Cancelada",
+    "greeting": "Olá",
+    "message": "Uma inscrição em aula de treinamento foi cancelada.",
+    "detailsTitle": "Detalhes da Sessão Cancelada",
+    "tutorLabel": "Tutor",
+    "petLabel": "Pet",
+    "dateLabel": "Data",
+    "timeLabel": "Horário",
+    "reasonLabel": "Motivo do Cancelamento",
+    "infoTitle": "ℹ️ Informação",
+    "infoMessage": "A vaga foi liberada e o crédito da sessão foi devolvido ao pacote do tutor.",
+    "regards": "Cumprimentos,",
+    "team": "Equipa Barksys"
+  },
+  "passwordChanged": {
+    "title": "Senha Alterada com Sucesso",
+    "greeting": "Olá",
+    "message": "A sua senha foi alterada com sucesso. Todas as suas sessões ativas foram terminadas por segurança.",
+    "successTitle": "✓ Senha Atualizada",
+    "successMessage": "A sua senha foi alterada com sucesso. Pode agora usar a sua nova senha para fazer login.",
+    "notYouTitle": "⚠️ Não Alterou a Sua Senha?",
+    "notYouMessage": "Se não autorizou esta alteração de senha, a sua conta pode estar comprometida. Tome medidas imediatas:",
+    "notYouList": [
+      "Redefina a sua senha imediatamente",
+      "Reveja a atividade recente da conta",
+      "Entre em contacto com a nossa equipa de suporte imediatamente",
+      "Ative a autenticação de dois fatores se disponível"
+    ],
+    "tipsTitle": "🔒 Dicas de Segurança",
+    "tipsList": [
+      "Nunca partilhe a sua senha com ninguém",
+      "Use uma senha única para cada serviço",
+      "Ative a autenticação de dois fatores quando disponível",
+      "Atualize regularmente a sua senha"
+    ],
+    "regards": "Cumprimentos,",
+    "team": "Equipa de Segurança Barksys"
+  },
+  "trainingSessionUpdated": {
+    "title": "Aula Atualizada",
+    "greeting": "Olá",
+    "message": "O horário de uma aula de treinamento foi atualizado.",
+    "sessionDetails": "Informações da Sessão",
+    "packageLabel": "Pacote",
+    "trainerLabel": "Treinador",
+    "changesLabel": "Alterações no Horário",
+    "dateLabel": "Data",
+    "startTimeLabel": "Hora de Início",
+    "endTimeLabel": "Hora de Término",
+    "closingMessage": "Se tiver alguma dúvida sobre estas alterações, entre em contacto com o treinador ou a nossa equipa de suporte.",
+    "footerText": "Esta é uma mensagem automática do Barksys.",
+    "regards": "Cumprimentos,",
+    "team": "Equipa Barksys"
   }
 }
