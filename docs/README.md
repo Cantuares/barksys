@@ -75,7 +75,7 @@ sequenceDiagram
     end
 
     Note over F,D: Logout
-    F->>A: POST /auth/logout
+    F->>A: POST /session/logout
     Note over F,A: Send refresh token
     A->>D: Revoke session
     A-->>F: Success
@@ -270,6 +270,8 @@ api/src/
 │   │
 │   ├── sessions/
 │   │   ├── entities/        # Session entity
+│   │   ├── dto/             # Logout DTOs
+│   │   ├── sessions.controller.ts
 │   │   ├── sessions.service.ts
 │   │   └── sessions.module.ts
 │   │
@@ -288,9 +290,11 @@ api/src/
 │   └── locales/
 │       ├── en/              # English translations
 │       │   ├── auth.json
+│       │   ├── sessions.json
 │       │   └── notifications.json
 │       └── pt/              # Portuguese translations
 │           ├── auth.json
+│           ├── sessions.json
 │           └── notifications.json
 │
 ├── migrations/              # Database migrations
@@ -312,7 +316,10 @@ api/src/
 - `POST /api/auth/password/forgot` - Request password reset
 - `POST /api/auth/password/reset` - Reset password with token
 - `POST /api/auth/refresh` - Refresh access token
-- `POST /api/auth/logout` - Logout and revoke session
+
+### Sessions
+- `POST /api/sessions/logout` - Logout and revoke session
+- `POST /api/sessions/:id/revoke` - Revoke a specific session
 
 ### API Documentation
 - `GET /api/docs` - Swagger UI
