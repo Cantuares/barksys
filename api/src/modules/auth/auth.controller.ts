@@ -12,8 +12,6 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
 import { LoginDto } from './dto/login.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { LogoutDto } from './dto/logout.dto';
-import { LogoutResponseDto } from './dto/logout-response.dto';
 import { PasswordForgotDto } from './dto/password-forgot.dto';
 import { PasswordResetDto } from './dto/password-reset.dto';
 import { LocalAuthGuard } from './guards/local-auth.guard';
@@ -144,19 +142,5 @@ export class AuthController {
   @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid, expired or revoked refresh token' })
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<RefreshTokenResponseDto> {
     return this.authService.refreshAccessToken(refreshTokenDto.refreshToken);
-  }
-
-  @HttpCode(HttpStatus.OK)
-  @Post('logout')
-  @ApiBearerAuth('JWT-auth')
-  @ApiOperation({ summary: 'Logout and revoke refresh token' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Successfully logged out and session revoked',
-    type: LogoutResponseDto,
-  })
-  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid or expired refresh token' })
-  async logout(@Body() logoutDto: LogoutDto): Promise<LogoutResponseDto> {
-    return this.authService.logout(logoutDto.refreshToken);
   }
 }

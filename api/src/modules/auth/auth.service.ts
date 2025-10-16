@@ -13,7 +13,6 @@ import { PasswordForgotResponseDto } from './dto/password-forgot-response.dto';
 import { OnboardingResendResponseDto } from './dto/onboarding-resend-response.dto';
 import { RefreshTokenResponseDto } from './dto/refresh-token-response.dto';
 import { AuthResponseDto } from './dto/auth-response.dto';
-import { LogoutResponseDto } from './dto/logout-response.dto';
 import { User, UserRole } from '../users/entities/user.entity';
 import { JwtPayload } from '../../common/interfaces/jwt-payload.interface';
 
@@ -198,21 +197,6 @@ export class AuthService {
     const access_token = await this.generateToken(user);
 
     return new RefreshTokenResponseDto(access_token);
-  }
-
-  async logout(refreshToken: string): Promise<LogoutResponseDto> {
-    const session = await this.sessionsService.findByRefreshToken(refreshToken);
-    const lang = I18nContext.current()?.lang || 'en';
-
-    if (!session) {
-      throw new UnauthorizedException(this.i18n.translate('auth.logout.invalidToken', { lang }));
-    }
-
-    // Revoke the session
-    await this.sessionsService.revokeSession(session);
-
-    const message = this.i18n.translate('auth.logout.success', { lang });
-    return new LogoutResponseDto(message);
   }
 
   private async generateToken(user: User): Promise<string> {
