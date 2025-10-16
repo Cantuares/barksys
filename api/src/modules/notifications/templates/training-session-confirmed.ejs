@@ -1,0 +1,68 @@
+<!-- Training Session Enrollment Confirmed Email Template -->
+<div style="padding: 20px 0;">
+  <h2 style="color: #2d3748; margin-bottom: 20px;"><%= translations.trainingSessionConfirmed.title %></h2>
+
+  <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">
+    <%= translations.trainingSessionConfirmed.greeting %> <strong><%= trainerName %></strong>,
+  </p>
+
+  <p style="color: #4a5568; line-height: 1.6; margin-bottom: 20px;">
+    <%= translations.trainingSessionConfirmed.message %>
+  </p>
+
+  <!-- Session Details -->
+  <div style="background-color: #f7fafc; border-left: 4px solid #4299e1; padding: 20px; margin: 20px 0; border-radius: 4px;">
+    <h3 style="color: #2d3748; margin-top: 0; margin-bottom: 15px;">
+      <%= translations.trainingSessionConfirmed.detailsTitle %>
+    </h3>
+
+    <table style="width: 100%; border-collapse: collapse;">
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionConfirmed.tutorLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= tutorName %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionConfirmed.petLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= petName %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionConfirmed.dateLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= sessionDate %>
+        </td>
+      </tr>
+      <tr>
+        <td style="padding: 8px 0; color: #718096; font-weight: 600;">
+          <%= translations.trainingSessionConfirmed.timeLabel %>:
+        </td>
+        <td style="padding: 8px 0; color: #2d3748;">
+          <%= sessionStartTime %> - <%= sessionEndTime %>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Info Box -->
+  <div style="background-color: #edf2f7; border-radius: 8px; padding: 16px; margin: 20px 0;">
+    <p style="color: #2d3748; margin: 0; line-height: 1.6;">
+      <strong><%= translations.trainingSessionConfirmed.infoTitle %></strong><br>
+      <%= translations.trainingSessionConfirmed.infoMessage %>
+    </p>
+  </div>
+
+  <!-- Closing -->
+  <p style="color: #4a5568; line-height: 1.6; margin-top: 30px;">
+    <%= translations.trainingSessionConfirmed.regards %><br>
+    <strong><%= translations.trainingSessionConfirmed.team %></strong>
+  </p>
+</div>
