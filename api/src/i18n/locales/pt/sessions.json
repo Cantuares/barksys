@@ -1,0 +1,11 @@
+{
+  "success": {
+    "revoked": "Sessão revogada com sucesso",
+    "logout": "Logout realizado com sucesso"
+  },
+  "errors": {
+    "notFound": "Sessão não encontrada",
+    "cannotRevokeOtherSessions": "Não é possível revogar sessões de outros usuários",
+    "invalidToken": "Token de atualização inválido"
+  }
+}

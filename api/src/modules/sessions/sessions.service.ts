@@ -1,11 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { EntityManager } from '@mikro-orm/postgresql';
+import { I18nContext, I18nService } from 'nestjs-i18n';
 import { Session } from './entities/session.entity';
+import { LogoutResponseDto } from './dto/logout-response.dto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class SessionsService {
-  constructor(private readonly em: EntityManager) {}
+  constructor(
+    private readonly em: EntityManager,
+    private readonly i18n: I18nService,
+  ) {}
 
   async createSession(
     email: string,
@@ -64,5 +69,20 @@ export class SessionsService {
     await this.em.nativeDelete(Session, {
       expiresAt: { $lt: new Date() },
     });
+  }
+
+  async logout(refreshToken: string): Promise<LogoutResponseDto> {
+    const session = await this.findByRefreshToken(refreshToken);
+    const lang = I18nContext.current()?.lang || 'en';
+
+    if (!session) {
+      throw new UnauthorizedException(this.i18n.translate('sessions.errors.invalidToken', { lang }));
+    }
+
+    // Revoke the session
+    await this.revokeSession(session);
+
+    const message = this.i18n.translate('sessions.success.logout', { lang });
+    return new LogoutResponseDto(message);
   }
 }

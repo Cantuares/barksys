@@ -1,0 +1,11 @@
+{
+  "success": {
+    "revoked": "Session revoked successfully",
+    "logout": "Logged out successfully"
+  },
+  "errors": {
+    "notFound": "Session not found",
+    "cannotRevokeOtherSessions": "Cannot revoke sessions of other users",
+    "invalidToken": "Invalid refresh token"
+  }
+}

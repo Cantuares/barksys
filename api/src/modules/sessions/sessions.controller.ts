@@ -1,9 +1,11 @@
-import { Controller, Post, Param, HttpStatus, ForbiddenException, NotFoundException } from '@nestjs/common';
+import { Controller, Post, Param, Body, HttpStatus, HttpCode, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiParam } from '@nestjs/swagger';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { SessionsService } from './sessions.service';
 import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { LogoutDto } from './dto/logout.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
 
 @ApiTags('Sessions')
 @ApiBearerAuth('JWT-auth')
@@ -13,6 +15,19 @@ export class SessionsController {
     private readonly sessionsService: SessionsService,
     private readonly i18n: I18nService,
   ) {}
+
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  @ApiOperation({ summary: 'Logout and revoke refresh token' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Successfully logged out and session revoked',
+    type: LogoutResponseDto,
+  })
+  @ApiResponse({ status: HttpStatus.UNAUTHORIZED, description: 'Invalid or expired refresh token' })
+  async logout(@Body() logoutDto: LogoutDto): Promise<LogoutResponseDto> {
+    return this.sessionsService.logout(logoutDto.refreshToken);
+  }
 
   @Post(':id/revoke')
   @ApiOperation({ summary: 'Revoke a specific session' })
