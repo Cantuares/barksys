@@ -14,32 +14,25 @@ import { FormField } from '../components/ui/FormField';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
 
 export default function ForgotPasswordPage() {
-  const { forgotPassword, isLoading, error, clearError } = useAuth();
+  const { forgotPassword, isLoading, error } = useAuth();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = React.useState(false);
-  
+
   const forgotPasswordSchema = React.useMemo(() => z.object({
     email: z.string().email(t('forgotPassword.emailInvalid')).min(1, t('forgotPassword.emailRequired')),
   }), [t]);
-  
+
   type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
-    clearErrors,
   } = useForm<ForgotPasswordFormData>({
     resolver: zodResolver(forgotPasswordSchema),
-    mode: 'onBlur', // Only validate on blur, not on change
-    reValidateMode: 'onBlur', // Only revalidate on blur
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
-
-  // Clear any existing errors when component mounts
-  React.useEffect(() => {
-    clearErrors();
-  }, [clearErrors]);
 
   const onSubmit = async (data: ForgotPasswordFormData) => {
     try {

@@ -15,36 +15,29 @@ import { ErrorMessage } from '../components/ui/ErrorMessage';
 
 export default function ResetPasswordPage() {
   const { token } = useParams();
-  const { resetPassword, isLoading, error, clearError } = useAuth();
+  const { resetPassword, isLoading, error } = useAuth();
   const { t } = useTranslation();
   const [isSubmitted, setIsSubmitted] = React.useState(false);
-  
+
   const resetPasswordSchema = React.useMemo(() => z.object({
-    newPassword: z.string().min(6, t('resetPassword.passwordMinLength')),
+    newPassword: z.string().min(8, t('resetPassword.passwordMinLength')),
     confirmPassword: z.string().min(1, t('resetPassword.confirmPasswordRequired')),
   }).refine((data) => data.newPassword === data.confirmPassword, {
     message: t('resetPassword.passwordsDoNotMatch'),
     path: ["confirmPassword"],
   }), [t]);
-  
+
   type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
-    clearErrors,
   } = useForm<ResetPasswordFormData>({
     resolver: zodResolver(resetPasswordSchema),
-    mode: 'onBlur', // Only validate on blur, not on change
-    reValidateMode: 'onBlur', // Only revalidate on blur
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
-
-  // Clear any existing errors when component mounts
-  React.useEffect(() => {
-    clearErrors();
-  }, [clearErrors]);
 
   const onSubmit = async (data: ResetPasswordFormData) => {
     if (!token) return;
