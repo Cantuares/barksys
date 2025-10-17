@@ -1,4 +1,5 @@
-import { format, parseISO, isValid } from 'date-fns';
+import { format, parseISO, isValid, formatDistanceToNow } from 'date-fns';
+import { pt } from 'date-fns/locale';
 
 /**
  * Format a date string to YYYY-MM-DD format
@@ -117,5 +118,27 @@ export const isValidDate = (dateString: string): boolean => {
     return isValid(date);
   } catch {
     return false;
+  }
+};
+
+/**
+ * Format a date to a relative time string using date-fns (e.g., "há 2 horas", "há cerca de 1 minuto")
+ * @param dateString - Date string or Date object
+ * @returns Formatted relative time string in Portuguese
+ */
+export const formatTimeAgo = (dateString: string | Date): string => {
+  try {
+    const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
+
+    if (!isValid(date)) {
+      return 'Data inválida';
+    }
+
+    return formatDistanceToNow(date, {
+      addSuffix: true,
+      locale: pt,
+    });
+  } catch {
+    return 'Data inválida';
   }
 };
