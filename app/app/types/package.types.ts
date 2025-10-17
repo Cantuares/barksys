@@ -18,14 +18,14 @@ export interface PackagePurchase {
   purchaseDate: string;
   usedSessions: number;
   totalSessions?: number;
-  status: 'active' | 'expired' | 'cancelled';
+  status: 'active' | 'expired' | 'used';
   createdAt: string;
   updatedAt: string;
 }
 
 export interface CreatePackagePurchaseData {
-  package: string;
-  purchaseDate: string;
+  tutorId: string;
+  packageId: string;
 }
 
 export interface PackageResponse {

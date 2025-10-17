@@ -65,12 +65,12 @@ export default function TutorPetsPage() {
         <main className="p-4 space-y-6">
           {/* Add Pet Button */}
           <div className="bg-white rounded-xl shadow p-4">
-            <button 
+            <button
               className="w-full flex items-center justify-center space-x-2 py-3 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:bg-gray-50 transition"
               onClick={() => navigate('/tutor/pets/new')}
             >
               <i className="fas fa-plus text-gray-400"></i>
-              <span>Adicionar Novo Cão</span>
+              <span>{t('dashboard.tutor.addNewPet')}</span>
             </button>
           </div>
 

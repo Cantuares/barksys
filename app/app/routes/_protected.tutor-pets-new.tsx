@@ -12,7 +12,7 @@ import { useAuth } from '../lib/hooks/useAuth';
 import { useRequireAuth } from '../lib/hooks/useRequireAuth';
 import { usePets } from '../lib/hooks/usePets';
 import { UserRole } from '../types/auth.types';
-import type { CreatePetData } from '../../types/pet.types';
+import type { CreatePetData } from '../types/pet.types';
 
 export default function TutorPetNewPage() {
   const { user } = useAuth();

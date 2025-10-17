@@ -53,8 +53,8 @@ export default function DashboardPage() {
   return (
     <div className="bg-gray-50 min-h-screen pb-20">
       {/* Header */}
-      <Header 
-        title="DogTrain"
+      <Header
+        title="BarkSys"
         subtitle={`${t('dashboard.admin.title')} - ${user?.fullName || 'Admin'}!`}
       />
 
