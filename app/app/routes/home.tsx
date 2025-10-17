@@ -31,13 +31,13 @@ export default function HomePage() {
   }, [isAuthenticated, user, navigate]);
 
   return (
-    <AuthLayout title="DogTrain" subtitle="Sistema de Gestão para Treino de Cães">
+    <AuthLayout title="BarkSys" subtitle="Sistema de Gestão para Treino de Cães">
       <Card className="text-center">
         <div className="mb-8">
           <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-blue-100 mb-4">
             <i className="fas fa-paw text-blue-600 text-2xl"></i>
           </div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">DogTrain</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">BarkSys</h1>
           <p className="text-xl text-gray-600 mb-8">
             Sistema de gestão para treino de cães
           </p>
