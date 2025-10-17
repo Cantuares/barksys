@@ -64,7 +64,7 @@ export class TutorDashboardService {
           status: EnrollmentStatus.ENROLLED,
         },
         {
-          populate: ['trainingSession', 'trainingSession.trainer', 'pet'],
+          populate: ['trainingSession', 'trainingSession.trainer', 'trainingSession.package', 'pet'],
           limit: 100, // Get more to filter and sort in code
         },
       ),
@@ -120,14 +120,25 @@ export class TutorDashboardService {
         const sessionDate = new Date(session.date);
         if (sessionDate < now) return null; // Skip past sessions
 
+        const pkg = session.package;
+        const trainer = session.trainer;
+
         const result: TutorUpcomingSessionDto = {
           id: session.id,
           date: session.date,
           startTime: session.startTime,
           endTime: session.endTime,
+          maxParticipants: session.maxParticipants,
+          availableSlots: session.availableSlots,
+          package: {
+            id: pkg?.id || '',
+            name: pkg?.name || 'Unknown Package',
+            description: pkg?.description,
+          },
           trainer: {
-            id: session.trainer?.id || '',
-            name: session.trainer?.fullName || 'Unknown',
+            id: trainer?.id || '',
+            fullName: trainer?.fullName || 'Unknown',
+            email: trainer?.email || '',
           },
           pet: {
             id: pet?.id || '',

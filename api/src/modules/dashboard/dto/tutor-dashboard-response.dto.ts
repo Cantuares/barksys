@@ -15,9 +15,17 @@ export class TutorUpcomingSessionDto {
   date: Date;
   startTime: string;
   endTime: string;
-  trainer: {
+  maxParticipants: number;
+  availableSlots: number;
+  package: {
     id: string;
     name: string;
+    description?: string;
+  };
+  trainer: {
+    id: string;
+    fullName: string;
+    email: string;
   };
   pet: {
     id: string;

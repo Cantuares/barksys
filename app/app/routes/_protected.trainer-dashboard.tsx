@@ -53,8 +53,8 @@ export default function TrainerDashboardPage() {
   return (
     <div className="bg-gray-50 min-h-screen pb-20">
       {/* Header */}
-      <Header 
-        title="DogTrain"
+      <Header
+        title="BarkSys"
         subtitle={`Trainer - ${user?.fullName || 'Trainer'}!`}
       />
 
@@ -180,13 +180,8 @@ export default function TrainerDashboardPage() {
                 {stats.upcomingSessions.map((session) => (
                   <SessionCard
                     key={session.id}
-                    id={session.id}
-                    date={session.date.toString()}
-                    startTime={session.startTime}
-                    endTime={session.endTime}
-                    status={session.status}
-                    enrolledCount={session.enrolledCount}
-                    maxParticipants={session.maxParticipants}
+                    session={session}
+                    onViewDetails={() => navigate(`/trainer/sessions/${session.id}`)}
                   />
                 ))}
               </div>
