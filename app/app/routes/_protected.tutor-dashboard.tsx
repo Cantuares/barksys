@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
-import { Header } from '../components/layout/Header';
-import { BottomNavigation } from '../components/layout/BottomNavigation';
+import { TutorLayout } from '../components/layout/TutorLayout';
 import { StatsCard } from '../components/ui/StatsCard';
 import { WelcomeBanner } from '../components/ui/WelcomeBanner';
 import { QuickActions } from '../components/ui/QuickActions';
@@ -35,13 +34,13 @@ export default function TutorDashboardPage() {
       icon: 'calendar-plus',
       label: t('dashboard.tutor.scheduleSession'),
       colorClass: 'primary',
-      onClick: () => navigate('/sessions')
+      onClick: () => navigate('/tutor/sessions')
     },
     {
       icon: 'clipboard-list',
       label: t('dashboard.tutor.myEnrollments'),
       colorClass: 'blue',
-      onClick: () => navigate('/enrollments')
+      onClick: () => navigate('/tutor/enrollments')
     },
     {
       icon: 'paw',
@@ -50,56 +49,51 @@ export default function TutorDashboardPage() {
       onClick: () => navigate('/tutor/pets')
     },
     {
-      icon: 'shopping-bag',
+      icon: 'box',
       label: t('dashboard.tutor.packages'),
       colorClass: 'purple',
-      onClick: () => navigate('/packages')
+      onClick: () => navigate('/tutor/packages')
     }
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen pb-20">
-      {/* Header */}
-      <Header 
-        title="DogTrain"
-        subtitle={`${t('dashboard.tutor.title')} - ${user?.fullName || 'Tutor'}!`}
-      />
-
+    <TutorLayout
+      title="BarkSys"
+      subtitle={`${t('dashboard.tutor.title')} - ${user?.fullName || 'Tutor'}!`}
+    >
       {/* Loading State */}
       {isLoading ? (
-        <main className="p-4 space-y-6 flex items-center justify-center min-h-screen">
+        <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">{t('dashboard.common.loading')}</p>
           </div>
-        </main>
+        </div>
       ) : error ? (
         /* Error State */
-        <main className="p-4">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
-            <i className="fas fa-exclamation-triangle text-red-600 text-2xl mb-2"></i>
-            <p className="text-red-800 font-medium mb-2">{t('dashboard.common.error')}</p>
-            <p className="text-red-600 text-sm mb-4">{error}</p>
-            <button 
-              className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
-              onClick={refreshStats}
-            >
-              {t('dashboard.common.tryAgain')}
-            </button>
-          </div>
-        </main>
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+          <i className="fas fa-exclamation-triangle text-red-600 text-2xl mb-2"></i>
+          <p className="text-red-800 font-medium mb-2">{t('dashboard.common.error')}</p>
+          <p className="text-red-600 text-sm mb-4">{error}</p>
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded-lg text-sm hover:bg-red-600 transition-colors"
+            onClick={refreshStats}
+          >
+            {t('dashboard.common.tryAgain')}
+          </button>
+        </div>
       ) : stats ? (
         /* Main Content */
-        <main className="p-4 space-y-6">
+        <div className="space-y-6">
           {/* Welcome Banner */}
           <WelcomeBanner
             title={t('dashboard.tutor.title')}
             description={t('dashboard.tutor.subtitle')}
-            buttonText={stats.upcomingSessions?.length ? 
-              t('dashboard.tutor.seeUpcomingSessions') : 
+            buttonText={stats.upcomingSessions?.length ?
+              t('dashboard.tutor.seeUpcomingSessions') :
               t('dashboard.tutor.scheduleFirstSession')
             }
-            onButtonClick={() => navigate('/sessions')}
+            onButtonClick={() => navigate('/tutor/sessions')}
           />
 
           {/* Stats Cards */}
@@ -140,9 +134,9 @@ export default function TutorDashboardPage() {
             <div className="bg-white rounded-xl shadow p-4">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="font-bold text-lg">{t('dashboard.tutor.upcomingSessions')}</h2>
-                <button 
+                <button
                   className="text-primary-500 text-sm"
-                  onClick={() => navigate('/sessions')}
+                  onClick={() => navigate('/tutor/sessions')}
                 >
                   {t('dashboard.tutor.seeAll')}
                 </button>
@@ -151,13 +145,12 @@ export default function TutorDashboardPage() {
                 {stats.upcomingSessions.map((session) => (
                   <SessionCard
                     key={session.id}
-                    id={session.id}
-                    petName={session.pet?.name}
-                    trainerName={session.trainer?.name}
-                    date={session.date}
-                    startTime={session.startTime}
-                    endTime={session.endTime}
-                    status="Scheduled"
+                    session={{
+                      ...session,
+                      date: session.date instanceof Date ? session.date.toISOString().split('T')[0] : session.date,
+                      status: session.status as any,
+                    }}
+                    onViewDetails={() => navigate(`/tutor/sessions/${session.id}`)}
                   />
                 ))}
               </div>
@@ -167,9 +160,9 @@ export default function TutorDashboardPage() {
               <div className="text-center py-8">
                 <i className="fas fa-calendar-times text-gray-300 text-4xl mb-4"></i>
                 <p className="text-gray-500 mb-4">{t('dashboard.tutor.noSessions')}</p>
-                <button 
+                <button
                   className="bg-primary-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
-                  onClick={() => navigate('/sessions')}
+                  onClick={() => navigate('/tutor/sessions')}
                 >
                   <i className="fas fa-plus mr-2"></i>{t('dashboard.tutor.scheduleSession')}
                 </button>
@@ -182,9 +175,9 @@ export default function TutorDashboardPage() {
             <div className="bg-white rounded-xl shadow p-4">
               <div className="flex justify-between items-center mb-3">
                 <h2 className="font-bold text-lg">{t('dashboard.tutor.myPackages')}</h2>
-                <button 
+                <button
                   className="text-primary-500 text-sm"
-                  onClick={() => navigate('/packages')}
+                  onClick={() => navigate('/tutor/packages')}
                 >
                   {t('dashboard.tutor.seeAll')}
                 </button>
@@ -207,9 +200,9 @@ export default function TutorDashboardPage() {
           <div className="bg-white rounded-xl shadow p-4">
             <div className="flex justify-between items-center mb-3">
               <h2 className="font-bold text-lg">{t('dashboard.tutor.myPets')}</h2>
-              <button 
+              <button
                 className="text-primary-500 text-sm"
-                onClick={() => navigate('/pets/new')}
+                onClick={() => navigate('/tutor/pets/new')}
               >
                 {t('dashboard.tutor.addPet')}
               </button>
@@ -229,23 +222,17 @@ export default function TutorDashboardPage() {
               <div className="text-center py-8">
                 <i className="fas fa-paw text-gray-300 text-4xl mb-4"></i>
                 <p className="text-gray-500 mb-4">{t('dashboard.tutor.noPetsRegistered')}</p>
-                <button 
+                <button
                   className="bg-primary-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
-                  onClick={() => navigate('/pets/new')}
+                  onClick={() => navigate('/tutor/pets/new')}
                 >
                   <i className="fas fa-plus mr-2"></i>{t('dashboard.tutor.registerFirstPet')}
                 </button>
               </div>
             )}
           </div>
-        </main>
+        </div>
       ) : null}
-
-      {/* Bottom Navigation */}
-      <BottomNavigation 
-        role="tutor"
-        activeRoute="home"
-      />
-    </div>
+    </TutorLayout>
   );
 }

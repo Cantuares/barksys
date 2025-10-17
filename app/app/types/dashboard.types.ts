@@ -95,9 +95,17 @@ export interface TutorUpcomingSession {
   date: Date;
   startTime: string;
   endTime: string;
-  trainer: {
+  maxParticipants: number;
+  availableSlots: number;
+  package: {
     id: string;
     name: string;
+    description?: string;
+  };
+  trainer: {
+    id: string;
+    fullName: string;
+    email: string;
   };
   pet: {
     id: string;
@@ -112,28 +120,4 @@ export interface TutorDashboardResponse {
   sessionsThisWeek: number;
   remainingSessions: RemainingSessions;
   upcomingSessions: TutorUpcomingSession[];
-}
-
-// Legacy types for backward compatibility
-export interface TutorDashboardStats {
-  totalPets: number;
-  sessionsToday: number;
-  sessionsThisWeek: number;
-  remainingSessions: {
-    total: number;
-    byPackage: Array<{
-      packageName: string;
-      usedSessions: number;
-      total: number;
-      remaining: number;
-    }>;
-  };
-  upcomingSessions: Array<{
-    id: string;
-    date: string;
-    startTime: string;
-    endTime: string;
-    pet: { name: string };
-    trainer: { name: string };
-  }>;
 }

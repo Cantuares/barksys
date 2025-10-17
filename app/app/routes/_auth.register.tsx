@@ -14,40 +14,33 @@ import { FormField } from '../components/ui/FormField';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
 
 export default function RegisterPage() {
-  const { register: registerUser, isLoading, error, clearError } = useAuth();
+  const { register: registerUser, isLoading, error } = useAuth();
   const { t } = useTranslation();
-  
+
   const registerSchema = React.useMemo(() => z.object({
     fullName: z.string().min(1, t('register.fullNameRequired')),
     email: z.string().email(t('register.emailInvalid')).min(1, t('register.emailRequired')),
     password: z.string()
       .min(8, t('register.passwordMinLength'))
-      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, 
+      .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
         t('register.passwordComplexity')),
     confirmPassword: z.string().min(1, t('register.confirmPasswordRequired')),
   }).refine((data) => data.password === data.confirmPassword, {
     message: t('register.passwordsDoNotMatch'),
     path: ["confirmPassword"],
   }), [t]);
-  
+
   type RegisterFormData = z.infer<typeof registerSchema>;
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
-    clearErrors,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
-    mode: 'onBlur', // Only validate on blur, not on change
-    reValidateMode: 'onBlur', // Only revalidate on blur
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
-
-  // Clear any existing errors when component mounts
-  React.useEffect(() => {
-    clearErrors();
-  }, [clearErrors]);
 
   const onSubmit = async (data: RegisterFormData) => {
     try {

@@ -15,39 +15,28 @@ import { FormField } from '../components/ui/FormField';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
 
 export default function LoginPage() {
-  const { login, isLoading, error, clearError } = useAuth();
+  const { login, isLoading, error } = useAuth();
   const { t } = useTranslation();
-  
+
   // Redirect authenticated users to their dashboard
   useRequireGuest();
-  
+
   const loginSchema = React.useMemo(() => z.object({
     email: z.string().email(t('login.emailInvalid')).min(1, t('login.emailRequired')),
     password: z.string().min(1, t('login.passwordRequired')),
-    remember: z.boolean().optional(),
   }), [t]);
-  
+
   type LoginFormData = z.infer<typeof loginSchema>;
-  
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-    trigger,
-    clearErrors,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: 'onBlur', // Only validate on blur, not on change
-    reValidateMode: 'onBlur', // Only revalidate on blur
-    defaultValues: {
-      remember: false,
-    },
+    mode: 'onBlur',
+    reValidateMode: 'onBlur',
   });
-
-  // Clear any existing errors when component mounts
-  React.useEffect(() => {
-    clearErrors();
-  }, [clearErrors]);
 
   const onSubmit = async (data: LoginFormData) => {
     try {
@@ -91,19 +80,7 @@ export default function LoginPage() {
             />
           </FormField>
 
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input 
-                id="remember" 
-                type="checkbox" 
-                {...register('remember')}
-                className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-gray-300 rounded"
-              />
-              <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">
-                {t('login.remember')}
-              </label>
-            </div>
+          <div className="flex items-center justify-end">
             <div className="text-sm">
               <Link to="/forgot-password" className="font-medium text-primary-600 hover:text-primary-500">
                 {t('login.forgotPassword')}

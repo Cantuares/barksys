@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { ArrowLeft, PawPrint, Menu, Bell } from 'lucide-react';
 import { cn } from '../../lib/utils';
+import { useNotificationStore } from '../../lib/stores/notifications.store';
 import { NotificationBadge } from '../ui/NotificationBadge';
 import { NotificationDropdown } from '../ui/NotificationDropdown';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
@@ -29,6 +30,23 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const { unreadCount, fetchUnreadCount } = useNotificationStore();
+
+  useEffect(() => {
+    if (showNotifications) {
+      // Fetch unread count immediately
+      fetchUnreadCount();
+
+      // Start polling every 30 seconds
+      const interval = setInterval(() => {
+        fetchUnreadCount();
+      }, 30000);
+
+      return () => {
+        clearInterval(interval);
+      };
+    }
+  }, [showNotifications]);
 
   const handleBackClick = () => {
     if (onBackClick) {
@@ -70,16 +88,18 @@ export const Header: React.FC<HeaderProps> = ({
           
           {showNotifications && (
             <div className="relative">
-              <button 
+              <button
                 className="p-2 rounded-full bg-gray-100 relative hover:bg-gray-200 transition-colors"
                 onClick={toggleNotifications}
               >
                 <Bell className="h-5 w-5 text-gray-600" />
-                <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  3
-                </span>
+                {unreadCount > 0 && (
+                  <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-bold">
+                    {unreadCount > 9 ? '9+' : unreadCount}
+                  </span>
+                )}
               </button>
-              <NotificationDropdown 
+              <NotificationDropdown
                 isOpen={isNotificationOpen}
                 onToggle={toggleNotifications}
               />

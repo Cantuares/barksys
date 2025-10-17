@@ -197,7 +197,6 @@ export const useAuthStore = create<AuthStore>()(
 
         // Set up API client with current token
         apiClient.setAuthTokenGetter(() => get().accessToken);
-        console.log('🔑 Token configured in API client during initialization:', accessToken?.substring(0, 20) + '...');
 
         // Try to refresh token to validate session
         try {

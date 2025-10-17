@@ -1,6 +1,6 @@
 export interface Pet {
-  id: number;
-  tutor: number | { id: number; name: string };
+  id: string;
+  tutor: string | { id: string; name: string };
   name: string;
   species: 'dog' | 'other';
   breed?: string | null;
@@ -34,15 +34,15 @@ export interface CreatePetData {
 export interface UpdatePetData extends Partial<CreatePetData> {}
 
 export interface PetSession {
-  id: number;
-  pet: number | Pet;
-  session: number | {
-    id: number;
+  id: string;
+  pet: string | Pet;
+  session: string | {
+    id: string;
     date: string;
     startTime: string;
     endTime: string;
-    trainer: number | { id: number; name: string };
-    package: number | { id: number; name: string };
+    trainer: string | { id: string; name: string };
+    package: string | { id: string; name: string };
   };
   status: 'scheduled' | 'completed' | 'cancelled';
   enrollmentDate: string;

@@ -2,55 +2,61 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router';
 import { cn } from '../../lib/utils';
 import { useAuth } from '../../lib/hooks/useAuth';
+import { UserRole } from '../../types/auth.types';
 
 interface NavigationItem {
   icon: string;
   label: string;
   route?: string;
-  action?: string;
-  active?: boolean;
+  action?: 'logout';
 }
 
 interface BottomNavigationProps extends React.HTMLAttributes<HTMLElement> {
-  role?: 'admin' | 'trainer' | 'tutor';
-  activeRoute?: string;
+  role?: UserRole;
   className?: string;
 }
 
-export const BottomNavigation: React.FC<BottomNavigationProps> = ({ 
-  role = 'admin', 
-  activeRoute = 'home',
-  className, 
-  ...props 
+export const BottomNavigation: React.FC<BottomNavigationProps> = ({
+  role,
+  className,
+  ...props
 }) => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+
+  // Use role from props or fall back to user's role
+  const effectiveRole = role || user?.role || UserRole.TUTOR;
 
   const getNavigationItems = (): NavigationItem[] => {
-    const roleNavigation = {
-      admin: [
-        { icon: 'fa-home', label: 'Início', route: '/dashboard', active: activeRoute === 'dashboard' },
-        { icon: 'fa-chart-bar', label: 'Relatórios', route: '/admin/reports', active: activeRoute === 'reports' },
-        { icon: 'fa-users', label: 'Equipa', route: '/admin/team', active: activeRoute === 'team' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout', active: false }
+    const roleNavigation: Record<UserRole, NavigationItem[]> = {
+      [UserRole.ADMIN]: [
+        { icon: 'fa-home', label: 'Início', route: '/dashboard' },
+        { icon: 'fa-chart-bar', label: 'Relatórios', route: '/admin/reports' },
+        { icon: 'fa-users', label: 'Equipa', route: '/admin/team' },
+        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
       ],
-      trainer: [
-        { icon: 'fa-home', label: 'Início', route: '/trainer/dashboard', active: activeRoute === 'dashboard' },
-        { icon: 'fa-calendar', label: 'Agenda', route: '/trainer/schedule', active: activeRoute === 'schedule' },
-        { icon: 'fa-users', label: 'Inscrições', route: '/trainer/enrollments', active: activeRoute === 'enrollments' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout', active: false }
+      [UserRole.TRAINER]: [
+        { icon: 'fa-home', label: 'Início', route: '/trainer/dashboard' },
+        { icon: 'fa-calendar', label: 'Agenda', route: '/trainer/schedule' },
+        { icon: 'fa-users', label: 'Inscrições', route: '/trainer/enrollments' },
+        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
       ],
-      tutor: [
-        { icon: 'fa-home', label: 'Início', route: '/tutor/dashboard', active: activeRoute === 'dashboard' },
-        { icon: 'fa-calendar', label: 'Sessões', route: '/tutor/sessions', active: activeRoute === 'sessions' },
-        { icon: 'fa-paw', label: 'Meus Pets', route: '/tutor/pets', active: activeRoute === 'pets' },
-        { icon: 'fa-box', label: 'Pacotes', route: '/tutor/packages', active: activeRoute === 'packages' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout', active: false }
+      [UserRole.TUTOR]: [
+        { icon: 'fa-home', label: 'Início', route: '/tutor/dashboard' },
+        { icon: 'fa-calendar', label: 'Sessões', route: '/tutor/sessions' },
+        { icon: 'fa-paw', label: 'Meus Pets', route: '/tutor/pets' },
+        { icon: 'fa-box', label: 'Pacotes', route: '/tutor/packages' },
+        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
       ]
     };
 
-    return roleNavigation[role];
+    return roleNavigation[effectiveRole];
+  };
+
+  const isRouteActive = (itemRoute?: string): boolean => {
+    if (!itemRoute) return false;
+    return location.pathname.startsWith(itemRoute);
   };
 
   const handleItemClick = (item: NavigationItem, event?: React.MouseEvent) => {
@@ -73,22 +79,31 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
   const navigationItems = getNavigationItems();
 
   return (
-    <nav className={cn('fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200', className)} {...props}>
-      <div className="grid grid-cols-4">
-        {navigationItems.map((item, index) => (
-          <button
-            key={index}
-            type="button"
-            className={cn(
-              'flex flex-col items-center py-3 transition-colors hover:bg-gray-50 active:bg-gray-100',
-              item.active ? 'text-blue-500' : 'text-gray-500'
-            )}
-            onClick={(e) => handleItemClick(item, e)}
-          >
-            <i className={`fas ${item.icon} text-xl`}></i>
-            <span className="text-xs mt-1">{item.label}</span>
-          </button>
-        ))}
+    <nav className={cn('fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-10', className)} {...props}>
+      <div className={cn(
+        'grid',
+        navigationItems.length === 4 ? 'grid-cols-4' :
+        navigationItems.length === 5 ? 'grid-cols-5' :
+        'grid-cols-3'
+      )}>
+        {navigationItems.map((item, index) => {
+          const isActive = isRouteActive(item.route);
+
+          return (
+            <button
+              key={index}
+              type="button"
+              className={cn(
+                'flex flex-col items-center py-3 transition-colors hover:bg-gray-50 active:bg-gray-100',
+                isActive ? 'text-primary-500' : 'text-gray-500'
+              )}
+              onClick={(e) => handleItemClick(item, e)}
+            >
+              <i className={`fas ${item.icon} text-xl`}></i>
+              <span className="text-xs mt-1">{item.label}</span>
+            </button>
+          );
+        })}
       </div>
     </nav>
   );

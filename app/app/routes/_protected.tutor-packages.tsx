@@ -47,11 +47,7 @@ export default function TutorPackagesPage() {
   const onConfirmPurchase = async () => {
     if (selectedPackage) {
       try {
-        const purchaseData = {
-          package: selectedPackage.id,
-          purchaseDate: new Date().toISOString().split('T')[0]
-        };
-        await purchasePackage(purchaseData);
+        await purchasePackage(selectedPackage.id);
         setShowPurchaseConfirm(false);
         setSelectedPackage(null);
       } catch (error) {

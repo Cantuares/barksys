@@ -2,13 +2,13 @@ import React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const cardVariants = cva(
-  'rounded-2xl shadow-lg',
+  'rounded-2xl border border-gray-200',
   {
     variants: {
       variant: {
         default: 'bg-white',
-        outlined: 'bg-white border border-gray-200',
-        elevated: 'bg-white shadow-xl',
+        outlined: 'bg-white border-2',
+        elevated: 'bg-white shadow-sm',
       },
       padding: {
         none: '',

@@ -42,14 +42,10 @@ export default function TutorPackageDetailPage() {
   const onConfirmPurchase = async () => {
     if (packageData) {
       try {
-        const purchaseData = {
-          package: packageData.id,
-          purchaseDate: new Date().toISOString().split('T')[0]
-        };
-        await purchasePackage(purchaseData);
+        await purchasePackage(packageData.id);
         setShowPurchaseConfirm(false);
-        navigate('/tutor/packages', { 
-          state: { purchased: packageData.id } 
+        navigate('/tutor/packages', {
+          state: { purchased: packageData.id }
         });
       } catch (error) {
         console.error('Purchase failed:', error);

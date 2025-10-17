@@ -20,10 +20,10 @@ export const usePackages = () => {
 
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const response = await packagesApi.getPackages(1, 50);
-      setPackages(response.docs);
+      const packagesData = await packagesApi.getPackages(50, 0);
+      setPackages(packagesData);
     } catch (err) {
       console.error('Failed to load packages:', err);
       setError(t('packages.failedToLoadPackages'));
@@ -33,16 +33,16 @@ export const usePackages = () => {
   }, [isInitialized, isAuthenticated, t]);
 
   const loadMyPurchases = useCallback(async () => {
-    // Only load purchases if auth is initialized and user is authenticated
-    if (!isInitialized || !isAuthenticated) {
+    // Only load purchases if auth is initialized, user is authenticated, and user exists
+    if (!isInitialized || !isAuthenticated || !user?.id) {
       return;
     }
 
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const purchases = await packagesApi.getMyPurchases();
+      const purchases = await packagesApi.getTutorPurchases(user.id);
       setMyPurchases(purchases);
     } catch (err) {
       console.error('Failed to load purchases:', err);
@@ -50,14 +50,20 @@ export const usePackages = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isInitialized, isAuthenticated, t]);
+  }, [isInitialized, isAuthenticated, user?.id, t]);
 
-  const purchasePackage = useCallback(async (data: CreatePackagePurchaseData): Promise<PackagePurchase> => {
+  const purchasePackage = useCallback(async (packageId: string): Promise<PackagePurchase> => {
+    if (!user?.id) {
+      const error = new Error('User not authenticated');
+      setError(t('packages.failedToPurchasePackage'));
+      throw error;
+    }
+
     setIsLoading(true);
     setError(null);
-    
+
     try {
-      const purchase = await packagesApi.purchasePackage(data);
+      const purchase = await packagesApi.purchasePackage(user.id, packageId);
       setMyPurchases(prev => [purchase, ...prev]);
       return purchase;
     } catch (err) {
@@ -67,7 +73,7 @@ export const usePackages = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [t]);
+  }, [user?.id, t]);
 
   const hasActivePurchase = useCallback((packageId: string): boolean => {
     return myPurchases.some(purchase => {

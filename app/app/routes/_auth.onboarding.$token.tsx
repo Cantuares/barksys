@@ -77,19 +77,19 @@ export default function OnboardingPage() {
 
   if (isSubmitted) {
     return (
-      <AuthLayout title={t('nav.dashboard')} subtitle="Cadastro Completo">
+      <AuthLayout title={t('nav.dashboard')} subtitle={t('onboarding.successTitle')}>
         <Card>
           <div className="text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
               <Check className="h-8 w-8 text-green-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Cadastro completo!</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('onboarding.successTitle')}</h2>
             <p className="text-gray-600 mb-6">
-              Sua empresa foi cadastrada com sucesso. Agora você pode fazer login e começar a usar o sistema.
+              {t('onboarding.successMessage')}
             </p>
             <Link to="/login">
               <Button variant="primary" fullWidth>
-                Fazer Login
+                {t('onboarding.successButton')}
               </Button>
             </Link>
           </div>
@@ -100,19 +100,19 @@ export default function OnboardingPage() {
 
   if (!token) {
     return (
-      <AuthLayout title={t('nav.dashboard')} subtitle="Token Inválido">
+      <AuthLayout title={t('nav.dashboard')} subtitle={t('onboarding.errorTitle')}>
         <Card>
           <div className="text-center">
             <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
               <AlertTriangle className="h-8 w-8 text-red-600" />
             </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">Token inválido</h2>
+            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('onboarding.errorTitle')}</h2>
             <p className="text-gray-600 mb-6">
-              O link de cadastro é inválido ou expirou. Entre em contato com o suporte.
+              {t('onboarding.errorMessage')}
             </p>
             <Link to="/register">
               <Button variant="primary" fullWidth>
-                Criar Nova Conta
+                {t('onboarding.errorButton')}
               </Button>
             </Link>
           </div>
@@ -122,117 +122,144 @@ export default function OnboardingPage() {
   }
 
   return (
-    <AuthLayout title={t('nav.dashboard')} subtitle="Complete seu cadastro">
+    <AuthLayout title={t('nav.dashboard')} subtitle={t('onboarding.subtitle')}>
       <Card>
         <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Complete seu cadastro</h2>
-          <p className="text-gray-500 mt-2">Preencha os dados da sua empresa</p>
+          <h2 className="text-2xl font-bold text-gray-800">{t('onboarding.formTitle')}</h2>
+          <p className="text-gray-500 mt-2">{t('onboarding.formDescription')}</p>
         </div>
 
         {error && <ErrorMessage message={error} />}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormField label="Nome da empresa" htmlFor="name" error={errors.name?.message}>
+          <FormField label={t('onboarding.companyName')} htmlFor="name" error={errors.name?.message} required>
             <Input
               type="text"
               id="name"
-              placeholder="Nome da sua empresa"
+              placeholder={t('onboarding.companyNamePlaceholder')}
               icon={<Building className="h-4 w-4" />}
               {...register('name')}
             />
           </FormField>
 
-          <FormField label="E-mail da empresa" htmlFor="email" error={errors.email?.message}>
+          <FormField label={t('onboarding.companyEmail')} htmlFor="email" error={errors.email?.message} required>
             <Input
               type="email"
               id="email"
-              placeholder="empresa@email.com"
+              placeholder={t('onboarding.companyEmailPlaceholder')}
               icon={<Mail className="h-4 w-4" />}
               {...register('email')}
             />
           </FormField>
 
-          <FormField label="Identificação fiscal" htmlFor="taxId" error={errors.taxId?.message}>
+          <FormField label={t('onboarding.taxId')} htmlFor="taxId" error={errors.taxId?.message} required>
             <Input
               type="text"
               id="taxId"
-              placeholder="Ex: 123456789"
+              placeholder={t('onboarding.taxIdPlaceholder')}
               icon={<CreditCard className="h-4 w-4" />}
               {...register('taxId')}
             />
           </FormField>
 
-          <FormField label="Tipo de identificação" htmlFor="taxType" error={errors.taxType?.message}>
+          <FormField label={t('onboarding.taxType')} htmlFor="taxType" error={errors.taxType?.message} required>
             <Select
               id="taxType"
               icon={<List className="h-4 w-4" />}
               {...register('taxType')}
             >
-              <option value="">Selecione o tipo</option>
-              <option value="nif">NIF</option>
-              <option value="nipc">NIPC</option>
-              <option value="vat">VAT</option>
+              <option value="">{t('onboarding.taxTypePlaceholder')}</option>
+              <option value="nif">{t('onboarding.taxTypeNif')}</option>
+              <option value="nipc">{t('onboarding.taxTypeNipc')}</option>
+              <option value="vat">{t('onboarding.taxTypeVat')}</option>
             </Select>
           </FormField>
 
-          <FormField label="Morada de faturação" htmlFor="billingAddress" error={errors.billingAddress?.message}>
+          <FormField label={t('onboarding.billingAddress')} htmlFor="billingAddress" error={errors.billingAddress?.message} required>
             <Input
               type="text"
               id="billingAddress"
-              placeholder="Rua Example, 123"
+              placeholder={t('onboarding.billingAddressPlaceholder')}
               icon={<MapPin className="h-4 w-4" />}
               {...register('billingAddress')}
             />
           </FormField>
 
-          <FormField label="Cidade" htmlFor="city" error={errors.city?.message}>
+          <FormField label={t('onboarding.city')} htmlFor="city" error={errors.city?.message} required>
             <Input
               type="text"
               id="city"
-              placeholder="Lisboa"
+              placeholder={t('onboarding.cityPlaceholder')}
               icon={<City className="h-4 w-4" />}
               {...register('city')}
             />
           </FormField>
 
-          <FormField label="País" htmlFor="country" error={errors.country?.message}>
-            <Input
-              type="text"
+          <FormField label={t('onboarding.country')} htmlFor="country" error={errors.country?.message}>
+            <Select
               id="country"
-              placeholder="PT"
               icon={<Globe className="h-4 w-4" />}
               {...register('country')}
-            />
+            >
+              <option value="PT">{t('onboarding.countryPT')}</option>
+              <option value="ES">{t('onboarding.countryES')}</option>
+              <option value="FR">{t('onboarding.countryFR')}</option>
+              <option value="DE">{t('onboarding.countryDE')}</option>
+              <option value="IT">{t('onboarding.countryIT')}</option>
+              <option value="NL">{t('onboarding.countryNL')}</option>
+              <option value="BE">{t('onboarding.countryBE')}</option>
+              <option value="AT">{t('onboarding.countryAT')}</option>
+              <option value="PL">{t('onboarding.countryPL')}</option>
+              <option value="CZ">{t('onboarding.countryCZ')}</option>
+              <option value="GR">{t('onboarding.countryGR')}</option>
+              <option value="SE">{t('onboarding.countrySE')}</option>
+              <option value="DK">{t('onboarding.countryDK')}</option>
+              <option value="FI">{t('onboarding.countryFI')}</option>
+              <option value="NO">{t('onboarding.countryNO')}</option>
+              <option value="IE">{t('onboarding.countryIE')}</option>
+              <option value="UK">{t('onboarding.countryUK')}</option>
+              <option value="CH">{t('onboarding.countryCH')}</option>
+              <option value="RO">{t('onboarding.countryRO')}</option>
+              <option value="BG">{t('onboarding.countryBG')}</option>
+              <option value="HU">{t('onboarding.countryHU')}</option>
+              <option value="SK">{t('onboarding.countrySK')}</option>
+              <option value="HR">{t('onboarding.countryHR')}</option>
+              <option value="SI">{t('onboarding.countrySI')}</option>
+              <option value="LT">{t('onboarding.countryLT')}</option>
+              <option value="LV">{t('onboarding.countryLV')}</option>
+              <option value="EE">{t('onboarding.countryEE')}</option>
+              <option value="LU">{t('onboarding.countryLU')}</option>
+            </Select>
           </FormField>
 
-          <FormField label="Código postal" htmlFor="postalCode" error={errors.postalCode?.message}>
+          <FormField label={t('onboarding.postalCode')} htmlFor="postalCode" error={errors.postalCode?.message}>
             <Input
               type="text"
               id="postalCode"
-              placeholder="1000-001"
+              placeholder={t('onboarding.postalCodePlaceholder')}
               icon={<MailIcon className="h-4 w-4" />}
               {...register('postalCode')}
             />
           </FormField>
 
           <div>
-            <Button 
+            <Button
               type="submit"
               variant="primary"
               fullWidth
               loading={isLoading}
               disabled={isLoading}
             >
-              Completar Cadastro
+              {t('onboarding.submitButton')}
             </Button>
           </div>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
-            Já tem uma conta? 
+            {t('onboarding.alreadyHaveAccount')}
             <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500 ml-1">
-              Faça login
+              {t('onboarding.goToLogin')}
             </Link>
           </p>
         </div>
