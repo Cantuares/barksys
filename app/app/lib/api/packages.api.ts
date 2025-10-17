@@ -1,62 +1,44 @@
 import { apiClient } from './client';
-import type { 
-  Package, 
-  PackagePurchase, 
-  CreatePackagePurchaseData, 
-  PackageResponse, 
-  PackagePurchaseResponse 
+import type {
+  Package,
+  PackagePurchase,
+  CreatePackagePurchaseData,
 } from '../../types/package.types';
 
 export const packagesApi = {
   /**
-   * Get available packages
+   * Get all available packages for the company
    */
-  getPackages: async (page: number = 1, limit: number = 20): Promise<PackageResponse> => {
+  async getPackages(limit: number = 50, offset: number = 0): Promise<Package[]> {
     const params = new URLSearchParams({
-      page: page.toString(),
       limit: limit.toString(),
-      sort: '-createdAt',
-      'where[status][equals]': 'active',
+      offset: offset.toString(),
     });
 
-    const response = await apiClient.get(`/packages?${params}`);
-    // API returns array directly, wrap it in expected format
-    return {
-      docs: Array.isArray(response) ? response : [],
-      total: Array.isArray(response) ? response.length : 0,
-      page: page,
-      limit: limit,
-      totalPages: Math.ceil((Array.isArray(response) ? response.length : 0) / limit)
-    };
+    return apiClient.get<Package[]>(`/packages?${params}`);
   },
 
   /**
    * Get a specific package by ID
    */
-  getPackageById: async (packageId: string): Promise<Package> => {
-    const response = await apiClient.get(`/packages/${packageId}`);
-    return response;
+  async getPackageById(packageId: string): Promise<Package> {
+    return apiClient.get<Package>(`/packages/${packageId}`);
   },
 
   /**
-   * Get my package purchases
+   * Get package purchases for a specific tutor
    */
-  getMyPurchases: async (): Promise<PackagePurchase[]> => {
-    const params = new URLSearchParams({
-      'where[tutor.user][equals]': 'current-user', // This will be replaced with actual user ID
-      sort: '-createdAt',
-    });
-
-    const response = await apiClient.get(`/package-purchases?${params}`);
-    // API returns array directly
-    return Array.isArray(response) ? response : [];
+  async getTutorPurchases(tutorId: string): Promise<PackagePurchase[]> {
+    return apiClient.get<PackagePurchase[]>(`/tutors/${tutorId}/purchases`);
   },
 
   /**
-   * Purchase a package
+   * Purchase a package for a tutor
    */
-  purchasePackage: async (data: CreatePackagePurchaseData): Promise<PackagePurchase> => {
-    const response = await apiClient.post('/package-purchases', data);
-    return response;
+  async purchasePackage(tutorId: string, packageId: string): Promise<PackagePurchase> {
+    return apiClient.post<PackagePurchase>(
+      `/tutors/${tutorId}/purchases`,
+      { tutorId, packageId }
+    );
   },
 };

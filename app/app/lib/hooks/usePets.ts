@@ -109,6 +109,7 @@ export const usePets = () => {
 };
 
 export const usePet = (petId: string) => {
+  const { t } = useTranslation();
   const [pet, setPet] = useState<Pet | null>(null);
   const [petSessions, setPetSessions] = useState<PetSession[]>([]);
   const [isLoading, setIsLoading] = useState(false);

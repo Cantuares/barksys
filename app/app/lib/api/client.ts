@@ -36,12 +36,7 @@ export class ApiClient {
       const token = this.getAuthToken();
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
-        console.log('🔑 Token sent in request:', token.substring(0, 20) + '...');
-      } else {
-        console.warn('⚠️ No token available for request to:', url);
       }
-    } else {
-      console.warn('⚠️ No auth token getter configured for request to:', url);
     }
 
     try {

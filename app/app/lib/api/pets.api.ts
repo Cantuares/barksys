@@ -12,22 +12,26 @@ export const petsApi = {
       sort: '-createdAt',
     });
 
-    const response = await apiClient.get(`/pets?${params}`);
-    // API returns array directly, wrap it in expected format
-    return {
-      docs: Array.isArray(response) ? response : [],
-      total: Array.isArray(response) ? response.length : 0,
-      page: page,
-      limit: limit,
-      totalPages: Math.ceil((Array.isArray(response) ? response.length : 0) / limit)
-    };
+    const response = await apiClient.get(`/pets?${params}`) as Pet[] | PetResponse;
+    // API may return array directly or PetResponse object
+    if (Array.isArray(response)) {
+      return {
+        docs: response,
+        totalDocs: response.length,
+        page: page,
+        totalPages: Math.ceil(response.length / limit),
+        hasNextPage: false,
+        hasPrevPage: false,
+      };
+    }
+    return response;
   },
 
   /**
    * Get a specific pet by ID
    */
   getPetById: async (petId: string): Promise<Pet> => {
-    const response = await apiClient.get(`/pets/${petId}`);
+    const response = await apiClient.get(`/pets/${petId}`) as Pet;
     return response;
   },
 
@@ -35,7 +39,7 @@ export const petsApi = {
    * Create a new pet
    */
   createPet: async (petData: CreatePetData): Promise<Pet> => {
-    const response = await apiClient.post('/pets', petData);
+    const response = await apiClient.post('/pets', petData) as Pet;
     return response;
   },
 
@@ -43,7 +47,7 @@ export const petsApi = {
    * Update an existing pet
    */
   updatePet: async (petId: string, petData: UpdatePetData): Promise<Pet> => {
-    const response = await apiClient.patch(`/pets/${petId}`, petData);
+    const response = await apiClient.patch(`/pets/${petId}`, petData) as Pet;
     return response;
   },
 
