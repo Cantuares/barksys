@@ -34,20 +34,20 @@ export const BottomNavigation: React.FC<BottomNavigationProps> = ({
         { icon: 'fa-home', label: 'Início', route: '/dashboard' },
         { icon: 'fa-chart-bar', label: 'Relatórios', route: '/admin/reports' },
         { icon: 'fa-users', label: 'Equipa', route: '/admin/team' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
+        { icon: 'fa-user-circle', label: 'Perfil', route: '/profile' }
       ],
       [UserRole.TRAINER]: [
         { icon: 'fa-home', label: 'Início', route: '/trainer/dashboard' },
         { icon: 'fa-calendar', label: 'Agenda', route: '/trainer/schedule' },
         { icon: 'fa-users', label: 'Inscrições', route: '/trainer/enrollments' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
+        { icon: 'fa-user-circle', label: 'Perfil', route: '/profile' }
       ],
       [UserRole.TUTOR]: [
         { icon: 'fa-home', label: 'Início', route: '/tutor/dashboard' },
         { icon: 'fa-calendar', label: 'Sessões', route: '/tutor/sessions' },
         { icon: 'fa-paw', label: 'Meus Pets', route: '/tutor/pets' },
         { icon: 'fa-box', label: 'Pacotes', route: '/tutor/packages' },
-        { icon: 'fa-sign-out-alt', label: 'Sair', action: 'logout' }
+        { icon: 'fa-user-circle', label: 'Perfil', route: '/profile' }
       ]
     };
 

@@ -2,7 +2,7 @@ import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 export default [
   // Public routes
-  index("routes/home.tsx"),
+  index("routes/_index.tsx"),
   
   // Auth routes (public)
   route("login", "routes/_auth.login.tsx"),
@@ -15,6 +15,7 @@ export default [
           route("dashboard", "routes/_protected.dashboard.tsx"),
           route("trainer/dashboard", "routes/_protected.trainer-dashboard.tsx"),
           route("tutor/dashboard", "routes/_protected.tutor-dashboard.tsx"),
+          route("profile", "routes/_protected.profile.tsx"),
 
           // Tutor pet management routes
           route("tutor/pets", "routes/_protected.tutor-pets.tsx"),
