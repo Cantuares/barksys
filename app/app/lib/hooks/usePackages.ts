@@ -162,7 +162,7 @@ export const getPackageIcon = (packageName: string): string => {
 export const getPackageColor = (packageName: string): string => {
   const name = packageName.toLowerCase();
   if (name.includes('hotel')) return 'bg-purple-100 text-purple-600';
-  if (name.includes('escola')) return 'bg-blue-100 text-blue-600';
+  if (name.includes('escola')) return 'bg-green-100 text-green-600';
   if (name.includes('creche')) return 'bg-green-100 text-green-600';
   if (name.includes('grupal')) return 'bg-orange-100 text-orange-600';
   if (name.includes('personalizado')) return 'bg-red-100 text-red-600';
