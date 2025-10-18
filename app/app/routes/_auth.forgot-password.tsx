@@ -7,7 +7,6 @@ import { Mail, Check } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../lib/hooks/useAuth';
 import { AuthLayout } from '../components/layout/AuthLayout';
-import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
 import { FormField } from '../components/ui/FormField';
@@ -45,70 +44,96 @@ export default function ForgotPasswordPage() {
 
   if (isSubmitted) {
     return (
-      <AuthLayout title={t('nav.dashboard')} subtitle={t('forgotPassword.title')}>
-        <Card>
-          <div className="text-center">
-            <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
-              <Check className="h-8 w-8 text-green-600" />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">{t('forgotPassword.successTitle')}</h2>
-            <p className="text-gray-600 mb-6">
-              {t('forgotPassword.checkEmail')}
-            </p>
-            <Link to="/login">
-              <Button variant="primary" fullWidth>
-                {t('forgotPassword.goToLogin')}
-              </Button>
-            </Link>
+      <AuthLayout title="BarkSys">
+        {/* Success Icon */}
+        <div className="text-center mb-8">
+          <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+            <Check className="h-8 w-8 text-green-600" />
           </div>
-        </Card>
+          <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            {t('forgotPassword.successTitle')}
+          </h1>
+          <p className="text-base text-gray-500">
+            {t('forgotPassword.checkEmail')}
+          </p>
+        </div>
+
+        {/* Action Button */}
+        <div className="pt-2">
+          <Link to="/login">
+            <Button variant="primary" size="lg" fullWidth>
+              {t('forgotPassword.goToLogin')}
+            </Button>
+          </Link>
+        </div>
       </AuthLayout>
     );
   }
 
   return (
-    <AuthLayout title={t('nav.dashboard')} subtitle={t('forgotPassword.title')}>
-      <Card>
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">{t('forgotPassword.title')}</h2>
-          <p className="text-gray-500 mt-2">{t('forgotPassword.subtitle')}</p>
+    <AuthLayout title="BarkSys">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+          {t('forgotPassword.title')}
+        </h1>
+        <p className="text-base text-gray-500">
+          {t('forgotPassword.subtitle')}
+        </p>
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mb-6 animate-slide-down">
+          <ErrorMessage message={error} />
         </div>
+      )}
 
-        {error && <ErrorMessage message={error} />}
+      {/* Forgot Password Form */}
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+        <FormField
+          label={t('forgotPassword.email')}
+          htmlFor="email"
+          error={errors.email?.message}
+          required
+        >
+          <Input
+            type="email"
+            id="email"
+            placeholder={t('forgotPassword.emailPlaceholder')}
+            icon={<Mail className="h-5 w-5" />}
+            error={!!errors.email}
+            {...register('email')}
+          />
+        </FormField>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <FormField label={t('forgotPassword.email')} htmlFor="email" error={errors.email?.message}>
-            <Input
-              type="email"
-              id="email"
-              placeholder={t('forgotPassword.emailPlaceholder')}
-              icon={<Mail className="h-4 w-4" />}
-              {...register('email')}
-            />
-          </FormField>
-
-          <div>
-            <Button 
-              type="submit"
-              variant="primary"
-              fullWidth
-              loading={isLoading}
-              disabled={isLoading}
-            >
-              {t('forgotPassword.submitButton')}
-            </Button>
-          </div>
-        </form>
-
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-600">
-            {t('forgotPassword.backToLogin')} 
-            <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500 ml-1">
-              {t('login.loginButton')}
-            </Link>
-          </p>
+        {/* Submit Button */}
+        <div className="pt-2">
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            fullWidth
+            loading={isLoading}
+            disabled={isLoading}
+          >
+            {t('forgotPassword.submitButton')}
+          </Button>
         </div>
-      </Card>
+      </form>
+
+      {/* Back to Login Link */}
+      <div className="mt-8 text-center">
+        <p className="text-base text-gray-600">
+          {t('forgotPassword.backToLogin')}
+          <Link
+            to="/login"
+            className="inline-block font-semibold text-green-600 hover:text-green-700 active:text-green-800 transition-colors ml-2 py-2 px-1"
+          >
+            {t('login.loginButton')}
+          </Link>
+        </p>
+      </div>
     </AuthLayout>
   );
 }
