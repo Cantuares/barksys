@@ -3,9 +3,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useNavigate, useParams } from 'react-router';
+import { Dog, Tag, Calendar, Weight, FileText } from 'lucide-react';
 import { Header } from '../components/layout/Header';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
+import { Select } from '../components/ui/Select';
+import { Textarea } from '../components/ui/Textarea';
 import { FormField } from '../components/ui/FormField';
 import { ErrorMessage } from '../components/ui/ErrorMessage';
 import { useAuth } from '../lib/hooks/useAuth';
@@ -98,7 +101,7 @@ export default function TutorPetEditPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       </div>
     );
@@ -112,7 +115,7 @@ export default function TutorPetEditPage() {
             <i className="fas fa-exclamation-triangle text-red-500 text-4xl mb-4"></i>
             <p className="text-gray-600">Pet não encontrado</p>
             <button 
-              className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg"
+              className="mt-4 bg-green-500 text-white px-4 py-2 rounded-lg"
               onClick={() => navigate('/tutor/pets')}
             >
               Voltar para Lista
@@ -137,49 +140,44 @@ export default function TutorPetEditPage() {
       {isLoading ? (
         <main className="flex-grow flex items-center justify-center p-4">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">A carregar dados...</p>
           </div>
         </main>
       ) : (
-        /* Main Content */
+        // Main Content
         <main className="flex-grow flex items-center justify-center p-4">
           <div className="w-full max-w-md">
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <div className="text-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Editar Pet</h2>
-                <p className="text-gray-500 mt-2">Preencha as informações do seu pet</p>
+            {error && (
+              <div className="mb-6">
+                <ErrorMessage message={error} />
               </div>
+            )}
 
-              {error && <ErrorMessage message={error} />}
-
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
                 {/* Name */}
-                <FormField label="Nome *" htmlFor="name" error={errors.name?.message}>
+                <FormField label="Nome" htmlFor="name" error={errors.name?.message} required>
                   <Input
                     type="text"
                     id="name"
                     placeholder="Nome do pet"
-                    icon={<i className="fas fa-paw"></i>}
+                    icon={<Dog className="h-5 w-5" />}
+                    error={!!errors.name}
                     {...register('name')}
                   />
                 </FormField>
 
                 {/* Species */}
-                <FormField label="Espécie *" htmlFor="species" error={errors.species?.message}>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <i className="fas fa-dog text-gray-400"></i>
-                    </div>
-                    <select
-                      {...register('species')}
-                      id="species"
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200"
-                    >
-                      <option value="dog">Cão</option>
-                      <option value="other">Outro</option>
-                    </select>
-                  </div>
+                <FormField label="Espécie" htmlFor="species" error={errors.species?.message} required>
+                  <Select
+                    id="species"
+                    icon={<Dog className="h-5 w-5" />}
+                    error={!!errors.species}
+                    {...register('species')}
+                  >
+                    <option value="dog">Cão</option>
+                    <option value="other">Outro</option>
+                  </Select>
                 </FormField>
 
                 {/* Breed */}
@@ -188,7 +186,8 @@ export default function TutorPetEditPage() {
                     type="text"
                     id="breed"
                     placeholder="Ex: Labrador Retriever"
-                    icon={<i className="fas fa-tags"></i>}
+                    icon={<Tag className="h-5 w-5" />}
+                    error={!!errors.breed}
                     {...register('breed')}
                   />
                 </FormField>
@@ -198,7 +197,8 @@ export default function TutorPetEditPage() {
                   <Input
                     type="date"
                     id="birth"
-                    icon={<i className="fas fa-calendar"></i>}
+                    icon={<Calendar className="h-5 w-5" />}
+                    error={!!errors.birth}
                     {...register('birth')}
                   />
                 </FormField>
@@ -207,38 +207,36 @@ export default function TutorPetEditPage() {
                 <FormField label="Peso (kg)" htmlFor="weight" error={errors.weight?.message}>
                   <Input
                     type="number"
+                    step="0.1"
                     id="weight"
                     placeholder="Ex: 25.5"
-                    icon={<i className="fas fa-weight"></i>}
+                    icon={<Weight className="h-5 w-5" />}
+                    error={!!errors.weight}
                     {...register('weight', { valueAsNumber: true })}
                   />
                 </FormField>
 
                 {/* Description */}
                 <FormField label="Observações" htmlFor="description" error={errors.description?.message}>
-                  <div className="relative">
-                    <div className="absolute top-3 left-0 pl-3 flex items-start pointer-events-none">
-                      <i className="fas fa-comment text-gray-400"></i>
-                    </div>
-                    <textarea
-                      {...register('description')}
-                      id="description"
-                      rows={3}
-                      placeholder="Informações sobre comportamento, características especiais, etc."
-                      className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors duration-200 resize-none"
-                    />
-                  </div>
+                  <Textarea
+                    id="description"
+                    rows={3}
+                    placeholder="Informações sobre comportamento, características especiais, etc."
+                    icon={<FileText className="h-5 w-5" />}
+                    error={!!errors.description}
+                    {...register('description')}
+                  />
                 </FormField>
 
                 {/* Status */}
-                <FormField label="Status *" htmlFor="status" error={errors.status?.message}>
+                <FormField label="Status" htmlFor="status" error={errors.status?.message} required>
                   <div className="flex space-x-6">
                     <label className="flex items-center">
                       <input
                         type="radio"
                         {...register('status')}
                         value="active"
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300"
                       />
                       <span className="ml-2 text-sm text-gray-700">Ativo</span>
                     </label>
@@ -247,7 +245,7 @@ export default function TutorPetEditPage() {
                         type="radio"
                         {...register('status')}
                         value="inactive"
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        className="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300"
                       />
                       <span className="ml-2 text-sm text-gray-700">Inativo</span>
                     </label>
@@ -255,10 +253,11 @@ export default function TutorPetEditPage() {
                 </FormField>
 
                 {/* Form Actions */}
-                <div className="flex space-x-3">
+                <div className="flex space-x-3 pt-2">
                   <Button
                     type="button"
                     variant="outline"
+                    size="lg"
                     fullWidth
                     disabled={isLoading}
                     onClick={onCancel}
@@ -268,6 +267,7 @@ export default function TutorPetEditPage() {
                   <Button
                     type="submit"
                     variant="primary"
+                    size="lg"
                     fullWidth
                     loading={isLoading}
                     disabled={isLoading}
@@ -275,8 +275,7 @@ export default function TutorPetEditPage() {
                     Atualizar
                   </Button>
                 </div>
-              </form>
-            </div>
+            </form>
           </div>
         </main>
       )}

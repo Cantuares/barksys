@@ -25,7 +25,7 @@ export default function TutorPackageDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       </div>
     );
@@ -79,7 +79,7 @@ export default function TutorPackageDetailPage() {
       {isLoading && !packageData ? (
         <main className="p-4 space-y-6 flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">{t('packages.loadingDetails')}</p>
           </div>
         </main>
@@ -168,8 +168,8 @@ export default function TutorPackageDetailPage() {
                   <div className="font-bold text-gray-900 text-xl">{packageData.totalSessions}</div>
                 </div>
                 
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <div className="text-blue-600 text-sm font-medium mb-1">{t('packages.validity')}</div>
+                <div className="bg-green-50 rounded-lg p-4">
+                  <div className="text-green-600 text-sm font-medium mb-1">{t('packages.validity')}</div>
                   <div className="font-bold text-gray-900 text-xl">{packageData.validityDays} {t('packages.days')}</div>
                 </div>
                 

@@ -152,8 +152,8 @@ export default function DashboardPage() {
               
               <div className="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
                 <div className="flex items-center">
-                  <div className="bg-blue-100 p-2 rounded-lg mr-3">
-                    <i className="fas fa-percentage text-blue-500"></i>
+                  <div className="bg-green-100 p-2 rounded-lg mr-3">
+                    <i className="fas fa-percentage text-green-500"></i>
                   </div>
                   <div>
                     <div className="font-medium">{t('dashboard.admin.occupancyRate')}</div>
