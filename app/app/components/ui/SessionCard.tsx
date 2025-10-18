@@ -1,5 +1,6 @@
 import React from 'react';
 import { Calendar, Clock, Users, User } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '../../lib/utils';
 import { formatDate } from '../../lib/utils/date';
 import { Button } from './Button';
@@ -20,33 +21,34 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   showEnrollButton = false,
   className
 }) => {
+  const { t } = useTranslation();
   const { id, date, startTime, endTime, availableSlots, maxParticipants, status, trainer, package: pkg } = session;
 
   const getStatusBadge = () => {
     const badges = {
-      active: 'bg-green-100 text-green-800',
-      scheduled: 'bg-blue-100 text-blue-800',
-      confirmed: 'bg-purple-100 text-purple-800',
-      in_progress: 'bg-yellow-100 text-yellow-800',
-      completed: 'bg-gray-100 text-gray-800',
-      cancelled: 'bg-red-100 text-red-800',
+      active: 'bg-green-100 text-green-700',
+      scheduled: 'bg-green-100 text-green-700',
+      confirmed: 'bg-purple-100 text-purple-700',
+      in_progress: 'bg-yellow-100 text-yellow-700',
+      completed: 'bg-emerald-100 text-emerald-700',
+      cancelled: 'bg-red-100 text-red-700',
       expired: 'bg-gray-100 text-gray-600',
-      no_show: 'bg-orange-100 text-orange-800',
+      no_show: 'bg-orange-100 text-orange-700',
     };
 
     const labels = {
-      active: 'Ativa',
-      scheduled: 'Agendada',
-      confirmed: 'Confirmada',
-      in_progress: 'Em Progresso',
-      completed: 'Completa',
-      cancelled: 'Cancelada',
-      expired: 'Expirada',
-      no_show: 'Ausência',
+      active: t('sessions.status.active'),
+      scheduled: t('sessions.status.scheduled'),
+      confirmed: t('sessions.status.confirmed'),
+      in_progress: t('sessions.status.inProgress'),
+      completed: t('sessions.status.completed'),
+      cancelled: t('sessions.status.cancelled'),
+      expired: t('sessions.status.expired'),
+      no_show: t('sessions.status.noShow'),
     };
 
     return (
-      <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium ${badges[status]}`}>
+      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${badges[status]}`}>
         {labels[status]}
       </span>
     );
@@ -63,14 +65,14 @@ export const SessionCard: React.FC<SessionCardProps> = ({
     }
 
     return (
-      <div className="mt-2">
-        <div className="flex items-center justify-between text-xs text-gray-600 mb-1">
-          <span>Vagas disponíveis</span>
-          <span className="font-medium">{availableSlots}/{maxParticipants}</span>
+      <div className="mt-4">
+        <div className="flex items-center justify-between text-xs text-gray-600 mb-2">
+          <span className="font-medium">{t('sessions.availableSlots')}</span>
+          <span className="font-semibold text-gray-900">{availableSlots}/{maxParticipants}</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-1.5">
+        <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className={`h-1.5 rounded-full transition-all ${color}`}
+            className={`h-2 rounded-full transition-all duration-300 ${color}`}
             style={{ width: `${percentage}%` }}
           />
         </div>
@@ -79,16 +81,16 @@ export const SessionCard: React.FC<SessionCardProps> = ({
   };
 
   return (
-    <div className={cn('bg-white rounded-xl border border-gray-200 p-4 hover:shadow-md transition-shadow', className)}>
-      <div className="flex items-start justify-between mb-3">
+    <div className={cn('bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-all duration-200', className)}>
+      <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           {pkg && (
-            <h3 className="font-semibold text-gray-900 mb-1">
+            <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-1">
               {pkg.name}
             </h3>
           )}
           {pkg?.description && (
-            <p className="text-sm text-gray-600 mb-2">
+            <p className="text-sm text-gray-600">
               {pkg.description}
             </p>
           )}
@@ -96,58 +98,58 @@ export const SessionCard: React.FC<SessionCardProps> = ({
         {getStatusBadge()}
       </div>
 
-      <div className="space-y-2 mb-3">
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Calendar className="w-4 h-4 text-green-500" />
+      <div className="space-y-3 mb-4">
+        <div className="flex items-center gap-3 text-sm text-gray-700">
+          <Calendar className="h-5 w-5 text-green-600" />
           <span>{formatDate(date)}</span>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Clock className="w-4 h-4 text-green-500" />
+        <div className="flex items-center gap-3 text-sm text-gray-700">
+          <Clock className="h-5 w-5 text-green-600" />
           <span>{startTime} - {endTime}</span>
         </div>
         {trainer && (
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <User className="w-4 h-4 text-green-500" />
+          <div className="flex items-center gap-3 text-sm text-gray-700">
+            <User className="h-5 w-5 text-green-600" />
             <span>{trainer.fullName}</span>
           </div>
         )}
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Users className="w-4 h-4 text-green-500" />
-          <span>{maxParticipants - availableSlots}/{maxParticipants} inscritos</span>
+        <div className="flex items-center gap-3 text-sm text-gray-700">
+          <Users className="h-5 w-5 text-green-600" />
+          <span>{maxParticipants - availableSlots}/{maxParticipants} {t('sessions.enrolled')}</span>
         </div>
       </div>
 
       {getSlotsIndicator()}
 
       {(onViewDetails || (onEnroll && showEnrollButton)) && (
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-3 mt-6">
           {onViewDetails && (
             <Button
               variant="outline"
-              size="sm"
+              size="md"
               onClick={() => onViewDetails(id)}
               className="flex-1"
             >
-              Ver Detalhes
+              {t('sessions.viewDetails')}
             </Button>
           )}
           {onEnroll && showEnrollButton && availableSlots > 0 && (
             <Button
               variant="primary"
-              size="sm"
+              size="md"
               onClick={() => onEnroll(id)}
               disabled={availableSlots === 0}
               className="flex-1"
             >
-              Inscrever
+              {t('sessions.enroll')}
             </Button>
           )}
         </div>
       )}
 
       {availableSlots === 0 && (
-        <div className="mt-3 text-center text-sm text-red-600 font-medium">
-          Sessão lotada
+        <div className="mt-4 text-center text-sm text-red-600 font-medium">
+          {t('sessions.sessionFull')}
         </div>
       )}
     </div>

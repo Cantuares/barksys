@@ -1,30 +1,58 @@
 import React from 'react';
-import { cn } from '../../lib/utils';
+import { cva, type VariantProps } from 'class-variance-authority';
 
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+const selectVariants = cva(
+  'w-full rounded-xl border bg-white text-base ring-offset-white focus:outline-none focus:ring-2 focus:ring-offset-1 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50 min-h-[48px]',
+  {
+    variants: {
+      variant: {
+        default: 'border-gray-300 focus:ring-green-500 focus:border-green-500',
+        error: 'border-red-400 focus:ring-red-500 focus:border-red-500',
+      },
+      hasIcon: {
+        true: 'pl-11 pr-4',
+        false: 'px-4',
+      },
+    },
+    defaultVariants: {
+      variant: 'default',
+      hasIcon: false,
+    },
+  }
+);
+
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement>,
+    VariantProps<typeof selectVariants> {
   icon?: React.ReactNode;
+  error?: boolean;
 }
 
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className, icon, children, ...props }, ref) => {
-    const selectClasses = cn(
-      'flex h-10 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm ring-offset-white file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 disabled:cursor-not-allowed disabled:opacity-50',
-      icon ? 'pl-10' : '',
-      className
-    );
+  ({ className, variant, hasIcon, icon, error, children, ...props }, ref) => {
+    const selectVariant = error ? 'error' : variant;
 
     return (
       <div className="relative">
         {icon && (
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <div className="text-gray-400">{icon}</div>
           </div>
         )}
-        <select className={selectClasses} ref={ref} {...props}>
+        <select
+          ref={ref}
+          className={selectVariants({
+            variant: selectVariant,
+            hasIcon: !!icon,
+            className
+          })}
+          {...props}
+        >
           {children}
         </select>
       </div>
     );
   }
 );
+
 Select.displayName = 'Select';
