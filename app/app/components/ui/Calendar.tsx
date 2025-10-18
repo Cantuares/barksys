@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from './Button';
 
@@ -19,14 +20,32 @@ export const Calendar: React.FC<CalendarProps> = ({
   maxDate,
   className,
 }) => {
+  const { t, i18n } = useTranslation();
   const [currentMonth, setCurrentMonth] = useState(selectedDate || new Date());
 
-  const monthNames = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-  ];
+  const monthNames = useMemo(() => {
+    const formatter = new Intl.DateTimeFormat(i18n.language, { month: 'long' });
+    return Array.from({ length: 12 }, (_, i) => {
+      const date = new Date(2000, i, 1);
+      return formatter.format(date);
+    });
+  }, [i18n.language]);
 
-  const weekDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const weekDays = useMemo(() => {
+    // Custom abbreviated weekday names for Portuguese
+    if (i18n.language === 'pt-PT' || i18n.language === 'pt') {
+      return ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+    }
+
+    // Use Intl for other languages (like English)
+    const formatter = new Intl.DateTimeFormat(i18n.language, { weekday: 'short' });
+    // Start from Sunday (0) to Saturday (6)
+    // Using January 2, 2000 which was a Sunday
+    return Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(2000, 0, 2 + i);
+      return formatter.format(date);
+    });
+  }, [i18n.language]);
 
   const getDaysInMonth = (date: Date) => {
     const year = date.getFullYear();
@@ -161,11 +180,11 @@ export const Calendar: React.FC<CalendarProps> = ({
           <div className="flex items-center gap-4 text-xs text-gray-600">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-green-100" />
-              <span>Sessões disponíveis</span>
+              <span>{t('calendar.availableSessions')}</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded bg-green-500" />
-              <span>Selecionado</span>
+              <span>{t('calendar.selected')}</span>
             </div>
           </div>
         </div>

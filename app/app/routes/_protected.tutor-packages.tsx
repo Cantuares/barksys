@@ -24,7 +24,7 @@ export default function TutorPackagesPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       </div>
     );
@@ -87,7 +87,7 @@ export default function TutorPackagesPage() {
       {isLoading && packages.length === 0 ? (
         <main className="p-4 space-y-6 flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">{t('packages.loadingPackages')}</p>
           </div>
         </main>
@@ -170,7 +170,7 @@ export default function TutorPackagesPage() {
                               {t('packages.purchased')}
                             </span>
                           ) : (
-                            <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                            <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
                               {t('packages.available')}
                             </span>
                           )}
@@ -194,8 +194,8 @@ export default function TutorPackagesPage() {
                         <div className="text-primary-500 text-sm">Preço</div>
                         <div className="font-bold">{formatCurrency(pkg.price)}</div>
                       </div>
-                      <div className="bg-blue-50 rounded-lg p-3">
-                        <div className="text-blue-500 text-sm">Sessões</div>
+                      <div className="bg-green-50 rounded-lg p-3">
+                        <div className="text-green-500 text-sm">Sessões</div>
                         <div className="font-bold">{pkg.totalSessions}</div>
                       </div>
                     </div>

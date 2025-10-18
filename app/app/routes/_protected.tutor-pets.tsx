@@ -20,7 +20,7 @@ export default function TutorPetsPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       </div>
     );
@@ -41,7 +41,7 @@ export default function TutorPetsPage() {
       {isLoading ? (
         <main className="p-4 space-y-6 flex items-center justify-center min-h-screen">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">{t('dashboard.tutor.loadingPets')}</p>
           </div>
         </main>
@@ -84,7 +84,7 @@ export default function TutorPetsPage() {
                   {t('dashboard.tutor.sessionsWillAppear')}
                 </p>
                 <button 
-                  className="bg-blue-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
+                  className="bg-green-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
                   onClick={() => navigate('/tutor/pets/new')}
                 >
                   <i className="fas fa-plus mr-2"></i>{t('dashboard.tutor.registerFirstPet')}
@@ -129,12 +129,12 @@ export default function TutorPetsPage() {
                       
                       <div className="p-4">
                         <div className="grid grid-cols-2 gap-4 mb-4">
-                          <div className="bg-blue-50 rounded-lg p-3">
-                            <div className="text-blue-500 text-sm">{t('dashboard.tutor.weight')}</div>
+                          <div className="bg-green-50 rounded-lg p-3">
+                            <div className="text-green-500 text-sm">{t('dashboard.tutor.weight')}</div>
                             <div className="font-bold">{pet.weight ? `${pet.weight} kg` : 'N/A'}</div>
                           </div>
-                          <div className="bg-blue-50 rounded-lg p-3">
-                            <div className="text-blue-500 text-sm">{t('dashboard.tutor.registeredOn')}</div>
+                          <div className="bg-green-50 rounded-lg p-3">
+                            <div className="text-green-500 text-sm">{t('dashboard.tutor.registeredOn')}</div>
                             <div className="font-bold">{new Date(pet.createdAt).toLocaleDateString('pt-PT', { day: '2-digit', month: 'short' })}</div>
                           </div>
                         </div>
@@ -148,7 +148,7 @@ export default function TutorPetsPage() {
                         
                         <div className="flex space-x-2">
                           <button 
-                            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg text-sm transition"
+                            className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-sm transition"
                             onClick={() => navigate(`/tutor/pets/${pet.id}`)}
                           >
                             Ver Detalhes
@@ -203,7 +203,7 @@ export default function TutorPetsPage() {
                       <div className="p-4">
                         <div className="flex space-x-2">
                           <button 
-                            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg text-sm transition"
+                            className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded-lg text-sm transition"
                             onClick={() => navigate(`/tutor/pets/${pet.id}`)}
                           >
                             Ver Detalhes

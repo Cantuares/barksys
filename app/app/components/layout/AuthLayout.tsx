@@ -1,6 +1,8 @@
 import React from 'react';
-import { Header } from './Header';
+import { Link } from 'react-router';
+import { Dog } from 'lucide-react';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
+import { useTranslation } from 'react-i18next';
 
 export interface AuthLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string;
@@ -9,27 +11,39 @@ export interface AuthLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const AuthLayout = React.forwardRef<HTMLDivElement, AuthLayoutProps>(
-  ({ title = 'BarkSys', subtitle = 'Área do Cliente', children, className, ...props }, ref) => {
+  ({ title, subtitle, children, className, ...props }, ref) => {
+    const { t } = useTranslation();
+
     return (
       <div
         ref={ref}
-        className={`bg-gray-50 min-h-screen flex flex-col ${className || ''}`}
+        className={`min-h-screen bg-gradient-to-br from-gray-50 via-white to-green-50 flex flex-col ${className || ''}`}
         {...props}
       >
-        <Header title={title} subtitle={subtitle} showNotifications={false} />
+        {/* Header */}
+        <header className="w-full px-6 py-4">
+          <div className="max-w-7xl mx-auto flex justify-between items-center">
+            <Link to="/" className="flex items-center gap-3 text-green-600 hover:text-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg p-2 -ml-2">
+              <Dog className="h-7 w-7" />
+              <span className="text-lg md:text-xl font-bold text-gray-900">{title || 'BarkSys'}</span>
+            </Link>
+            <LanguageSwitcher />
+          </div>
+        </header>
 
-        <main className="flex-grow flex items-center justify-center p-4">
-          <div className="w-full max-w-md">
+        {/* Main Content */}
+        <main className="flex-grow flex items-center justify-center px-6 py-8">
+          <div className="w-full max-w-md animate-fade-in">
             {children}
           </div>
         </main>
-        
-        <nav className="bg-white border-t border-gray-200 py-2">
-          <div className="flex justify-between items-center px-4">
-            <p className="text-xs text-gray-500">© {new Date().getFullYear()} BarkSys. Todos os direitos reservados.</p>
-            <LanguageSwitcher />
+
+        {/* Footer */}
+        <footer className="w-full px-6 py-8 border-t border-gray-200 bg-white/50">
+          <div className="max-w-7xl mx-auto text-center text-sm text-gray-500">
+            {t("home.footer.copyright", { year: new Date().getFullYear() })}
           </div>
-        </nav>
+        </footer>
       </div>
     );
   }

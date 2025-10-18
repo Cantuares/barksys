@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { ArrowLeft, PawPrint, Menu, Bell } from 'lucide-react';
+import { ArrowLeft, Dog, Menu, Bell } from 'lucide-react';
 import { cn } from '../../lib/utils';
 import { useNotificationStore } from '../../lib/stores/notifications.store';
+import { useAuthStore } from '../../lib/stores/auth.store';
+import { UserRole } from '../../types/auth.types';
 import { NotificationBadge } from '../ui/NotificationBadge';
 import { NotificationDropdown } from '../ui/NotificationDropdown';
 import { LanguageSwitcher } from '../ui/LanguageSwitcher';
@@ -31,6 +33,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const { unreadCount, fetchUnreadCount } = useNotificationStore();
+  const { user } = useAuthStore();
 
   useEffect(() => {
     if (showNotifications) {
@@ -56,6 +59,25 @@ export const Header: React.FC<HeaderProps> = ({
     }
   };
 
+  const handleLogoClick = () => {
+    if (!user) return;
+
+    switch (user.role) {
+      case UserRole.ADMIN:
+        navigate('/dashboard');
+        break;
+      case UserRole.TRAINER:
+        navigate('/trainer/dashboard');
+        break;
+      case UserRole.TUTOR:
+        navigate('/tutor/dashboard');
+        break;
+      default:
+        navigate('/dashboard');
+        break;
+    }
+  };
+
   const toggleNotifications = () => {
     setIsNotificationOpen(!isNotificationOpen);
   };
@@ -66,24 +88,29 @@ export const Header: React.FC<HeaderProps> = ({
         <div className="flex items-center space-x-3">
           {showBackButton ? (
             <button
-              className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-lg"
+              className="p-2 text-gray-600 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg transition-colors"
               onClick={handleBackClick}
               type="button"
             >
               <ArrowLeft className="h-5 w-5" />
             </button>
           ) : (
-            <div className="bg-primary-500 text-white p-2 rounded-full">
-              <PawPrint className="h-5 w-5" />
-            </div>
+            <button
+              className="p-2 -ml-2 text-green-600 hover:text-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-lg transition-colors"
+              onClick={handleLogoClick}
+              type="button"
+              aria-label="Ir para dashboard"
+            >
+              <Dog className="h-7 w-7" />
+            </button>
           )}
           <div>
-            <h1 className="font-bold text-lg">{title}</h1>
+            <h1 className="text-lg md:text-xl font-bold text-gray-900">{title}</h1>
             {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
           </div>
         </div>
-        
-        <div className="flex items-center space-x-2">
+
+        <div className="flex items-center gap-2">
           <LanguageSwitcher />
           
           {showNotifications && (

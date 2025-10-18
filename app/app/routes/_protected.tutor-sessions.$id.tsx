@@ -149,7 +149,7 @@ export default function SessionDetailPage() {
             </div>
             <span className={`px-3 py-1 rounded-full text-xs font-medium ${
               currentSession.status === 'active' ? 'bg-green-100 text-green-800' :
-              currentSession.status === 'scheduled' ? 'bg-blue-100 text-blue-800' :
+              currentSession.status === 'scheduled' ? 'bg-green-100 text-green-800' :
               'bg-gray-100 text-gray-800'
             }`}>
               {currentSession.status === 'active' ? 'Ativa' :

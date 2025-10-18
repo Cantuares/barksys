@@ -1,12 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { CalendarCheck, Dog, CalendarPlus, ClipboardList, Package, CalendarX, Eye, Plus } from 'lucide-react';
 import { TutorLayout } from '../components/layout/TutorLayout';
 import { StatsCard } from '../components/ui/StatsCard';
 import { WelcomeBanner } from '../components/ui/WelcomeBanner';
 import { QuickActions } from '../components/ui/QuickActions';
 import { SessionCard } from '../components/ui/SessionCard';
 import { PackageProgress } from '../components/ui/PackageProgress';
+import { Button } from '../components/ui/Button';
 import { useAuth } from '../lib/hooks/useAuth';
 import { useRequireAuth } from '../lib/hooks/useRequireAuth';
 import { useTutorDashboard } from '../lib/hooks/useTutorDashboard';
@@ -23,7 +25,7 @@ export default function TutorDashboardPage() {
     return (
       <div className="min-h-screen bg-gray-50">
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
         </div>
       </div>
     );
@@ -31,27 +33,31 @@ export default function TutorDashboardPage() {
 
   const quickActions = [
     {
-      icon: 'calendar-plus',
+      icon: CalendarPlus,
       label: t('dashboard.tutor.scheduleSession'),
-      colorClass: 'primary',
+      iconBgColor: 'bg-green-500',
+      hoverBgColor: 'bg-green-50 hover:bg-green-100',
       onClick: () => navigate('/tutor/sessions')
     },
     {
-      icon: 'clipboard-list',
+      icon: ClipboardList,
       label: t('dashboard.tutor.myEnrollments'),
-      colorClass: 'blue',
+      iconBgColor: 'bg-purple-500',
+      hoverBgColor: 'bg-purple-50 hover:bg-purple-100',
       onClick: () => navigate('/tutor/enrollments')
     },
     {
-      icon: 'paw',
+      icon: Dog,
       label: t('dashboard.tutor.myPets'),
-      colorClass: 'green',
+      iconBgColor: 'bg-green-500',
+      hoverBgColor: 'bg-green-50 hover:bg-green-100',
       onClick: () => navigate('/tutor/pets')
     },
     {
-      icon: 'box',
+      icon: Package,
       label: t('dashboard.tutor.packages'),
-      colorClass: 'purple',
+      iconBgColor: 'bg-orange-500',
+      hoverBgColor: 'bg-orange-50 hover:bg-orange-100',
       onClick: () => navigate('/tutor/packages')
     }
   ];
@@ -65,7 +71,7 @@ export default function TutorDashboardPage() {
       {isLoading ? (
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-primary-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-500 mx-auto"></div>
             <p className="text-gray-600 mt-4">{t('dashboard.common.loading')}</p>
           </div>
         </div>
@@ -97,26 +103,28 @@ export default function TutorDashboardPage() {
           />
 
           {/* Stats Cards */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <StatsCard
               data={{
                 label: t('dashboard.tutor.remainingSessions'),
                 value: stats.remainingSessions?.total || 0,
-                icon: 'calendar-check',
-                colorClass: 'primary',
-                subtitle: stats.remainingSessions?.byPackage?.length ? 
-                  stats.remainingSessions.byPackage[0]?.packageName : 
+                icon: CalendarCheck,
+                iconColor: 'text-green-600',
+                iconBgColor: 'bg-green-100',
+                subtitle: stats.remainingSessions?.byPackage?.length ?
+                  stats.remainingSessions.byPackage[0]?.packageName :
                   undefined,
-                subtitleColorClass: 'text-primary-500'
+                subtitleColor: 'text-green-600'
               }}
             />
-            
+
             <StatsCard
               data={{
                 label: t('dashboard.tutor.totalPets'),
                 value: stats.totalPets || 0,
-                icon: 'paw',
-                colorClass: 'blue',
+                icon: Dog,
+                iconColor: 'text-green-600',
+                iconBgColor: 'bg-green-100',
                 subtitle: t('dashboard.tutor.registered')
               }}
             />
@@ -131,11 +139,11 @@ export default function TutorDashboardPage() {
 
           {/* Upcoming Sessions */}
           {stats.upcomingSessions?.length > 0 ? (
-            <div className="bg-white rounded-xl shadow p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="font-bold text-lg">{t('dashboard.tutor.upcomingSessions')}</h2>
+            <div>
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg md:text-xl font-bold text-gray-900">{t('dashboard.tutor.upcomingSessions')}</h2>
                 <button
-                  className="text-primary-500 text-sm"
+                  className="inline-block text-sm font-semibold text-green-600 hover:text-green-700 active:text-green-800 transition-colors py-2 px-1"
                   onClick={() => navigate('/tutor/sessions')}
                 >
                   {t('dashboard.tutor.seeAll')}
@@ -156,33 +164,38 @@ export default function TutorDashboardPage() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow p-4">
+            <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="text-center py-8">
-                <i className="fas fa-calendar-times text-gray-300 text-4xl mb-4"></i>
-                <p className="text-gray-500 mb-4">{t('dashboard.tutor.noSessions')}</p>
-                <button
-                  className="bg-primary-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-4">
+                  <CalendarX className="h-8 w-8 text-gray-400" />
+                </div>
+                <p className="text-base text-gray-600 mb-6">{t('dashboard.tutor.noSessions')}</p>
+                <Button
+                  variant="primary"
+                  size="md"
                   onClick={() => navigate('/tutor/sessions')}
+                  className="inline-flex items-center gap-2"
                 >
-                  <i className="fas fa-plus mr-2"></i>{t('dashboard.tutor.scheduleSession')}
-                </button>
+                  <Plus className="h-4 w-4" />
+                  {t('dashboard.tutor.scheduleSession')}
+                </Button>
               </div>
             </div>
           )}
 
           {/* Package Status */}
           {stats.remainingSessions?.byPackage?.length > 0 && (
-            <div className="bg-white rounded-xl shadow p-4">
-              <div className="flex justify-between items-center mb-3">
-                <h2 className="font-bold text-lg">{t('dashboard.tutor.myPackages')}</h2>
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-lg md:text-xl font-bold text-gray-900">{t('dashboard.tutor.myPackages')}</h2>
                 <button
-                  className="text-primary-500 text-sm"
+                  className="inline-block text-sm font-semibold text-green-600 hover:text-green-700 active:text-green-800 transition-colors py-2 px-1"
                   onClick={() => navigate('/tutor/packages')}
                 >
                   {t('dashboard.tutor.seeAll')}
                 </button>
               </div>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {stats.remainingSessions.byPackage.map((pkg, index) => (
                   <PackageProgress
                     key={index}
@@ -197,11 +210,11 @@ export default function TutorDashboardPage() {
           )}
 
           {/* My Pets */}
-          <div className="bg-white rounded-xl shadow p-4">
-            <div className="flex justify-between items-center mb-3">
-              <h2 className="font-bold text-lg">{t('dashboard.tutor.myPets')}</h2>
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-gray-900">{t('dashboard.tutor.myPets')}</h2>
               <button
-                className="text-primary-500 text-sm"
+                className="inline-block text-sm font-semibold text-green-600 hover:text-green-700 active:text-green-800 transition-colors py-2 px-1"
                 onClick={() => navigate('/tutor/pets/new')}
               >
                 {t('dashboard.tutor.addPet')}
@@ -209,25 +222,35 @@ export default function TutorDashboardPage() {
             </div>
             {(stats.totalPets || 0) > 0 ? (
               <div className="text-center py-8">
-                <i className="fas fa-paw text-primary-500 text-4xl mb-4"></i>
-                <p className="text-gray-600 mb-4">{stats.totalPets} {t('dashboard.tutor.petsRegistered')}</p>
-                <button
-                  className="bg-primary-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-4">
+                  <Dog className="h-8 w-8 text-green-600" />
+                </div>
+                <p className="text-base text-gray-700 mb-6">{stats.totalPets} {t('dashboard.tutor.petsRegistered')}</p>
+                <Button
+                  variant="primary"
+                  size="md"
                   onClick={() => navigate('/tutor/pets')}
+                  className="inline-flex items-center gap-2"
                 >
-                  <i className="fas fa-eye mr-2"></i>{t('dashboard.tutor.viewMyPets')}
-                </button>
+                  <Eye className="h-4 w-4" />
+                  {t('dashboard.tutor.viewMyPets')}
+                </Button>
               </div>
             ) : (
               <div className="text-center py-8">
-                <i className="fas fa-paw text-gray-300 text-4xl mb-4"></i>
-                <p className="text-gray-500 mb-4">{t('dashboard.tutor.noPetsRegistered')}</p>
-                <button
-                  className="bg-primary-500 text-white font-medium py-2 px-4 rounded-lg text-sm"
+                <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-gray-100 mb-4">
+                  <Dog className="h-8 w-8 text-gray-400" />
+                </div>
+                <p className="text-base text-gray-600 mb-6">{t('dashboard.tutor.noPetsRegistered')}</p>
+                <Button
+                  variant="primary"
+                  size="md"
                   onClick={() => navigate('/tutor/pets/new')}
+                  className="inline-flex items-center gap-2"
                 >
-                  <i className="fas fa-plus mr-2"></i>{t('dashboard.tutor.registerFirstPet')}
-                </button>
+                  <Plus className="h-4 w-4" />
+                  {t('dashboard.tutor.registerFirstPet')}
+                </Button>
               </div>
             )}
           </div>

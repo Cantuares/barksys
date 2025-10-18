@@ -68,8 +68,8 @@ export const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
     },
     info: {
       icon: Info,
-      iconBg: 'bg-blue-100',
-      iconColor: 'text-blue-600',
+      iconBg: 'bg-green-100',
+      iconColor: 'text-green-600',
       buttonVariant: 'primary' as const,
       buttonClass: '',
     },

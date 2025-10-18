@@ -2,6 +2,35 @@
   "nav": {
     "dashboard": "BarkSys"
   },
+  "home": {
+    "title": "BarkSys",
+    "subtitle": "Plataforma profissional de gestão de treino canino",
+    "description": "Conecte-se com treinadores especializados e acompanhe o desenvolvimento do seu melhor amigo",
+    "loginButton": "Entrar",
+    "registerButton": "Criar Conta",
+    "features": {
+      "title": "Porquê escolher BarkSys?",
+      "professional": {
+        "title": "Treinadores Profissionais",
+        "description": "Acesso a especialistas certificados em comportamento canino"
+      },
+      "tracking": {
+        "title": "Acompanhamento Personalizado",
+        "description": "Monitorize o progresso e evolução do seu pet"
+      },
+      "scheduling": {
+        "title": "Agendamento Simples",
+        "description": "Marque sessões de forma fácil e conveniente"
+      },
+      "management": {
+        "title": "Gestão Completa",
+        "description": "Tudo o que precisa num único lugar"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BarkSys. Todos os direitos reservados."
+    }
+  },
   "login": {
     "title": "Bem-vindo de volta!",
     "subtitle": "Inicie sessão na sua conta",
@@ -382,8 +411,10 @@
     "slots": "vagas",
     "availableSlots": "Vagas disponíveis",
     "maxParticipants": "Máximo de participantes",
-    "enrolled": "Inscrito",
+    "enrolled": "inscritos",
     "soldOut": "Esgotado",
+    "sessionFull": "Sessão Lotada",
+    "viewDetails": "Ver Detalhes",
     "enroll": "Inscrever",
     "cancel": "Cancelar",
     "buyPackage": "Comprar Pacote",
@@ -422,5 +453,57 @@
       "availability": "Disponibilidade",
       "freeSlots": "vagas livres"
     }
+  },
+  "profile": {
+    "title": "Meu Perfil",
+    "subtitle": "Gerir as suas informações pessoais",
+    "sections": {
+      "personalInfo": "Informações Pessoais",
+      "personalInfoDescription": "Suas informações de perfil",
+      "changePassword": "Alterar Palavra-passe",
+      "changePasswordDescription": "Mantenha sua conta segura",
+      "logout": "Terminar Sessão",
+      "logoutDescription": "Sair da sua conta"
+    },
+    "fields": {
+      "fullName": "Nome Completo",
+      "email": "E-mail",
+      "role": "Função",
+      "currentPassword": "Palavra-passe Atual",
+      "newPassword": "Nova Palavra-passe",
+      "confirmPassword": "Confirmar Nova Palavra-passe"
+    },
+    "placeholders": {
+      "currentPassword": "Digite sua palavra-passe atual",
+      "newPassword": "Digite sua nova palavra-passe",
+      "confirmPassword": "Confirme sua nova palavra-passe"
+    },
+    "roles": {
+      "admin": "Administrador",
+      "trainer": "Treinador",
+      "tutor": "Tutor"
+    },
+    "buttons": {
+      "changePassword": "Alterar Palavra-passe",
+      "logout": "Terminar Sessão"
+    },
+    "errors": {
+      "currentPasswordRequired": "Palavra-passe atual é obrigatória",
+      "newPasswordRequired": "Nova palavra-passe é obrigatória",
+      "confirmPasswordRequired": "Confirmação de palavra-passe é obrigatória",
+      "passwordTooShort": "Palavra-passe deve ter pelo menos 8 caracteres",
+      "passwordWeak": "Palavra-passe deve conter pelo menos uma letra maiúscula, uma minúscula, um número e um carácter especial",
+      "passwordsDontMatch": "As palavras-passe não coincidem",
+      "userNotFound": "Utilizador não encontrado",
+      "passwordChangeFailed": "Falha ao alterar palavra-passe. Tente novamente."
+    },
+    "success": {
+      "passwordChanged": "Palavra-passe alterada com sucesso! Por segurança, todas as sessões foram encerradas."
+    },
+    "confirmLogout": "Tem certeza que deseja terminar a sessão?"
+  },
+  "calendar": {
+    "availableSessions": "Sessões disponíveis",
+    "selected": "Selecionado"
   }
 }
