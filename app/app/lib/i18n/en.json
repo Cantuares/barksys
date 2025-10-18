@@ -2,6 +2,35 @@
   "nav": {
     "dashboard": "BarkSys"
   },
+  "home": {
+    "title": "BarkSys",
+    "subtitle": "Professional dog training management platform",
+    "description": "Connect with specialized trainers and track your best friend's development",
+    "loginButton": "Sign In",
+    "registerButton": "Create Account",
+    "features": {
+      "title": "Why choose BarkSys?",
+      "professional": {
+        "title": "Professional Trainers",
+        "description": "Access to certified canine behavior specialists"
+      },
+      "tracking": {
+        "title": "Personalized Tracking",
+        "description": "Monitor your pet's progress and evolution"
+      },
+      "scheduling": {
+        "title": "Simple Scheduling",
+        "description": "Book sessions easily and conveniently"
+      },
+      "management": {
+        "title": "Complete Management",
+        "description": "Everything you need in one place"
+      }
+    },
+    "footer": {
+      "copyright": "© {{year}} BarkSys. All rights reserved."
+    }
+  },
   "login": {
     "title": "Welcome back!",
     "subtitle": "Sign in to your account",
@@ -384,6 +413,8 @@
     "maxParticipants": "Maximum participants",
     "enrolled": "Enrolled",
     "soldOut": "Sold Out",
+    "sessionFull": "Session Full",
+    "viewDetails": "View Details",
     "enroll": "Enroll",
     "cancel": "Cancel",
     "buyPackage": "Buy Package",
@@ -422,5 +453,57 @@
       "availability": "Availability",
       "freeSlots": "free slots"
     }
+  },
+  "profile": {
+    "title": "My Profile",
+    "subtitle": "Manage your personal information",
+    "sections": {
+      "personalInfo": "Personal Information",
+      "personalInfoDescription": "Your profile information",
+      "changePassword": "Change Password",
+      "changePasswordDescription": "Keep your account secure",
+      "logout": "Sign Out",
+      "logoutDescription": "Sign out of your account"
+    },
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email",
+      "role": "Role",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm New Password"
+    },
+    "placeholders": {
+      "currentPassword": "Enter your current password",
+      "newPassword": "Enter your new password",
+      "confirmPassword": "Confirm your new password"
+    },
+    "roles": {
+      "admin": "Administrator",
+      "trainer": "Trainer",
+      "tutor": "Tutor"
+    },
+    "buttons": {
+      "changePassword": "Change Password",
+      "logout": "Sign Out"
+    },
+    "errors": {
+      "currentPasswordRequired": "Current password is required",
+      "newPasswordRequired": "New password is required",
+      "confirmPasswordRequired": "Password confirmation is required",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "passwordWeak": "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character",
+      "passwordsDontMatch": "Passwords don't match",
+      "userNotFound": "User not found",
+      "passwordChangeFailed": "Failed to change password. Please try again."
+    },
+    "success": {
+      "passwordChanged": "Password changed successfully! For security, all sessions have been logged out."
+    },
+    "confirmLogout": "Are you sure you want to sign out?"
+  },
+  "calendar": {
+    "availableSessions": "Available sessions",
+    "selected": "Selected"
   }
 }

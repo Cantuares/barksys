@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import { useRequireAuth } from '../lib/hooks/useRequireAuth';
 import { useTrainingSessionStore } from '../lib/stores/training-sessions.store';
 import { useEnrollmentStore } from '../lib/stores/enrollments.store';
@@ -22,6 +23,7 @@ import { Calendar as CalendarIcon, Clock, Users, Plus, RefreshCw, X, ShoppingCar
 export default function TutorSessionsPage() {
   useRequireAuth([UserRole.TUTOR]);
 
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { sessions, isLoading, error, fetchAvailableSessions } = useTrainingSessionStore();
@@ -188,7 +190,7 @@ export default function TutorSessionsPage() {
       setSelectedPets([]);
       loadSessionsAndEnrollments();
     } catch (error: any) {
-      alert(error.message || 'Erro ao inscrever pets');
+      alert(error.message || t('sessions.enrollmentError'));
     }
   };
 
@@ -201,11 +203,11 @@ export default function TutorSessionsPage() {
 
   if (isLoading && sessions.length === 0) {
     return (
-      <TutorLayout title="Sessões" subtitle="Visualize e inscreva-se em sessões">
+      <TutorLayout title={t('sessions.title')} subtitle={t('sessions.subtitle')}>
         <div className="flex items-center justify-center min-h-[50vh]">
           <div className="text-center">
             <LoadingSpinner />
-            <p className="text-gray-600 mt-4">A carregar sessões...</p>
+            <p className="text-gray-600 mt-4">{t('sessions.loadingSessions')}</p>
           </div>
         </div>
       </TutorLayout>
@@ -214,16 +216,16 @@ export default function TutorSessionsPage() {
 
   if (error) {
     return (
-      <TutorLayout title="Sessões" subtitle="Visualize e inscreva-se em sessões">
+      <TutorLayout title={t('sessions.title')} subtitle={t('sessions.subtitle')}>
         <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
           <i className="fas fa-exclamation-triangle text-red-600 text-2xl mb-2"></i>
-          <p className="text-red-800 font-medium mb-2">Erro ao carregar sessões</p>
+          <p className="text-red-800 font-medium mb-2">{t('sessions.errorLoadingSessions')}</p>
           <p className="text-red-600 text-sm mb-4">{error}</p>
           <Button
             variant="primary"
             onClick={loadSessionsAndEnrollments}
           >
-            Tentar Novamente
+            {t('common.tryAgain')}
           </Button>
         </div>
       </TutorLayout>
@@ -232,8 +234,8 @@ export default function TutorSessionsPage() {
 
   return (
     <TutorLayout
-      title="Sessões"
-      subtitle="Visualize e inscreva-se em sessões"
+      title={t('sessions.title')}
+      subtitle={t('sessions.subtitle')}
       headerAction={
         <button
           className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
@@ -255,7 +257,7 @@ export default function TutorSessionsPage() {
         <div className="bg-white rounded-xl shadow p-4">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-bold text-lg text-gray-900">
-              Sessões de {selectedDate.toLocaleDateString('pt-PT', { day: '2-digit', month: 'long', year: 'numeric' })}
+              {t('sessions.sessionsOn')} {selectedDate.toLocaleDateString(undefined, { day: '2-digit', month: 'long', year: 'numeric' })}
             </h2>
             <button
               className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
@@ -268,9 +270,9 @@ export default function TutorSessionsPage() {
           {sessionsForSelectedDate.length === 0 ? (
             <div className="text-center py-8">
               <CalendarIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="font-bold text-lg text-gray-600 mb-2">Nenhuma sessão disponível</h3>
+              <h3 className="font-bold text-lg text-gray-600 mb-2">{t('sessions.noSessions')}</h3>
               <p className="text-gray-500 text-sm">
-                Não há sessões agendadas para esta data.
+                {t('sessions.noSessionsDescription')}
               </p>
             </div>
           ) : (
@@ -285,10 +287,10 @@ export default function TutorSessionsPage() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <h3 className="font-bold text-gray-900 truncate">
-                            {session.package?.name || 'Sessão'}
+                            {session.package?.name || t('sessions.package')}
                           </h3>
                           <p className="text-sm text-gray-600 truncate">
-                            {session.trainer?.fullName || 'Trainer'}
+                            {session.trainer?.fullName || t('sessions.trainer')}
                           </p>
                         </div>
                       </div>
@@ -299,23 +301,23 @@ export default function TutorSessionsPage() {
                           <span className="truncate">{session.startTime} - {session.endTime}</span>
                         </div>
                         <div className="flex items-center text-sm text-gray-600">
-                          <Users className="w-4 h-4 mr-2 text-blue-500 flex-shrink-0" />
-                          <span>{session.availableSlots}/{session.maxParticipants} vagas</span>
+                          <Users className="w-4 h-4 mr-2 text-green-500 flex-shrink-0" />
+                          <span>{session.availableSlots}/{session.maxParticipants} {t('sessions.slots')}</span>
                         </div>
                       </div>
 
                       <div className="flex flex-wrap items-center gap-2 mb-3 sm:mb-0">
                         {isEnrolledInSession(session.id) ? (
                           <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                            <CheckCircle className="w-3 h-3 inline mr-1" />Inscrito
+                            <CheckCircle className="w-3 h-3 inline mr-1" />{t('sessions.alreadyEnrolled')}
                           </span>
                         ) : session.availableSlots <= 0 ? (
                           <span className="inline-block bg-red-100 text-red-800 text-xs px-2 py-1 rounded-full">
-                            <X className="w-3 h-3 inline mr-1" />Esgotado
+                            <X className="w-3 h-3 inline mr-1" />{t('sessions.soldOut')}
                           </span>
                         ) : (
-                          <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                            <Plus className="w-3 h-3 inline mr-1" />Disponível
+                          <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
+                            <Plus className="w-3 h-3 inline mr-1" />{t('sessions.availableSlots')}
                           </span>
                         )}
                       </div>
@@ -326,7 +328,7 @@ export default function TutorSessionsPage() {
                         className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg text-sm transition font-medium flex-shrink-0"
                         onClick={() => onCancelClick(session)}
                       >
-                        <X className="w-4 h-4 inline mr-1" />Cancelar
+                        <X className="w-4 h-4 inline mr-1" />{t('sessions.cancel')}
                       </button>
                     ) : session.availableSlots > 0 && (
                       hasPackageForSession(session) ? (
@@ -334,14 +336,14 @@ export default function TutorSessionsPage() {
                           className="w-full sm:w-auto bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm transition font-medium flex-shrink-0"
                           onClick={() => onEnrollClick(session)}
                         >
-                          <Plus className="w-4 h-4 inline mr-1" />Inscrever
+                          <Plus className="w-4 h-4 inline mr-1" />{t('sessions.enroll')}
                         </button>
                       ) : (
                         <button
                           className="w-full sm:w-auto bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm transition font-medium flex-shrink-0"
                           onClick={() => navigate('/tutor/packages')}
                         >
-                          <ShoppingCart className="w-4 h-4 inline mr-1" />Comprar Pacote
+                          <ShoppingCart className="w-4 h-4 inline mr-1" />{t('sessions.buyPackage')}
                         </button>
                       )
                     )}
@@ -360,14 +362,14 @@ export default function TutorSessionsPage() {
               <div className="bg-green-100 rounded-full p-3 w-16 h-16 mx-auto mb-4 flex items-center justify-center">
                 <Plus className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="font-bold text-lg text-gray-900 mb-2">Confirmar Inscrição</h3>
+              <h3 className="font-bold text-lg text-gray-900 mb-2">{t('sessions.confirmEnrollment')}</h3>
               <p className="text-gray-600 mb-4">
-                Selecione qual pet participará desta sessão
+                {t('sessions.selectPets')}
               </p>
               {selectedSession && (
                 <div className="text-sm text-gray-500 mb-4">
-                  Data: {new Date(selectedSession.date).toLocaleDateString('pt-PT')}<br />
-                  Horário: {selectedSession.startTime} - {selectedSession.endTime}
+                  {t('sessions.date')}: {new Date(selectedSession.date).toLocaleDateString()}<br />
+                  {t('sessions.time')}: {selectedSession.startTime} - {selectedSession.endTime}
                 </div>
               )}
             </div>
@@ -378,17 +380,17 @@ export default function TutorSessionsPage() {
                 <div className="mb-6 text-center">
                   <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                     <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                    <h4 className="font-medium text-green-800 mb-1">Todos os pets já estão inscritos!</h4>
-                    <p className="text-sm text-green-600">Todos os seus pets já estão registados nesta sessão.</p>
+                    <h4 className="font-medium text-green-800 mb-1">{t('sessions.allPetsEnrolled')}</h4>
+                    <p className="text-sm text-green-600">{t('sessions.allPetsEnrolledDescription')}</p>
                   </div>
                 </div>
               ) : (
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Selecionar Pet(s):
+                    {t('sessions.selectPet')}:
                     {selectedPets.length > 0 && (
                       <span className="text-green-600 font-medium">
-                        ({selectedPets.length} selecionado{selectedPets.length > 1 ? 's' : ''})
+                        ({selectedPets.length} {selectedPets.length > 1 ? t('sessions.petsSelectedPlural') : t('sessions.petsSelected')})
                       </span>
                     )}
                   </label>
@@ -422,12 +424,12 @@ export default function TutorSessionsPage() {
                               </h4>
                               <p className={`text-sm ${isAlreadyEnrolled ? 'text-green-600' : 'text-gray-500'}`}>
                                 {pet.breed || pet.species}
-                                {isAlreadyEnrolled && ' • Já inscrito'}
+                                {isAlreadyEnrolled && ' • ' + t('sessions.alreadyEnrolled')}
                               </p>
                             </div>
                             {isAlreadyEnrolled ? (
                               <span className="inline-block bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">
-                                <CheckCircle className="w-3 h-3 inline mr-1" />Inscrito
+                                <CheckCircle className="w-3 h-3 inline mr-1" />{t('sessions.alreadyEnrolled')}
                               </span>
                             ) : isPetSelected(pet) ? (
                               <CheckCircle className="w-5 h-5 text-green-600" />
@@ -444,13 +446,13 @@ export default function TutorSessionsPage() {
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                   <i className="fas fa-exclamation-triangle text-yellow-600 text-2xl mb-2"></i>
                   <p className="text-sm text-yellow-800">
-                    Você precisa ter pelo menos um pet registado para se inscrever em sessões.
+                    {t('sessions.noPetsDescription')}
                   </p>
                   <button
                     className="mt-2 text-green-600 text-sm font-medium hover:underline"
                     onClick={() => navigate('/tutor/pets/new')}
                   >
-                    Registar primeiro pet
+                    {t('sessions.registerFirstPet')}
                   </button>
                 </div>
               </div>
@@ -466,7 +468,7 @@ export default function TutorSessionsPage() {
                 }}
                 className="flex-1"
               >
-                Cancelar
+                {t('common.cancel')}
               </Button>
               <Button
                 variant="primary"
@@ -476,8 +478,8 @@ export default function TutorSessionsPage() {
                 className="flex-1"
               >
                 {selectedPets.length > 1
-                  ? `Inscrever ${selectedPets.length} Pets`
-                  : 'Confirmar'}
+                  ? t('sessions.enrollMultiplePets', { count: selectedPets.length })
+                  : t('common.confirm')}
               </Button>
             </div>
           </div>
